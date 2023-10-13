@@ -1,8 +1,6 @@
 # TrekDestiny
-For running the project prease run 
-npm run dev
 
-In case you wanted to add a package run this command:
-npm --legacy-peer-deps "package name"
-
-
+To run the project, please use the following command:
+`npm run dev`
+If you want to add a package, you can use the following command:
+`npm --legacy-peer-deps "package name"`
