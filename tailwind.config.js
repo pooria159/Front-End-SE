@@ -5,8 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage:{
+        'loginbackground': 'url(./src/assets/login_background.jpg)',
+        'loginimage': 'url(./src/assets/LoginPage2.jpg)',
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }
 
