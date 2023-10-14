@@ -9,11 +9,20 @@ export default {
       backgroundImage:{
         'loginbackground': 'url(./src/assets/login_background.jpg)',
         'loginimage': 'url(./src/assets/LoginPage2.jpg)',
+      },
+      colors: {
+        pallate: {
+          primary: '#FAF1E4',
+          secondary: '#CEDEBD',
+          Third: '#9EB384',
+          fourth: '#435334'
+        }
       }
     },
   },
   plugins: [
     require('@tailwindcss/forms'),
   ],
+
 }
 
