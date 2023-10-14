@@ -1,8 +1,7 @@
 // App.js
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Profile from './pages/Profile';
-import SignupLogin from './pages/Login';
+import ProfilePage from './pages/Profile';
 import LoginPage from './pages/Login';
 
 const App = () => {
@@ -10,7 +9,7 @@ const App = () => {
     <>
        <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<LoginPage />} />
        </Routes>
     </>

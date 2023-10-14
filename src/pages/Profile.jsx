@@ -1,12 +1,16 @@
+import ProfileForm from "../components/Profile/Edit_Profile";
 
-const Profile = () => {
+
+const ProfilePage = () => {
     return(
-        <div>
-            Profile Page  
+        <div className="bg-pallate-primary grid grid-cols-1 gap-0 bg-cover">
+            <div className="grid justify-center items-center w-full">
+                <ProfileForm/>
+            </div>
         </div>
     );
 }
 
 
 
-export default Profile
+export default ProfilePage
