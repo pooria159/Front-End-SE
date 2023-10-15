@@ -2,7 +2,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import SignupLogin from './pages/Login';
+import SignupPage from './pages/SignUp';
 import LoginPage from './pages/Login';
 
 const App = () => {
@@ -12,6 +12,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
        </Routes>
     </>
  );
