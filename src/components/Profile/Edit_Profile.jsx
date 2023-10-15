@@ -1,7 +1,10 @@
 import {Button,Card,Select,Textarea,Progress,} from "flowbite-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {BsPersonFill,BsEnvelopeFill,BsGenderAmbiguous,BsMapFill,BsCalendar,} from "react-icons/bs";
+import {BsPersonFill,BsEnvelopeFill,BsGenderAmbiguous,BsMapFill,BsCalendar,BsPenFill,} from "react-icons/bs";
+import { Tabs } from 'flowbite-react';
+import { HiAdjustments, HiClipboardList, HiUserCircle } from 'react-icons/hi';
+import { MdDashboard } from 'react-icons/md';
 
 const ProfileForm = () => {
     return (
@@ -22,7 +25,24 @@ const ProfileForm = () => {
                     </Button>
                 </div>            
             </Card>
-            <Card className=" mt-1 m-5 mb-64 rounded-xl bg-pallate-secondary border-pallate-Third backdrop-blur-sm">
+            
+            <Card className=" mt-1 m-5 mb-64 rounded-xl bg-pallate-secondary border-pallate-Third">
+                <Tabs.Group
+                    aria-label="Default tabs"
+                    style="default"
+                    >
+                        <Tabs.Item
+                          active
+                          icon={HiUserCircle}
+                          title="Edit Profile"
+                        >
+                        </Tabs.Item>
+                        <Tabs.Item
+                          icon={MdDashboard}
+                          title="Dashboard"
+                        >
+                        </Tabs.Item>
+                </Tabs.Group>
                         <div className="grid grid-cols-1 gap-4 ">
                             <div className="grid md:grid-cols-2 md:gap-0 sm:grid-cols-1 sm:gap-2">
                                 <div className="leftside grid grid-cols-1 gap-10 p-8 justify-center justify-items-center">
@@ -33,6 +53,7 @@ const ProfileForm = () => {
                                             height: "12rem",
                                         }}
                                     ></Avatar> */}
+                                    
                                     <div className="flex justify-start items-center">
                                         {/* <input
                                             accept="image/*"
@@ -47,11 +68,12 @@ const ProfileForm = () => {
                                         </Button> */}
                                     </div>
                                     <div className="w-full">
-                                        <div className="flex justify-start items-center pl-1 text-gray-700">
+                                        <div className="flex justify-start items-center pl-1 text-pallate-Third">
+                                            <BsPenFill className="mr-1" />
                                             <label>Bio:</label>
                                         </div>
                                         <Textarea
-                                            className="bg-pallate-primary placeholder-pallate-Third border-pallate-Third focus:border-pallate-Third resize-none focus:ring-pallate-Third"
+                                            className="bg-pallate-primary text-pallate-Third placeholder-pallate-Third border-pallate-Third focus:border-pallate-Third resize-none focus:ring-pallate-Third"
                                             rows={5}
                                             placeholder="bio..."
                                             maxLength={100}
@@ -184,7 +206,7 @@ const ProfileForm = () => {
                                             Submit
                                         </Button>
                                 </div>
-                                    <Progress
+                                    {/* <Progress
                                         labelProgress={true}
                                         progressLabelPosition="inside"
                                         textLabel="Uploading..."
@@ -193,7 +215,7 @@ const ProfileForm = () => {
                                         color="green"
                                         size="xl"
                                         className="w-full"
-                                    ></Progress>
+                                    ></Progress> */}
                             </div>
                         </div>
                     </Card>
