@@ -16,27 +16,40 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Add form submission logic here
     try{
 
-      useLogin(credentials);
-      toast.success('Signup successful!', {
-        autoClose: 1000, // Close the toast after 3 seconds
+      const response = await useLogin(credentials);
+      console.log(response.status);
+      if (response.status >= 200 && response.status < 300) {
+        // Successful response (status code 2xx)
+        // Redirect to /login
+        const { AccessToken, RefreshToken, Message } = response.data;
+        localStorage.setItem('token', AccessToken);
+        localStorage.setItem('refreshToken', RefreshToken);
+        localStorage.setItem('islogin', "True");
+        toast.success('Welcome!', {
+          autoClose: 1000, // Close the toast after 3 seconds
+          position: toast.POSITION.TOP_LEFT,
+        });
+        // setTimeout(() => {
+        //   //Navigate
+        // }, 2000);
+        
+      } else{
+          toast.error("Email or password are not correct!", {
+              position: toast.POSITION.TOP_LEFT,
+          });
+      }
+      
+    }  catch(error){
+      toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_LEFT,
       });
-      // setTimeout(() => {
-      //   navigate('/login'); // Navigate to /login
-      // }, 2000);
-
-    } catch(error){
-      // toast.error(error.response.data.message, {
-      //   position: toast.POSITION.TOP_LEFT,
-      // });
       throw error;
     }
-    return;
   };
 
     return(
