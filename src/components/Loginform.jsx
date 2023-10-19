@@ -1,13 +1,64 @@
-
-
+import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { useLogin } from '../hooks/useLogin';
 
 const LoginForm = () => {
+
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Add form submission logic here
+    try{
+
+      const response = await useLogin(credentials);
+      console.log(response.status);
+      if (response.status >= 200 && response.status < 300) {
+        // Successful response (status code 2xx)
+        // Redirect to /login
+        const { AccessToken, RefreshToken, Message } = response.data;
+        localStorage.setItem('token', AccessToken);
+        localStorage.setItem('refreshToken', RefreshToken);
+        localStorage.setItem('islogin', "True");
+        toast.success('Welcome!', {
+          autoClose: 1000, // Close the toast after 3 seconds
+          position: toast.POSITION.TOP_LEFT,
+        });
+        // setTimeout(() => {
+        //   //Navigate
+        // }, 2000);
+        
+      } else{
+          toast.error("Email or password are not correct!", {
+              position: toast.POSITION.TOP_LEFT,
+          });
+      }
+      
+    }  catch(error){
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_LEFT,
+      });
+      throw error;
+    }
+  };
+
     return(
         <div className="mt-10 h-[22.5rem] sm:mx-auto sm:w-full sm:max-w-sm">
+          <ToastContainer/>
         <h2 className="mb-5 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
         </h2>
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
               Email address
@@ -17,8 +68,10 @@ const LoginForm = () => {
                 id="email"
                 name="email"
                 type="email"
-                autoComplete="email"
                 required
+                autoComplete="on"
+                value={credentials.email}
+                onChange={handleChange}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -35,8 +88,10 @@ const LoginForm = () => {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="current-password"
+                autoComplete="on"
                 required
+                value={credentials.password}
+                onChange={handleChange}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>

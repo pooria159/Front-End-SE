@@ -8,6 +8,7 @@ import ForgetPasswordPage from './pages/ForgetPassword';
 import ResetPasswordPage from './pages/ResetPassword';
 
 const App = () => {
+   localStorage.setItem('islogin', "False");
  return (
     <>
        <Routes>
