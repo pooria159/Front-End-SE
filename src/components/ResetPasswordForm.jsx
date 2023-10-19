@@ -4,14 +4,12 @@ const ResetPassword = () => {
         <h2 className="mb-5  text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Reset Password
         </h2>
-        <form className="space-y-6" action="#" method="POST">
-        <div class="flex flex-wrap -mx-3 mb-6">
-        </div>
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <form className="space-y-6 mt-10" action="#" method="POST">
+            <div class="w-full px-3 mb-6 md:mb-0">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                     New Password
                 </label>
-                </div>
+                
                 <div className="">
                 <input
                     id="password"
@@ -19,15 +17,15 @@ const ResetPassword = () => {
                     type="password"
                     autoComplete="on"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-
+                </div>
             </div>
-                <div className="flex items-center justify-between">
+              <div className="w-full px-3 mb-6 md:mb-0">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                     Confirm New Password
                 </label>
-                </div>
+                
                 <div className="">
                 <input
                     id="password"
@@ -38,6 +36,7 @@ const ResetPassword = () => {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 </div>
+              </div>
           <div className="flex items-center justify-center">
             <button
               type="submit"
