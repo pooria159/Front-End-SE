@@ -7,7 +7,7 @@ export const Usesignup = async (formData) => {
         'Accept': 'application/json',
     };
     try{
-        console.log(formData)
+        console.log(formData);
         const response = await axios.post(`${url}/signup`, formData);
         return response
     } catch (error) {

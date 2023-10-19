@@ -151,7 +151,10 @@ const SignupForm =  () => {
     const handleChange = (e) => {
       const { name, value } = e.target;
       // If the input is a date input, format the value
-      const formattedValue = e.target.type === 'date' ? formatDate(value) : value;
+      let formattedValue = e.target.type === 'date' ? formatDate(value) : value;
+      if(name == "gender"){
+        formattedValue = parseInt(formattedValue);
+      }
       setFormData({ ...formData, [name]: formattedValue });
     };
   
@@ -159,10 +162,6 @@ const SignupForm =  () => {
       e.preventDefault();
       // Add form submission logic here
       if (Validate(formData)){
-        setFormData(prevState => ({
-          ...prevState,
-          gender: parseInt(prevState.gender)
-        }));
         const updatedFormData = { ...formData };
         delete updatedFormData.confirmPassword;
         handleSignup(updatedFormData);
