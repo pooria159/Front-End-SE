@@ -1,6 +1,6 @@
 const ResetPassword = () => {
     return(
-        <div className="mt-5 h-[22.5rem] sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-10 h-[22.5rem] sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mb-5  text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Reset Password
         </h2>

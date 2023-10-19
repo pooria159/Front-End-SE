@@ -2,11 +2,12 @@ import axios from 'axios';
 
 const url = import.meta.env.VITE_API_URL;
 
-export const useVerification = async (token) => {
+export const useForgetPassword = async (formData) => {
     const headers = {
         'Accept': 'application/json',
     };
 
-    const response = await axios.get(`${url}/verify-email?token=${token}`, { headers });
+    const response = await axios.post(`${url}/forget-password`, JSON.stringify(formData), {headers});
     return response;
+
 }
