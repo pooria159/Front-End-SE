@@ -78,7 +78,15 @@ const ForgetPassword = () => {
             </button>
           </div>
           <p className="mt-5 mb-5 text-center text-sm text-gray-500">
-          Enter your account email to take reset password link
+            <p>
+          Enter your account email to take reset password link              
+            </p>
+
+
+       
+        <a href="/login" className="font-semibold text-indigo-600 text-center hover:text-indigo-500">
+                  back to login
+                </a> 
         </p>
         </form>
       </div>
