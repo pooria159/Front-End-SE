@@ -6,6 +6,7 @@ import SignupPage from './pages/SignUp';
 import LoginPage from './pages/Login';
 
 const App = () => {
+   localStorage.setItem('islogin', "False");
  return (
     <>
        <Routes>

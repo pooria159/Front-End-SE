@@ -1,27 +1,47 @@
 import React, { useState, useEffect } from 'react';
-
+import { ToastContainer, toast } from 'react-toastify';
+import { useLogin } from '../hooks/useLogin';
 
 const LoginForm = () => {
 
-  const [formData, setFormData] = useState({
-    email : '',
-    password : '',
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: ''
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add form submission logic here
-    console.log(formData)
+    try{
+
+      useLogin(credentials);
+      toast.success('Signup successful!', {
+        autoClose: 1000, // Close the toast after 3 seconds
+        position: toast.POSITION.TOP_LEFT,
+      });
+      // setTimeout(() => {
+      //   navigate('/login'); // Navigate to /login
+      // }, 2000);
+
+    } catch(error){
+      // toast.error(error.response.data.message, {
+      //   position: toast.POSITION.TOP_LEFT,
+      // });
+      throw error;
+    }
     return;
   };
 
     return(
         <div className="mt-10 h-[22.5rem] sm:mx-auto sm:w-full sm:max-w-sm">
+          <ToastContainer/>
         <h2 className="mb-5 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
         </h2>
@@ -37,7 +57,7 @@ const LoginForm = () => {
                 type="email"
                 required
                 autoComplete="on"
-                value={formData.email}
+                value={credentials.email}
                 onChange={handleChange}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -57,7 +77,7 @@ const LoginForm = () => {
                 type="password"
                 autoComplete="on"
                 required
-                value={formData.password}
+                value={credentials.password}
                 onChange={handleChange}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
