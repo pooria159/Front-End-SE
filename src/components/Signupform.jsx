@@ -2,14 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCityCountry } from '../hooks/useCityCountry';
+import { Usesignup } from '../hooks/useSignup';
 import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 const Validate = (formData) => {
 
   const passConfirm = () => {
-    if (formData.password !== formData.confirmPassword) {
+    if ((formData.password !== formData.confirmPassword)) {
       toast.error("Passwords do not match!", {
+        position: toast.POSITION.TOP_LEFT
+      });
+      return false;
+    }
+    return true;
+  }
+
+  const validatePass = () => {
+    if ((formData.password.length > 20)) {
+      toast.error("Password is not valid!", {
         position: toast.POSITION.TOP_LEFT
       });
       return false;
@@ -50,7 +64,7 @@ const Validate = (formData) => {
     return false;
   }
 
-  if (passConfirm() && validateusername() && validatefirstname() && validatelastname()){
+  if (passConfirm() && validatePass() && validateusername() && validatefirstname() && validatelastname()){
     return true;
   }
 
@@ -68,6 +82,7 @@ const formatDate = (dateString) => {
 
 const SignupForm =  () => {
 
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
       firstname: '',
@@ -77,7 +92,7 @@ const SignupForm =  () => {
       password: '',
       confirmPassword: '',
       country: '',
-      state: '',
+      city: '',
       birthdate: '',
       gender: 0
     });
@@ -106,6 +121,33 @@ const SignupForm =  () => {
       fetch();
     }, [selectedCountry]);
 
+    const handleSignup = async (updatedFormData) => {
+      try{
+        const response = await Usesignup(updatedFormData);
+        if (response.status >= 200 && response.status < 300) {
+          // Successful response (status code 2xx)
+          // Redirect to /login
+          toast.success('Signup successful!', {
+              autoClose: 1000, // Close the toast after 3 seconds
+              position: toast.POSITION.TOP_LEFT,
+          });
+          setTimeout(() => {
+            navigate('/login'); // Navigate to /login
+          }, 2000);
+          
+        } else{
+            toast.error(response.data["message"], {
+                position: toast.POSITION.TOP_LEFT,
+            });
+        }
+      } catch(error){
+        toast.error(error.response.data.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+        throw error;
+      }
+    } 
+
     const handleChange = (e) => {
       const { name, value } = e.target;
       // If the input is a date input, format the value
@@ -113,11 +155,17 @@ const SignupForm =  () => {
       setFormData({ ...formData, [name]: formattedValue });
     };
   
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
       // Add form submission logic here
       if (Validate(formData)){
-        console.log(formData)
+        setFormData(prevState => ({
+          ...prevState,
+          gender: parseInt(prevState.gender)
+        }));
+        const updatedFormData = { ...formData };
+        delete updatedFormData.confirmPassword;
+        handleSignup(updatedFormData);
       }
       return;
     };
@@ -192,9 +240,9 @@ const SignupForm =  () => {
                   required
               >
                   <option value="">Select Gender</option>
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
-                  <option value="3">Other</option>
+                  <option value={1}>Male</option>
+                  <option value={2}>Female</option>
+                  <option value={3}>Other</option>
               </select>
           </div>
         </div>
@@ -226,8 +274,8 @@ const SignupForm =  () => {
               State
             </label>
             <Select
-              id="state"
-              name="state"
+              id="city"
+              name="city"
               options= {states && states.map(state => ({
                 value: state.state_name,
                 label: state.state_name,
@@ -235,7 +283,7 @@ const SignupForm =  () => {
               value={selectedState}
               onChange={(selectedState) => {
                 setSelectedState(selectedState)
-                setFormData({ ...formData, ["state"]:  selectedState.value});
+                setFormData({ ...formData, ["city"]:  selectedState.value});
               }}
               isSearchable
               isDisabled = {selectedCountry == ""}
