@@ -82,18 +82,6 @@ const SignupForm =  () => {
       gender: 0
     });
 
-    const options = [
-      { value: 'USA', label: 'United States' },
-      { value: 'CAN', label: 'Canada' },
-      // Add more countries as needed
-    ];
-    
-    const States = [
-      { value: 'NYC', label: 'New York City', country: 'USA' },
-      { value: 'LA', label: 'Los Angeles', country: 'USA' },
-      // Add more cities and their corresponding countries as needed
-    ];
-
     const [isLoading, setIsLoading] = useState(false);
     const [countries, setCountries] = useState(null);
     const [states, setStates] = useState(null);
