@@ -1,5 +1,5 @@
 // import ResetPassword from "../components/ResetPasswordForm";
-import ForgetPassword from "../components/Forgetpasswordform";
+import ForgetPassword from "../components/ForgetPasswordForm";
 
 const ForgetPasswordPage = () => {
     return(

@@ -6,6 +6,7 @@ import SignupPage from './pages/SignUp';
 import LoginPage from './pages/Login';
 import ForgetPasswordPage from './pages/ForgetPassword';
 import ResetPasswordPage from './pages/ResetPassword';
+import VerificationPage from './pages/Verification';
 
 const App = () => {
    localStorage.setItem('islogin', "False");
@@ -18,6 +19,8 @@ const App = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forget-password" element={<ForgetPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/verify-email" element={<VerificationPage />} />
+          
        </Routes>
     </>
  );
