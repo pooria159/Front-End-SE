@@ -3,6 +3,8 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
   theme: {
     extend: {
@@ -13,16 +15,16 @@ export default {
       },
       colors: {
         pallate: {
-          primary: '#FAF1E4',
-          secondary: '#CEDEBD',
-          Third: '#9EB384',
-          fourth: '#435334'
+          primary: '#EBE4D1',
+          secondary: '#B4B4B3',
+          Third: '#26577C',
+          fourth: '#E55604'
         }
       }
     },
   },
   plugins: [
-    require('@tailwindcss/forms'),
+    require('flowbite/plugin')
   ],
 
 }
