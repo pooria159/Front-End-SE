@@ -36,8 +36,9 @@ const ProfilePage = () => {
 
                                 <div className="w-full">
                                 <div className="flex justify-start items-center pl-1 p-4 pb-1 mt-1 text-pallate-Third">
-                                        <BsPenFill className="mr-1" />
-                                        <label>Bio:</label>
+                                        <BsPenFill className="mr-1 text-xl" />
+                                        <label className="text-xl">Bio:</label>
+                                        <p className="text-left text-xl pl-5 text-pallate-primary"> {data && data.Bio}</p>
                                     </div>
                                     <p></p>
                                 </div>

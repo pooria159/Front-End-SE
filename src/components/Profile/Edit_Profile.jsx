@@ -306,7 +306,7 @@ const EProfilePage = () => {
     return (
         <div>
                 <Card className=" mt-1 m-5 mb-auto rounded-xl bg-pallate-secondary border-pallate-Third">
-                    <div className="grid md:grid-cols-4 md:gap-16 sm:grid-cols-1 gap-4">
+                    <div className="grid md:grid-cols-3 md:gap-16 sm:grid-cols-1 gap-4">
                     <Button
                         className={
                             isEditprofile
@@ -329,7 +329,7 @@ const EProfilePage = () => {
                         >
                         Change Password
                     </Button>
-                    <Button
+                    {/* <Button
                         className={
                             isChangeUsername
                             ? "bg-pallate-Third hover:bg-pallate-primary"
@@ -339,7 +339,7 @@ const EProfilePage = () => {
                         disabled={onSubmitDisabledButton}
                         >
                         Change username
-                    </Button>
+                    </Button> */}
                     <Button className={"bg-pallate-primary text-pallate-Third hover:text-pallate-primary"}
                     disabled={true}
                     >
@@ -348,7 +348,6 @@ const EProfilePage = () => {
                     </Button>
                 </div>
                 {isEditprofile && (
-
                     <div className="grid grid-cols-1 gap-4 ">
                         <div className="grid md:grid-cols-2 md:gap-0 sm:grid-cols-1 sm:gap-2">
                             <div className="leftside grid grid-cols-1 gap-9 p-9 justify-center justify-items-center">
@@ -359,9 +358,7 @@ const EProfilePage = () => {
                                 >
                                     <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={image}  style={{width: "12rem", height: "12rem", borderRadius: "50%"}}/>
                                 </div>
-                                {/* {isEditMode && ( */}
-{/* 
-                                )} */}
+
                                 <div className="w-full">
                                 <div className="flex justify-start items-center pl-1 p-4 pb-1 mt-1 text-pallate-Third">
                                         <BsPenFill className="mr-1" />
@@ -643,7 +640,7 @@ const EProfilePage = () => {
                             </div>
                         </div>
                 )}
-                {isChangeUsername && (
+                {/* {isChangeUsername && (
                         <div className="grid grid-cols-1 gap-4 p-8">
                             <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                                 <div>
@@ -701,7 +698,7 @@ const EProfilePage = () => {
                                 </Button>
                             </div>
                         </div>
-                )}
+                )} */}
             </Card>
         </div>
     );
