@@ -1,5 +1,5 @@
 import React from "react";
-import {Button,Card,Select,Textarea,Progress,} from "flowbite-react";
+import {Button,Card,Select,Textarea,} from "flowbite-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
@@ -11,10 +11,9 @@ import { HiLockClosed } from "react-icons/hi";
 // import { toast, ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
-const ProfilePage = () => {
+const EProfilePage = () => {
     const navigate = useNavigate();
     const [onSubmitDisabledButton, setOnSubmitDisabledButton] = React.useState(false);
-    const [percentDone, setPercentDone] = React.useState(0);
     const [firstNameValue, setFirstNameValue] = React.useState("");
     const [lastNameValue, setLastNameValue] = React.useState("");
     const [emailValue, setEmailValue] = React.useState("");
@@ -306,29 +305,28 @@ const ProfilePage = () => {
 
     return (
         <div>
-            {isEditprofile && (
                 <Card className=" mt-1 m-5 mb-auto rounded-xl bg-pallate-secondary border-pallate-Third">
                     <div className="grid md:grid-cols-4 md:gap-16 sm:grid-cols-1 gap-4">
                     <Button
                         className={
                             isEditprofile
-                                ? "bg-pallate-Third hover:bg-pallate-primary"
-                                : "bg-pallate-primary text-pallate-Third hover:text-pallate-primary"
-                    }
+                            ? "bg-pallate-Third hover:bg-pallate-primary"
+                            : "bg-pallate-primary text-pallate-Third hover:text-pallate-primary"
+                        }
                         onClick={editProfileModeHandler}
                         disabled={onSubmitDisabledButton}
-                    >
+                        >
                         Edit Profile
                     </Button>
                     <Button
                         className={
                             isChangePassword
-                                ? "bg-pallate-Third hover:bg-pallate-primary"
-                                : "bg-pallate-primary text-pallate-Third hover:text-pallate-primary"
-                    }
+                            ? "bg-pallate-Third hover:bg-pallate-primary"
+                            : "bg-pallate-primary text-pallate-Third hover:text-pallate-primary"
+                        }
                         onClick={changePasswordModeHandler}
                         disabled={onSubmitDisabledButton}
-                    >
+                        >
                         Change Password
                     </Button>
                     <Button
@@ -339,7 +337,7 @@ const ProfilePage = () => {
                         }
                         onClick={changeUsernameModeHandler}
                         disabled={onSubmitDisabledButton}
-                    >
+                        >
                         Change username
                     </Button>
                     <Button className={"bg-pallate-primary text-pallate-Third hover:text-pallate-primary"}
@@ -349,40 +347,23 @@ const ProfilePage = () => {
 
                     </Button>
                 </div>
+                {isEditprofile && (
+
                     <div className="grid grid-cols-1 gap-4 ">
                         <div className="grid md:grid-cols-2 md:gap-0 sm:grid-cols-1 sm:gap-2">
                             <div className="leftside grid grid-cols-1 gap-9 p-9 justify-center justify-items-center">
-                                {/* <Avatar
-                                    src={imgValue}
-                                    sx={{
-                                        width: "12rem",
-                                        height: "12rem",
-                                    }}
-                                ></Avatar> */}
-                                <div onClick={0}
+                                <div onChange={handleImgValue}
+                                type="file"
+                                accept="image/*"
+                                id="user_avatar"
                                 >
-                                    <img src={image} alt="hot girl" style={{width: "12rem", height: "12rem", borderRadius: "50%"}}/>
+                                    <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={image}  style={{width: "12rem", height: "12rem", borderRadius: "50%"}}/>
                                 </div>
-                                {isEditMode && (
-                                    <div className="flex justify-start items-center">
-                                        {/* <input
-                                            onChange={handleImgValue}
-                                            accept="image/*"
-                                            className="block w-full text-sm text-pallate-persian_green border border-pallate-persian_green rounded-lg cursor-pointer bg-pallate-celeste_light "
-                                            id="user_avatar"
-                                            type="file"
-                                        />
-                                        <Button
-                                            className="rounded-full ml-2 bg-gray-400 hover:bg-gray-500"
-                                            size="md"
-                                            onClick={handleRemoveImg}
-                                        >
-                                            <BsXLg />
-                                        </Button> */}
-                                    </div>
-                                )}
+                                {/* {isEditMode && ( */}
+{/* 
+                                )} */}
                                 <div className="w-full">
-                                <div className="flex justify-start items-center pl-1 mt-1 text-pallate-Third">
+                                <div className="flex justify-start items-center pl-1 p-4 pb-1 mt-1 text-pallate-Third">
                                         <BsPenFill className="mr-1" />
                                         <label>Bio:</label>
                                     </div>
@@ -441,7 +422,7 @@ const ProfilePage = () => {
                                             maxLength={50}
                                             type="email"
                                             id="email"
-                                            className="bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
+                                            className="bg-pallate-secondary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
                                             placeholder="Email"
                                             disabled={true}
                                             value={emailValue}
@@ -525,8 +506,8 @@ const ProfilePage = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="grid md:grid-cols-2 grid-cols-1 justify-center items-center gap-20 pl-8 pr-8">
-                            <div className="grid grid-cols-2 gap-4">
+                        <div className="grid md:grid-cols-2 grid-cols-1 justify-center items-center gap-20 pl-9 pr-9">
+                            <div className="grid grid-cols-1 gap-4">
                                 {!isEditMode && (
                                     <Button
                                         className="bg-yellow-400 hover:bg-yellow-500"
@@ -548,7 +529,7 @@ const ProfilePage = () => {
                                 )}
                                 {isEditMode && (
                                     <Button
-                                        className="bg-pallate-persian_green hover:bg-pallate-blue_munsell text-4xl"
+                                        className="bg-pallate-Third hover:bg-pallate-Third text-4xl"
                                         onClick={submitButtonProfile}
                                         disabled={
                                             onSubmitDisabledButton ||
@@ -562,7 +543,7 @@ const ProfilePage = () => {
                                     </Button>
                                 )}
                             </div>
-                            {onSubmitDisabledButton && isEditMode && (
+                            {/* {onSubmitDisabledButton && isEditMode && (
                                 <Progress
                                     progress={percentDone}
                                     labelProgress={true}
@@ -574,13 +555,11 @@ const ProfilePage = () => {
                                     size="xl"
                                     className="w-full"
                                 ></Progress>
-                            )}
+                            )} */}
                         </div>
                     </div>
-                </Card>
-            )}
+                )}
                 {isChangePassword && (
-                    <Card className="mt-1 m-5 mb-64 rounded-xl pr-12 pl-12 border-pallate-primary">
                         <div className="grid grid-cols-1 gap-4 p-8">
                             <div>
                                 <div className="flex justify-start items-center pl-1 text-pallate-Third">
@@ -591,7 +570,7 @@ const ProfilePage = () => {
                                     maxLength={50}
                                     type="password"
                                     id="new-password"
-                                    className={`bg-pallate-secondary disabled:opacity-80 block w-full p-2.5 text-sm rounded-lg ${
+                                    className={`bg-pallate-primary disabled:opacity-80 block w-full p-2.5 text-sm rounded-lg ${
                                         passwordErrorCurrent
                                             ? "border-red-500 focus:ring-red-500 focus:border-red-500 "
                                             : "border-pallate-Third  placeholder-pallate-Third  focus:ring-pallate-Third focus:border-pallate-Third"
@@ -607,13 +586,13 @@ const ProfilePage = () => {
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                         <HiLockClosed className="mr-1" />
 
-                                        <label>new Password:</label>
+                                        <label>New Password:</label>
                                     </div>
                                     <input
                                         maxLength={50}
                                         type="password"
                                         id="new-password"
-                                        className={`bg-pallate-secondary disabled:opacity-80 block w-full p-2.5 text-sm rounded-lg ${
+                                        className={`bg-pallate-primary disabled:opacity-80 block w-full p-2.5 text-sm rounded-lg ${
                                             passwordErrorConfirmation
                                                 ? "border-red-500 focus:ring-red-500 focus:border-red-500 "
                                                 : "border-pallate-Third  placeholder-pallate-Third  focus:ring-pallate-Third focus:border-pallate-Third"
@@ -634,7 +613,7 @@ const ProfilePage = () => {
                                         maxLength={50}
                                         type="password"
                                         id="confirm-new-password"
-                                        className={`bg-pallate-secondary disabled:opacity-80 block w-full p-2.5 text-sm rounded-lg ${
+                                        className={`bg-pallate-primary disabled:opacity-80 block w-full p-2.5 text-sm rounded-lg ${
                                             passwordErrorConfirmation
                                                 ? "border-red-500 focus:ring-red-500 focus:border-red-500 "
                                                 : "border-pallate-Third  placeholder-pallate-Third  focus:ring-pallate-Third focus:border-pallate-Third"
@@ -663,10 +642,8 @@ const ProfilePage = () => {
                                 </Button>
                             </div>
                         </div>
-                    </Card>
                 )}
                 {isChangeUsername && (
-                    <Card className="mt-1 m-5 mb-64 pr-12 pl-12 rounded-xl border-pallate-Third">
                         <div className="grid grid-cols-1 gap-4 p-8">
                             <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                                 <div>
@@ -684,7 +661,7 @@ const ProfilePage = () => {
                                             maxLength={50}
                                             type="text"
                                             id="username"
-                                            className="bg-pallate-secondary disabled:opacity-80 disabled:bg-pallate-secondary/[0.8] border text-pallate-Third border-pallate-Third text-sm rounded-lg focus:ring-pallate-Third focus:border-pallate-Third block w-full pl-10 p-2.5 "
+                                            className="bg-pallate-primary disabled:opacity-80 disabled:bg-pallate-secondary/[0.8] border text-pallate-Third border-pallate-Third text-sm rounded-lg focus:ring-pallate-Third focus:border-pallate-Third block w-full pl-10 p-2.5 "
                                             placeholder="username"
                                             value={userNameValue}
                                             disabled={true}
@@ -706,7 +683,7 @@ const ProfilePage = () => {
                                             maxLength={50}
                                             type="text"
                                             id="newusername"
-                                            className="bg-pallate-secondary disabled:opacity-80 disabled:bg-pallate-secondary/[0.8] border text-pallate-Third border-pallate-Third text-sm rounded-lg focus:ring-pallate-Third focus:border-pallate-Third block w-full pl-10 p-2.5 "
+                                            className="bg-pallate-primary disabled:opacity-80 disabled:bg-pallate-secondary/[0.8] border text-pallate-Third border-pallate-Third text-sm rounded-lg focus:ring-pallate-Third focus:border-pallate-Third block w-full pl-10 p-2.5 "
                                             placeholder="New UserName"
                                             value={newUserNameValue}
                                             onChange={(handleNewUsername)}
@@ -724,10 +701,10 @@ const ProfilePage = () => {
                                 </Button>
                             </div>
                         </div>
-                    </Card>
                 )}
+            </Card>
         </div>
     );
 };
 
-export default ProfilePage;
+export default EProfilePage;
