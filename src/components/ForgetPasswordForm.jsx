@@ -16,7 +16,7 @@ const ForgetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add form submission logic here
+    
     try{
 
       const response = await useForgetPassword(credentials);
@@ -25,7 +25,7 @@ const ForgetPassword = () => {
         // Successful response (status code 2xx)
         
         toast.success('check your email for reset password link.', {
-          autoClose: 1000, // Close the toast after 3 seconds
+          autoClose: 2000, // Close the toast after 3 seconds
           position: toast.POSITION.TOP_LEFT,
         });
 

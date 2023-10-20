@@ -16,13 +16,13 @@ import axios from 'axios';
 
 const url = import.meta.env.VITE_API_URL;
 
-export const useResetPassword = async (token, password) => {
+export const useResetPassword = async (token, newpassword) => {
   const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   };
 
-  const data = JSON.stringify({ password }); // Create an object with only the password
+  const data = JSON.stringify({ newpassword }); // Create an object with only the password
 
   try {
     const response = await axios.post(`${url}/reset-password?token=${token}`, data, { headers });

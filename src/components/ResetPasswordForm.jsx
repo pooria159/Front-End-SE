@@ -52,7 +52,6 @@ const ResetPassword = () => {
         setTimeout(() => {
           navigate('/login'); // Navigate to /login after displaying the toast
         }, 1000);
-        // navigate('/login'); // Navigate to /login
 
 
       } else{
