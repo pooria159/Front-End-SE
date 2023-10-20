@@ -34,12 +34,12 @@ const LoginForm = () => {
         localStorage.setItem('refreshToken', RefreshToken);
         localStorage.setItem('islogin', "True");
         toast.success('Welcome!', {
-          autoClose: 1000, // Close the toast after 3 seconds
+          autoClose: 2000, // Close the toast after 3 seconds
           position: toast.POSITION.TOP_LEFT,
         });
         setTimeout(() => {
           navigate("/");
-        }, 1500);
+        }, 2000);
         
       } else{
           toast.error("Email or password are not correct!", {

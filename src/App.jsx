@@ -17,16 +17,15 @@ const App = () => {
  return (
     <>
        <Routes>
-          <Route path="/" element={islogin ? <Home /> :<Navigate to="/login" />} />
+          <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
           <Route path="/Eprofile" element={islogin ? <EProfilePage /> : <Navigate to="/login" />} />
+          <Route path="/profile" element={islogin ? <ProfilePage /> : <Navigate to="/login" />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forget-password" element={<ForgetPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify-email" element={<VerificationPage />} />
           <Route path="/checkmail" element={<Checkmail/>} />
-          
-          <Route path="/profile" element={<ProfilePage />} />
        </Routes>
     </>
  );
