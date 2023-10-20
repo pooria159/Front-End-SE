@@ -96,7 +96,7 @@ const LoginForm = () => {
               />
             </div>
             <div className="mt-1 text-sm">
-                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                <a href="/forget-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
                   Forgot password?
                 </a>
             </div>
