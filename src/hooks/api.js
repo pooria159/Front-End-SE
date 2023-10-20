@@ -10,7 +10,7 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Jwt ${token}`;
     }
     return config;
   },
@@ -36,7 +36,7 @@ api.interceptors.response.use(
           localStorage.setItem('token', token);
   
           // Retry the original request with the new token
-          originalRequest.headers.Authorization = `Bearer ${token}`;
+          originalRequest.headers.Authorization = `Jwt ${token}`;
           return axios(originalRequest);
         } catch (error) {
           // Handle refresh token error or redirect to login
