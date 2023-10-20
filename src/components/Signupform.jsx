@@ -223,6 +223,7 @@ const SignupForm =  () => {
               value={formData.birthdate}
               onChange={handleChange}
               required
+              max={new Date().toISOString().split('T')[0]}
             />
           </div>
 
