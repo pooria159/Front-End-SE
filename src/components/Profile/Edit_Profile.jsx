@@ -22,7 +22,7 @@ const EProfilePage = () => {
     const [bioValue, setBioValue] = React.useState("");
     const [userNameValue, setUserNameValue] = React.useState("");
     const [newUserNameValue, setNewUserNameValue] = React.useState("")
-    const [newUserNameError , setNewUserNameError] = React.useState(false)
+    // const [newUserNameError , setNewUserNameError] = React.useState(false)
     const [passwordValue, setPasswordValue] = React.useState("");
     const [passwordConfirmValue, setPasswrodConfirmValue] = React.useState("");
     const [currentPasswrodValue, setCurrentPasswrodValue] = React.useState("");
