@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { useLogin } from '../hooks/useLogin';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+
+  const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
     email: '',
@@ -34,9 +37,9 @@ const LoginForm = () => {
           autoClose: 1000, // Close the toast after 3 seconds
           position: toast.POSITION.TOP_LEFT,
         });
-        // setTimeout(() => {
-        //   //Navigate
-        // }, 2000);
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
         
       } else{
           toast.error("Email or password are not correct!", {
