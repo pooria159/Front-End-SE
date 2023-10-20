@@ -30,7 +30,7 @@ api.interceptors.response.use(
   
         try {
           const refreshToken = localStorage.getItem('refreshToken');
-          const response = await axios.post('/api/refresh-token', { refreshToken });
+          const response = await axios.post(`${url}/refresh`, { refreshToken });
           const { token } = response.data;
   
           localStorage.setItem('token', token);
@@ -40,6 +40,7 @@ api.interceptors.response.use(
           return axios(originalRequest);
         } catch (error) {
           // Handle refresh token error or redirect to login
+          throw error;
         }
       }
   
