@@ -5,6 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import image from "../../assets/myl.png";
 import {BsPersonFill,BsEnvelopeFill,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,} from "react-icons/bs";
 import axios from "axios";
+import { useProfile } from "../../hooks/useProfile";
+import { da } from "date-fns/locale";
 
 
 
@@ -12,38 +14,17 @@ const ProfilePage = () => {
     const params = useParams();
     const [loading, setLoading] = React.useState(undefined);
     const [completed, setCompleted] = React.useState(undefined);
-    const [data , setData] = React.useState(undefined);
+    const [data , setData] = React.useState(null);
+    const Genderarr = ["","Male" ,"Female", "Other"];
     useEffect (() => {
-        console.log(params.id);
-        const baseURL = `Link${params.id}`
-        console.log(baseURL);
-        setTimeout(() => {
-            axios.get(baseURL, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then(res => {
-                const raw = res.data
-                setData({
-                    Email: raw.Email,
-                    FirstName: raw.FirstName,
-                    LastName: raw.LastName,
-                    City: raw.City,
-                    Bio: raw.Bio,
-                    Country: raw.Country,
-                    BirthDate: raw.BirthDate,
-                    Gender: raw.Gender,
-                })
-                console.log(data);
-                setLoading(true);
-            }).catch(err => {
-                console.log(err.message);
-            })
-            setTimeout(() => {
-                setCompleted(true);
-            }, 2000);
-        }, 2000);
+        const fetch = async () => {
+            const res = await useProfile();
+            setData(res.data);
+            // console.log(res.data);
+        }
+        fetch();
     } , []);
+
 
     return (
         <div>
@@ -64,20 +45,23 @@ const ProfilePage = () => {
                             <div className="rightside grid grid-cols-1 gap-4 p-8">
                                 <div>
                                 <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                        <BsPersonFill className="mr-1" />
-                                        <label>First Name:</label>
+                                        <BsPersonFill className="mr-1 text-xl" />
+                                        <label className="text-xl">First Name:</label>
+                                        <p className="text-left text-xl pl-5 text-pallate-primary"> {data && data.FirstName}</p>
                                     </div>
                                 </div>
                                 <div>
                                 <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                        <BsPersonFill className="mr-1" />
-                                        <label>Last Name:</label>
+                                        <BsPersonFill className="mr-1 text-xl" />
+                                        <label className="text-xl">Last Name:</label>
+                                        <p className="text-left text-xl pl-5 text-pallate-primary"> {data && data.LastName}</p>
                                     </div>
                                 </div>
                                 <div>
                                 <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                        <BsEnvelopeFill className="mr-1" />
-                                        <label>Email:</label>
+                                        <BsEnvelopeFill className="mr-1 text-xl" />
+                                        <label className="text-xl">Email:</label>
+                                        <p className="text-left text-xl pl-5 text-pallate-primary"> {data && data.Email}</p>
                                     </div>
                                     <div className="relative">
                                     </div>
@@ -85,30 +69,30 @@ const ProfilePage = () => {
                                 <div className="grid grid-cols-2 md:gap-2 gap-1">
                                     <div className="md:w-40 w-full">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                            <BsMapFill className="mr-1" />
-                                            <label>Country:</label>
+                                            <BsMapFill className="mr-1 text-xl" />
+                                            <label className="text-xl">Country:</label>
+                                            <p className="text-left text-xl pl-5 text-pallate-primary"> {data && data.Country}</p>
                                         </div>
                                     </div>
                                     <div className="">
                                     <div className="flex justify-start items-center md:pl-5 text-pallate-Third">
-                                            <BsMapFill className="mr-1" />
-                                            <label>City:</label>
+                                            <BsMapFill className="mr-1 text-xl" />
+                                            <label className="text-xl">City:</label>
+                                            <p className="text-left text-xl pl-5 text-pallate-primary"> {data && data.City}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 md:gap-2 gap-1">
-                                    <div className="md:w-40 w-full">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                            <BsCalendar className="mr-1" />
-                                            <label>Birth Date:</label>
+                                            <BsCalendar className="mr-1 text-xl" />
+                                            <label className="text-xl">Birth Date:</label>
+                                            <p className="text-left text-xl pl-5 text-pallate-primary"> {data && data.BirthDate}</p>
                                         </div>
 
-                                    </div>
-                                    <div className="">
                                     <div className="flex justify-start items-center md:pl-3 text-pallate-Third">
-                                            <BsGenderAmbiguous className="mr-1" />
-                                            <label>Gender:</label>
-                                        </div>
+                                            <BsGenderAmbiguous className="mr-1 text-xl" />
+                                            <label className="text-xl">Gender:</label>
+                                            <p className="text-left text-xl pl-5 text-pallate-primary"> {data && Genderarr[data.Gender]}</p>
                                     </div>
                                 </div>
                             </div>
