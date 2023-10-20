@@ -132,8 +132,8 @@ const SignupForm =  () => {
               position: toast.POSITION.TOP_LEFT,
           });
           setTimeout(() => {
-            navigate('/login'); // Navigate to /login
-          }, 2000);
+            navigate('/checkmail'); // Navigate to /login
+          }, 1500);
           
         } else{
             toast.error(response.data["message"], {

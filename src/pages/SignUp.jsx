@@ -6,7 +6,7 @@ const SignupPage = () => {
     <div className="fixed w-full h-full items-center justify-center bg-slate-200 bg-cover">
       
       <div className="flex flex-col items-center justify-center min-h-screen  ">
-        <h2 className="mb-5  sm:mb-0 sm:text-[2rem] text-center text-5xl font-bold leading-9 tracking-tight text-gray-900">
+        <h2 className="mb-5 text-center text-5xl font-bold leading-9 tracking-tight text-gray-900">
             TrekDestiny
         </h2>
         <div className="flex items-center justify-center  h-[35.5rem] lg:w-4/6 md:w-full rounded-3xl">
