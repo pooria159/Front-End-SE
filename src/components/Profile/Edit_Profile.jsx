@@ -1,5 +1,6 @@
-import React from "react";
-import {Button,Card,Select,Textarea,} from "flowbite-react";
+import React,{useState, useEffect} from "react";
+import {Button,Card,Textarea,} from "flowbite-react";
+import { Select } from "flowbite-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
@@ -7,12 +8,51 @@ import moment from "moment";
 import image from "../../assets/myl.png";
 import {BsPencilSquare,BsPersonFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,BsPersonFillLock,} from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
+import useEditprofile from "../../hooks/useEditProfile.js"
+import { useProfile } from "../../hooks/useProfile";
+
 // import axios from "axios";
 // import { toast, ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
 const EProfilePage = () => {
     const navigate = useNavigate();
+
+    const [countries, setCountries] = useState(null);
+    const [states, setStates] = useState(null);
+    const [selectedCountry, setSelectedCountry] = useState("");
+    const [selectedState, setSelectedState] = useState("");
+    const [formData, setFormData] = useState({});
+    const [data , setData] = React.useState(null);
+
+    const Genderarr = ["","Male" ,"Female", "Other"];
+
+    // useEffect(() => {
+    // const fetch = async () => {
+    //     const response = await useCityCountry();
+    //     setCountries(response)
+    // }
+    // fetch();
+    // }, []);
+
+    useEffect (() => {
+        const fetch = async () => {
+            const res = await useProfile();
+            setData(res.data);
+        }
+        fetch();
+    } , []);
+
+    // useEffect(() => {
+    // setSelectedState("")
+    // const fetch = async () => {
+    //     console.log(selectedCountry);
+    //     const response = await useCityCountry("state", selectedCountry.value);
+    //     setStates(response)
+    // }
+    // fetch();
+    // }, [selectedCountry]);
+
     const [onSubmitDisabledButton, setOnSubmitDisabledButton] = React.useState(false);
     const [firstNameValue, setFirstNameValue] = React.useState("");
     const [lastNameValue, setLastNameValue] = React.useState("");
@@ -33,67 +73,6 @@ const EProfilePage = () => {
     const [passwordErrorConfirmation, setPasswordErrorConfirmation] =React.useState(false);
     const [passwordErrorCurrent, setPasswordErrorCurrent] = React.useState(false);
 
-
-    React.useEffect(() => {
-        setFirstNameValue(
-            localStorage.getItem("firstname")
-                ? localStorage.getItem("firstname")
-                : ""
-        );
-        setLastNameValue(
-            localStorage.getItem("lastname")
-                ? localStorage.getItem("lastname")
-                : ""
-        );
-        setBioValue(
-            localStorage.getItem("bio")!==null ? localStorage.getItem("bio") : ""
-        );
-        setEmailValue(localStorage.getItem("email"));
-        setImgValue(
-            localStorage.getItem("avatar")
-                ? localStorage.getItem("avatar")
-                : null
-        );
-        console.log(localStorage.getItem(localStorage.getItem("birthdate")));
-
-        if (
-            localStorage.getItem("gender") === "true" ||
-            localStorage.getItem("gender") === "Male"
-        ) {
-            setGenderValue("Male");
-        } else if (
-            localStorage.getItem("gender") === "false" ||
-            localStorage.getItem("gender") === "Female"
-        ) {
-            setGenderValue("Female");
-        } else {
-            setGenderValue("Not Selected");
-        }
-        console.log(typeof localStorage.getItem("gender"));
-        setUserNameValue(localStorage.getItem("username"));
-        setBirthDateValue(
-            localStorage.getItem("birthdate")
-                ? new Date(localStorage.getItem("birthdate"))
-                : new Date("1923-01-01")
-        );
-        setCountryValue(
-            localStorage.getItem("country")
-                ? localStorage.getItem("country")
-                : "Select"
-        );
-        setCityValue(
-            localStorage.getItem("country") !== "Select"
-                ? localStorage.getItem("city")
-                    ? localStorage.getItem("city")
-                    : "Select"
-                : "Select"
-        );
-        setbirthDateISOValue(
-            localStorage.getItem("birthdate")
-                ? moment(localStorage.getItem("birthdate")).format("YYYY-MM-DD")
-                : ""
-        );
-    }, []);
 
     const handleFirstNamechange = (e) => {
         e.preventDefault();
@@ -367,7 +346,7 @@ const EProfilePage = () => {
                                     <Textarea
                                         className="bg-pallate-primary text-pallate-Third placeholder-pallate-Third border-pallate-Third focus:border-pallate-Third resize-none focus:ring-pallate-Third"
                                         rows={5}
-                                        placeholder="bio..."
+                                        placeholder={data && data.Bio != "" ? data.Bio : "bio..."}
                                         maxLength={100}
                                         id="bio"
                                         disabled={!isEditMode}
@@ -387,7 +366,7 @@ const EProfilePage = () => {
                                         type="text"
                                         id="firstname"
                                         className="bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
-                                        placeholder="First Name"
+                                        placeholder={data && data.FirstName}
                                         disabled={!isEditMode}
                                         value={firstNameValue}
                                         onChange={handleFirstNamechange}
@@ -403,7 +382,7 @@ const EProfilePage = () => {
                                         type="text"
                                         id="lastname"
                                         className="bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
-                                        placeholder="Last Name"
+                                        placeholder={data && data.LastName}
                                         disabled={!isEditMode}
                                         value={lastNameValue}
                                         onChange={handleLastNamechange}
@@ -420,7 +399,7 @@ const EProfilePage = () => {
                                             type="email"
                                             id="email"
                                             className="bg-pallate-secondary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
-                                            placeholder="Email"
+                                            placeholder={data && data.Email}
                                             disabled={true}
                                             value={emailValue}
                                             onChange={handleEmailchange}
@@ -434,28 +413,43 @@ const EProfilePage = () => {
                                             <label>Country:</label>
                                         </div>
                                         <Select
-                                            id="country"
                                             class="w-full md:w-36 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={!isEditMode}
-                                            value={countryValue}
-                                            onChange={handleCountryChange}
+                                            disabled={true}
+                                            id="country"
+                                            name="country"
+                                            value={selectedCountry}
+                                            onChange={(selectedCountry) => {
+                                                setSelectedCountry(selectedCountry)
+                                                setFormData({ ...formData, ["country"]:  selectedCountry.value});
+                                            }}
+                                            isSearchable
                                         >
-                                            <option>Select</option>
+                                            <option selected>{data && data.Country}</option>
+                                            {countries && countries.map(country => (
+                                                <option value = {country.country_name}> {country.country_name}</option>
+                                            ))}
                                         </Select>
                                     </div>
                                     <div className="">
                                     <div className="flex justify-start items-center md:pl-5 text-pallate-Third">
                                             <BsMapFill className="mr-1" />
-                                            <label>City:</label>
+                                            <label>State:</label>
                                         </div>
                                         <Select
                                             id="gender"
                                             class="w-full md:w-36 md:ml-3 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={!isEditMode}
-                                            value={cityValue}
-                                            onChange={handleCityChange}
+                                            disabled={true}
+                                            value={selectedCountry}
+                                            onChange={(selectedCountry) => {
+                                                setSelectedCountry(selectedCountry)
+                                                setFormData({ ...formData, ["country"]:  selectedCountry.value});
+                                            }}
+                                            isSearchable
                                         >
-                                            <option>Select</option>
+                                            <option selected>{data && data.City}</option>
+                                            {states && states.map(state => (
+                                                <option value = {state.state_name}> {state.state_name}</option>
+                                            ))}
                                         </Select>
                                     </div>
                                 </div>
@@ -465,11 +459,12 @@ const EProfilePage = () => {
                                             <BsCalendar className="mr-1" />
                                             <label>Birth Date:</label>
                                         </div>
-                                        <DatePicker
+                                        {/* <DatePicker
                                             selected={
-                                                birthDateValue
-                                                    ? birthDateValue
-                                                    : new Date()
+                                                // birthDateValue
+                                                //     ? birthDateValue
+                                                //     : new Date()
+                                                data && data.BirthDate
                                             }
                                             onChange={(date) =>
                                                 handleBirthDateChange(date)
@@ -481,7 +476,25 @@ const EProfilePage = () => {
                                             dropdownMode="select"
                                             disabled={!isEditMode}
                                             className="w-full md:w-36 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                        ></DatePicker>
+                                        ></DatePicker> */}
+                                        <div className="relative">
+                                        <Select
+                                            id="bd"
+                                            class="w-full md:w-36  bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
+                                            disabled={true}
+                                            value={selectedCountry}
+                                            onChange={(selectedCountry) => {
+                                                setSelectedCountry(selectedCountry)
+                                                setFormData({ ...formData, ["country"]:  selectedCountry.value});
+                                            }}
+                                            isSearchable
+                                        >
+                                            <option selected>{data && data.BirthDate}</option>
+                                            {states && states.map(state => (
+                                                <option value = {state.state_name}> {state.state_name}</option>
+                                            ))}
+                                        </Select>
+                                    </div>
                                     </div>
                                     <div className="">
                                     <div className="flex justify-start items-center md:pl-3 text-pallate-Third">
@@ -495,9 +508,10 @@ const EProfilePage = () => {
                                             value={genderValue}
                                             onChange={handleGenderchange}
                                         >
-                                            <option>Male</option>
+                                            {/* <option>Male</option>
                                             <option>Female</option>
-                                            <option>Not Selected</option>
+                                            <option>Not Selected</option> */}
+                                            <option selected> {data && Genderarr[data.Gender]}</option>
                                         </Select>
                                     </div>
                                 </div>
