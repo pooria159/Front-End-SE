@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useLogin } from '../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
 
@@ -57,7 +57,6 @@ const LoginForm = () => {
 
     return(
         <div className="mt-10 h-[22.5rem] sm:mx-auto sm:w-full sm:max-w-sm">
-          <ToastContainer/>
         <h2 className="mb-5 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
         </h2>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { useCityCountry } from '../hooks/useCityCountry';
 import { Usesignup } from '../hooks/useSignup';
 import Select from 'react-select';
@@ -171,7 +170,6 @@ const SignupForm =  () => {
 
     return(
         <div className="mt-5 h-[22.5rem] sm:mx-auto sm:w-full sm:max-w-sm">
-        <ToastContainer/>
         <h2 className="mb-5  text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Create your account
         </h2>
