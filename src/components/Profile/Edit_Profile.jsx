@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-key */
 import React,{useState, useEffect} from "react";
 import {Button,Card,Textarea,} from "flowbite-react";
-import { Select } from "flowbite-react";
+// import { Select } from "flowbite-react";
+import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
@@ -10,48 +12,55 @@ import {BsPencilSquare,BsPersonFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsG
 import { HiLockClosed } from "react-icons/hi";
 import useEditprofile from "../../hooks/useEditProfile.js"
 import { useProfile } from "../../hooks/useProfile";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useCityCountry } from "../../hooks/useCityCountry"
 
-// import axios from "axios";
-// import { toast, ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 
 const EProfilePage = () => {
     const navigate = useNavigate();
-
     const [countries, setCountries] = useState(null);
     const [states, setStates] = useState(null);
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedState, setSelectedState] = useState("");
-    const [formData, setFormData] = useState({});
+    const [formDataa, setFormData] = useState({});
     const [data , setData] = React.useState(null);
-
     const Genderarr = ["","Male" ,"Female", "Other"];
 
-    // useEffect(() => {
-    // const fetch = async () => {
-    //     const response = await useCityCountry();
-    //     setCountries(response)
-    // }
-    // fetch();
-    // }, []);
-
+    
     useEffect (() => {
         const fetch = async () => {
             const res = await useProfile();
+            console.log(res.data)
             setData(res.data);
+            setFirstNameValue(res.data.FirstName);
+            setLastNameValue(res.data.LastName);
+            setBirthDateValue(res.data.BirthDate);
+            setGenderValue(res.data.Gender);
+            setCityValue(res.data.City);
+            setCountryValue(res.data.Country);
         }
         fetch();
     } , []);
 
-    // useEffect(() => {
-    // setSelectedState("")
-    // const fetch = async () => {
-    //     console.log(selectedCountry);
-    //     const response = await useCityCountry("state", selectedCountry.value);
-    //     setStates(response)
-    // }
-    // fetch();
-    // }, [selectedCountry]);
+    useEffect(() => {
+        const fetch = async () => {
+          const response = await useCityCountry("country");
+          setCountries(response)
+        }
+        fetch();
+      }, []);
+  
+      useEffect(() => {
+        setSelectedState("")
+        const fetch = async () => {
+          console.log(selectedCountry);
+          const response = await useCityCountry("state", selectedCountry.value);
+          setStates(response)
+        }
+        fetch();
+      }, [selectedCountry]);
+  
 
     const [onSubmitDisabledButton, setOnSubmitDisabledButton] = React.useState(false);
     const [firstNameValue, setFirstNameValue] = React.useState("");
@@ -62,7 +71,7 @@ const EProfilePage = () => {
     const [bioValue, setBioValue] = React.useState("");
     const [userNameValue, setUserNameValue] = React.useState("");
     const [newUserNameValue, setNewUserNameValue] = React.useState("")
-    // const [newUserNameError , setNewUserNameError] = React.useState(false)
+    const [newUserNameError , setNewUserNameError] = React.useState(false)
     const [passwordValue, setPasswordValue] = React.useState("");
     const [passwordConfirmValue, setPasswrodConfirmValue] = React.useState("");
     const [currentPasswrodValue, setCurrentPasswrodValue] = React.useState("");
@@ -76,11 +85,26 @@ const EProfilePage = () => {
 
     const handleFirstNamechange = (e) => {
         e.preventDefault();
+        console.log(e.target);
         setFirstNameValue(e.target.value.replace(/[^a-zA-Z]/g, ""));
     };
     const handleLastNamechange = (e) => {
         e.preventDefault();
         setLastNameValue(e.target.value.replace(/[^a-zA-Z]/g, ""));
+    };
+    const handleEmailchange = (event) => {
+        setEmailValue(event.target.value);
+    };
+    const handleBirthDateChange = (selectedDate) => {
+        setBirthDateValue(selectedDate);
+        setbirthDateISOValue(moment(selectedDate).format("YYYY-MM-DD"));
+        console.log(birthDateISOValue);
+    };
+    const handleGenderchange = (event) => {
+        setGenderValue(event.target.value);
+    };
+    const handleBiochange = (event) => {
+        setBioValue(event.target.value);
     };
     const handleCurrentPassswrod = (e) => {
         e.preventDefault();
@@ -93,15 +117,6 @@ const EProfilePage = () => {
         } else {
             setPasswordErrorCurrent(false);
         }
-    };
-    const handleEmailchange = (event) => {
-        setEmailValue(event.target.value);
-    };
-    const handleBiochange = (event) => {
-        setBioValue(event.target.value);
-    };
-    const handleGenderchange = (event) => {
-        setGenderValue(event.target.value);
     };
     const handleCountryChange = (event) => {
         setCountryValue(event.target.value);
@@ -131,7 +146,6 @@ const EProfilePage = () => {
         console.log(userNameValue);
         if (e.target.value===userNameValue) {
             setNewUserNameError(true)
-            console.log("got here");
         }
         else{
             setNewUserNameError(false)
@@ -179,112 +193,93 @@ const EProfilePage = () => {
         setEditMode(true);
     };
     const cancelEditHandler = () => {
-        console.log(localStorage.getItem("gender"));
-        setFirstNameValue(
-            localStorage.getItem("firstname")
-                ? localStorage.getItem("firstname")
-                : ""
-        );
-        setLastNameValue(
-            localStorage.getItem("lastname")
-                ? localStorage.getItem("lastname")
-                : ""
-        );
-        setBioValue(
-            localStorage.getItem("bio") ? localStorage.getItem("bio") : ""
-        );
-        setEmailValue(localStorage.getItem("email"));
-        setImgValue(
-            localStorage.getItem("avatar")
-                ? localStorage.getItem("avatar")
-                : null
-        );
-        console.log(localStorage.getItem("email"));
-        if (
-            localStorage.getItem("gender") === "true" ||
-            localStorage.getItem("gender") === "Male"
-        ) {
-            setGenderValue("Male");
-        } else if (
-            localStorage.getItem("gender") === "false" ||
-            localStorage.getItem("gender") === "Female"
-        ) {
-            setGenderValue("Female");
-        } else {
-            setGenderValue("Not Selected");
-        }
-        setUserNameValue(localStorage.getItem("username"));
-        setBirthDateValue(
-            localStorage.getItem("birthdate")
-                ? new Date(localStorage.getItem("birthdate"))
-                : null
-        );
-        setCountryValue(
-            localStorage.getItem("country")
-                ? localStorage.getItem("country")
-                : "Select"
-        );
-        setCityValue(
-            localStorage.getItem("country") !== "Select"
-                ? localStorage.getItem("city")
-                    ? localStorage.getItem("city")
-                    : "Select"
-                : "Select"
-        );
-        setbirthDateISOValue(
-            localStorage.getItem("birthdate")
-                ? moment(localStorage.getItem("birthdate")).format("YYYY-MM-DD")
-                : ""
-        );
-        setImgValue(localStorage.getItem("avatar"));
         setEditMode(false);
     };
 
-    const handleBirthDateChange = (selectedDate) => {
-        setBirthDateValue(selectedDate);
-        setbirthDateISOValue(moment(selectedDate).format("YYYY-MM-DD"));
-        console.log(birthDateISOValue);
+    const [show, setShow] = React.useState(false);
+    const handleClose = (state) => {
+        if (isEditMode) {
+            setShow(state);
+        }
     };
+
 
 
     const submitButtonPassword = () => {
-        const currentPassword = localStorage.getItem("password");
-        const newPassword = passwordValue;
-        const newPasswordConfirm = passwordConfirmValue;
         setOnSubmitDisabledButton(true);
-        const data = {
-            new_password: newPassword,
-            re_new_password: newPasswordConfirm,
-            current_password: currentPassword,
-        };
+
     };
 
     const submitButtonUserName = () => {
-
-        const newUserName = newUserNameValue
-        const password = localStorage.getItem("password")
-        const data = {
-            current_password : password,
-            new_username: newUserName,
-            re_new_username: newUserName
-        }
+    
     };
-    const submitButtonProfile = () => {
+    const submitButtonProfile = async () => {
         setOnSubmitDisabledButton(true);
-        const gender = genderValue;
-        const birthDate = birthDateISOValue.toString();
-        const country = countryValue;
-        const city = cityValue;
-        const avatar = imgValue;
-        const bio = bioValue;
-        const firstname = firstNameValue;
-        const lastname = lastNameValue;
-        console.log(birthDate);
+        let form_data = {};
+        if (data.FirstName != firstNameValue){
+            form_data = { ...form_data, FirstName: firstNameValue};
+        }
+        if (data.LastName != lastNameValue){
+            form_data = { ...form_data, LastName: lastNameValue};
+        }
+
+        try{
+            const response = await useEditprofile(form_data);
+            console.log(response.status);
+            if (response.status >= 200 && response.status < 300) {
+              // Successful response (status code 2xx)
+              // Redirect to /login
+              toast.success("Profile edited successfully!", {
+                position: toast.POSITION.TOP_LEFT,
+            });
+              
+            } else{
+                toast.error("Email or password are not correct!", {
+                    position: toast.POSITION.TOP_LEFT,
+                });
+            }
+            
+          }  catch(error){
+            toast.error(error.response.data.message, {
+              position: toast.POSITION.TOP_LEFT,
+            });
+            throw error;
+          }
+        
     };
+    // const style = {
+    //     control: base => ({
+    //       ...base,
+    //       border: 0,
+          
+    //       backgroundColor:"pallate-primary",
+    //       // This line disable the blue border
+    //       boxShadow: "none"
+    //     }),
+    //     option: base => ({
+    //       ...base,
+    //       border: 0,
+    //       backgroundColor:"red",
+    //       // This line disable the blue border
+    //       boxShadow: "none"
+    //     })
+    //     ,hover=>({
+
+    //     }),
+    //     select: base => ({
+    //       ...base,
+    //       border: 0,
+    //       backgroundColor:"blue",
+    //       // This line disable the blue border
+    //       boxShadow: "none"
+    //     }),    
+    //   };
+    
 
     return (
         <div>
-                <Card className=" mt-1 m-5 mb-auto rounded-xl bg-pallate-secondary border-pallate-Third">
+            <ToastContainer />
+                <Card className=" mt-1 m-5 mb-1 rounded-xl md:w-[960px]  sm:w-auto bg-pallate-secondary border-pallate-Third">
                     <div className="grid md:grid-cols-3 md:gap-16 sm:grid-cols-1 gap-4">
                     <Button
                         className={
@@ -366,9 +361,10 @@ const EProfilePage = () => {
                                         type="text"
                                         id="firstname"
                                         className="bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
-                                        placeholder={data && data.FirstName}
+                                        // placeholder={data && data.FirstName}
                                         disabled={!isEditMode}
                                         value={firstNameValue}
+                                        defaultValue={data && data.FirstName}
                                         onChange={handleFirstNamechange}
                                     />
                                 </div>
@@ -382,9 +378,9 @@ const EProfilePage = () => {
                                         type="text"
                                         id="lastname"
                                         className="bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
-                                        placeholder={data && data.LastName}
                                         disabled={!isEditMode}
                                         value={lastNameValue}
+                                        defaultValue={data && data.LastName}
                                         onChange={handleLastNamechange}
                                     />
                                 </div>
@@ -399,84 +395,76 @@ const EProfilePage = () => {
                                             type="email"
                                             id="email"
                                             className="bg-pallate-secondary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
-                                            placeholder={data && data.Email}
                                             disabled={true}
                                             value={emailValue}
+                                            placeholder = {data && data.Email}
                                             onChange={handleEmailchange}
                                         />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 md:gap-2 gap-1">
-                                    <div className="md:w-40 w-full">
+                                    <div className="w-full">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <BsMapFill className="mr-1" />
                                             <label>Country:</label>
                                         </div>
+                                        {/* <div className="w-full"> */}
                                         <Select
-                                            class="w-full md:w-36 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={true}
+                                            // class="w-full md:w-36 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
+                                            disabled={!isEditMode}
                                             id="country"
                                             name="country"
+                                            options= {countries && countries.map(country => ({
+                                                value: country.country_name,
+                                                label: country.country_name,
+                                              }))}
                                             value={selectedCountry}
                                             onChange={(selectedCountry) => {
                                                 setSelectedCountry(selectedCountry)
-                                                setFormData({ ...formData, ["country"]:  selectedCountry.value});
+                                                setFormData({ ...formDataa, ["country"]:  selectedCountry.value});
                                             }}
                                             isSearchable
-                                        >
-                                            <option selected>{data && data.Country}</option>
-                                            {countries && countries.map(country => (
+                                            placeholder="Select "
+                                            required
+                                        />
+                                        {/* </div> */}
+                                            {/* <option selected>{selectedCountry}</option> */}
+                                            {/* {countries && countries.map(country => (
                                                 <option value = {country.country_name}> {country.country_name}</option>
-                                            ))}
-                                        </Select>
+                                            ))} */}
                                     </div>
                                     <div className="">
-                                    <div className="flex justify-start items-center md:pl-5 text-pallate-Third">
+                                    <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <BsMapFill className="mr-1" />
-                                            <label>State:</label>
+                                            <label>City:</label>
                                         </div>
                                         <Select
-                                            id="gender"
-                                            class="w-full md:w-36 md:ml-3 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={true}
-                                            value={selectedCountry}
-                                            onChange={(selectedCountry) => {
-                                                setSelectedCountry(selectedCountry)
-                                                setFormData({ ...formData, ["country"]:  selectedCountry.value});
-                                            }}
+                                            id="city"
+                                            name="city"
+                                            // class="w-full md:w-36 md:ml-3 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
+                                            disabled={!isEditMode}
+                                            options= {states && states.map(state => ({
+                                                value: state.state_name,
+                                                label: state.state_name,
+                                              }))}
+                                            value={selectedState}
+                                            onChange={(selectedState) => {
+                                                setSelectedState(selectedState)
+                                                setFormData({ ...formDataa, ["city"]:  selectedState.value});
+                                              }}
                                             isSearchable
-                                        >
-                                            <option selected>{data && data.City}</option>
-                                            {states && states.map(state => (
-                                                <option value = {state.state_name}> {state.state_name}</option>
-                                            ))}
-                                        </Select>
+                                            isDisabled = {selectedCountry == ""}
+                                            placeholder="Select city"
+                                            required
+                                        /> 
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 md:gap-2 gap-1">
-                                    <div className="md:w-40 w-full">
+                                    <div className="w-full">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <BsCalendar className="mr-1" />
                                             <label>Birth Date:</label>
                                         </div>
-                                        {/* <DatePicker
-                                            selected={
-                                                // birthDateValue
-                                                //     ? birthDateValue
-                                                //     : new Date()
-                                                data && data.BirthDate
-                                            }
-                                            onChange={(date) =>
-                                                handleBirthDateChange(date)
-                                            }
-                                            showMonthDropdown
-                                            showYearDropdown
-                                            minDate={new Date("1923-1-1")}
-                                            maxDate={new Date()}
-                                            dropdownMode="select"
-                                            disabled={!isEditMode}
-                                            className="w-full md:w-36 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                        ></DatePicker> */}
                                         <div className="relative">
                                         <Select
                                             id="bd"
@@ -485,15 +473,10 @@ const EProfilePage = () => {
                                             value={selectedCountry}
                                             onChange={(selectedCountry) => {
                                                 setSelectedCountry(selectedCountry)
-                                                setFormData({ ...formData, ["country"]:  selectedCountry.value});
+                                                setFormData({ ...formDataa, ["country"]:  selectedCountry.value});
                                             }}
                                             isSearchable
-                                        >
-                                            <option selected>{data && data.BirthDate}</option>
-                                            {states && states.map(state => (
-                                                <option value = {state.state_name}> {state.state_name}</option>
-                                            ))}
-                                        </Select>
+                                        />
                                     </div>
                                     </div>
                                     <div className="">
