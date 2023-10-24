@@ -1,5 +1,5 @@
 // App.js
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate,useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -19,24 +19,30 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 
+   const location = useLocation();
    const islogin = localStorage.getItem('islogin') == 'True';
+
  return (
     <>
-         {['/login', '/signup'].includes(window.location.pathname) ? null : <Navbar />}
-         <Routes>
-            <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
-            <Route path="/Eprofile" element={islogin ? <EProfilePage /> : <Navigate to="/login" />} />
-            <Route path="/profile" element={islogin ? <ProfilePage /> : <Navigate to="/login" />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forget-password" element={<ForgetPasswordPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/verify-email" element={<VerificationPage />} />
-            <Route path="/checkmail" element={<Checkmail/>} />
-         </Routes>
+      <div className="flex flex-col min-h-screen">
+         <div className="flex-grow">
 
-         {['/login', '/signup'].includes(window.location.pathname) ? null : <Footer />}
-
+         {!['/login', '/signup'].includes(location.pathname) && <Navbar />}
+            <Routes>
+               <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
+               <Route path="/Eprofile" element={islogin ? <EProfilePage /> : <Navigate to="/login" />} />
+               <Route path="/profile" element={islogin ? <ProfilePage /> : <Navigate to="/login" />} />
+               <Route path="/login" element={<LoginPage />} />
+               <Route path="/signup" element={<SignupPage />} />
+               <Route path="/forget-password" element={<ForgetPasswordPage />} />
+               <Route path="/reset-password" element={<ResetPasswordPage />} />
+               <Route path="/verify-email" element={<VerificationPage />} />
+               <Route path="/checkmail" element={<Checkmail/>} />
+            </Routes>
+            
+         </div>
+         {!['/login', '/signup'].includes(location.pathname) && <Footer />}
+      </div>
          <ToastContainer 
                   position="top-left"
                   newestOnTop={true}
@@ -45,7 +51,8 @@ const App = () => {
                   autoClose={2000}
                   closeOnClick
                   pauseOnHover
-      />
+         />
+      
     </>
  );
 };

@@ -30,10 +30,10 @@ api.interceptors.response.use(
   
         try {
           const refreshToken = localStorage.getItem('refreshToken');
-          const response = await axios.post(`${url}/refresh`, { refreshToken });
+          const response = await axios.post(`${url}/refresh`,{"RefreshToken" : refreshToken});
           const { token } = response.data;
-  
-          localStorage.setItem('token', token);
+          
+          localStorage.setItem('token', token.AccessToken);
   
           // Retry the original request with the new token
           originalRequest.headers.Authorization = `Jwt ${token}`;

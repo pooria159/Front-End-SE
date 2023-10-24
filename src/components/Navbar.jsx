@@ -3,6 +3,10 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
+import { useNavigate } from 'react-router-dom';
+import Handlelogout from './Handlelogout'; 
+
+
 import profImg from "../assets/profile.jpg"
 import logo from "../assets/logo/logo.png"
 
@@ -16,6 +20,15 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+
+  const navigate = useNavigate();
+
+  const handlelogout = () => {
+    if(Handlelogout()){
+      navigate("/login")
+    }
+  }
+
   return (
     <Disclosure as="nav" className="sticky w-full bg-gray-800">
       {({ open }) => (
@@ -107,10 +120,10 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            onClick={handlelogout}
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Sign out
+                            Log out
                           </a>
                         )}
                       </Menu.Item>
