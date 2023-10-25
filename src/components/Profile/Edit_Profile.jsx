@@ -39,6 +39,8 @@ const EProfilePage = () => {
             setGenderValue(res.data.Gender);
             setCityValue(res.data.City);
             setCountryValue(res.data.Country);
+            setSelectedCountry({"value" : res.data.Country, "label" : res.data.Country });
+            setSelectedState(res.data.City);
         }
         fetch();
     } , []);
@@ -46,7 +48,15 @@ const EProfilePage = () => {
     useEffect(() => {
         const fetch = async () => {
           const response = await useCityCountry("country");
-          setCountries(response)
+          let obj = [];
+          for (var item in response){
+            // console.log(item);
+            obj.push({"value" : response[item]["country_name"], "label" : response[item]["country_name"]});
+          }
+
+          setCountries(obj);
+          console.log("fuck")
+          console.log(obj);
         }
         fetch();
       }, []);
@@ -85,7 +95,6 @@ const EProfilePage = () => {
 
     const handleFirstNamechange = (e) => {
         e.preventDefault();
-        console.log(e.target);
         setFirstNameValue(e.target.value.replace(/[^a-zA-Z]/g, ""));
     };
     const handleLastNamechange = (e) => {
@@ -247,33 +256,33 @@ const EProfilePage = () => {
           }
         
     };
-    // const style = {
-    //     control: base => ({
-    //       ...base,
-    //       border: 0,
-          
-    //       backgroundColor:"pallate-primary",
-    //       // This line disable the blue border
-    //       boxShadow: "none"
-    //     }),
-    //     option: base => ({
-    //       ...base,
-    //       border: 0,
-    //       backgroundColor:"red",
-    //       // This line disable the blue border
-    //       boxShadow: "none"
-    //     })
-    //     ,hover=>({
 
-    //     }),
-    //     select: base => ({
-    //       ...base,
-    //       border: 0,
-    //       backgroundColor:"blue",
-    //       // This line disable the blue border
-    //       boxShadow: "none"
-    //     }),    
-    //   };
+
+    const style = {
+        control: base => ({
+          ...base,
+          backgroundColor:"#EBE4D1",
+          borderRadius: "8px",
+          border : "none",
+          outline: "0.5px solid #26577C",
+
+        }),
+        option: (base, state) => ({
+          ...base,
+          backgroundColor: state.isFocused ? "#26577C" : "#EBE4D1",
+          color: state.isFocused ? "#EBE4D1" : "#26577C",
+          
+        }),   
+        input3: base => ({
+            ...base,
+            border: "none",
+          }),
+          singleValue: base => ({
+            ...base,
+            color: "#26577C",
+          }), 
+      };
+      
     
 
     return (
@@ -408,30 +417,22 @@ const EProfilePage = () => {
                                             <BsMapFill className="mr-1" />
                                             <label>Country:</label>
                                         </div>
-                                        {/* <div className="w-full"> */}
                                         <Select
-                                            // class="w-full md:w-36 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={!isEditMode}
                                             id="country"
                                             name="country"
-                                            options= {countries && countries.map(country => ({
-                                                value: country.country_name,
-                                                label: country.country_name,
-                                              }))}
+                                            isDisabled={!isEditMode}
+                                            options= {countries && countries}
                                             value={selectedCountry}
                                             onChange={(selectedCountry) => {
                                                 setSelectedCountry(selectedCountry)
                                                 setFormData({ ...formDataa, ["country"]:  selectedCountry.value});
                                             }}
+                                            // defaultValue={countries.filter(option => option.value === data.Country)}
                                             isSearchable
-                                            placeholder="Select "
                                             required
+                                            styles={style}
                                         />
-                                        {/* </div> */}
-                                            {/* <option selected>{selectedCountry}</option> */}
-                                            {/* {countries && countries.map(country => (
-                                                <option value = {country.country_name}> {country.country_name}</option>
-                                            ))} */}
+
                                     </div>
                                     <div className="">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
@@ -441,8 +442,6 @@ const EProfilePage = () => {
                                         <Select
                                             id="city"
                                             name="city"
-                                            // class="w-full md:w-36 md:ml-3 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={!isEditMode}
                                             options= {states && states.map(state => ({
                                                 value: state.state_name,
                                                 label: state.state_name,
@@ -453,9 +452,11 @@ const EProfilePage = () => {
                                                 setFormData({ ...formDataa, ["city"]:  selectedState.value});
                                               }}
                                             isSearchable
-                                            isDisabled = {selectedCountry == ""}
+                                            isDisabled = {selectedCountry == "" || !isEditMode}
                                             placeholder="Select city"
                                             required
+                                            styles={style}
+
                                         /> 
                                     </div>
                                 </div>
@@ -476,6 +477,7 @@ const EProfilePage = () => {
                                                 setFormData({ ...formDataa, ["country"]:  selectedCountry.value});
                                             }}
                                             isSearchable
+                                            styles={style}
                                         />
                                     </div>
                                     </div>
@@ -490,6 +492,7 @@ const EProfilePage = () => {
                                             disabled={!isEditMode}
                                             value={genderValue}
                                             onChange={handleGenderchange}
+                                            styles={style}
                                         >
                                             {/* <option>Male</option>
                                             <option>Female</option>
