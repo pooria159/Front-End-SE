@@ -1,16 +1,8 @@
 import React,{useEffect} from "react";
-
-import Swiper from 'swiper';
-import 'swiper/swiper-bundle.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faUser } from '@fortawesome/free-solid-svg-icons';
-
-import img1 from "../../assets/images/banner-01.jpg";
-import img2 from "../../assets/images/banner-02.jpg";
-import img3 from "../../assets/images/banner-03.jpg";
-import img4 from "../../assets/images/banner-04.jpg";
-
+import Swiper from 'swiper';
+import 'swiper/swiper-bundle.css';
 import "./Slider.css"
 
 
