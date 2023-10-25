@@ -1,12 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/jsx-key */
 import React,{useState, useEffect} from "react";
 import {Button,Card,Textarea,} from "flowbite-react";
-// import { Select } from "flowbite-react";
 import Select from 'react-select';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useNavigate } from "react-router-dom";
-import moment from "moment";
 import image from "../../assets/myl.png";
 import {BsPencilSquare,BsPersonFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,BsPersonFillLock,} from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
@@ -18,7 +15,6 @@ import { useCityCountry } from "../../hooks/useCityCountry"
 
 
 const EProfilePage = () => {
-    const navigate = useNavigate();
     const [countries, setCountries] = useState(null);
     const [states, setStates] = useState(null);
     const [selectedCountry, setSelectedCountry] = useState("");
@@ -37,10 +33,11 @@ const EProfilePage = () => {
             setLastNameValue(res.data.LastName);
             setBirthDateValue(res.data.BirthDate);
             setGenderValue(res.data.Gender);
+            setBioValue(res.data.Bio);
             setCityValue(res.data.City);
             setCountryValue(res.data.Country);
             setSelectedCountry({"value" : res.data.Country, "label" : res.data.Country });
-            setSelectedState(res.data.City);
+            setSelectedState({"value" : res.data.City, "label" : res.data.City });
         }
         fetch();
     } , []);
@@ -50,23 +47,21 @@ const EProfilePage = () => {
           const response = await useCityCountry("country");
           let obj = [];
           for (var item in response){
-            // console.log(item);
             obj.push({"value" : response[item]["country_name"], "label" : response[item]["country_name"]});
           }
-
           setCountries(obj);
-          console.log("fuck")
-          console.log(obj);
         }
         fetch();
       }, []);
   
       useEffect(() => {
-        setSelectedState("")
         const fetch = async () => {
-          console.log(selectedCountry);
           const response = await useCityCountry("state", selectedCountry.value);
-          setStates(response)
+          let obj_city = [];
+          for (var item_city in response){
+            obj_city.push({"value" : response[item_city]["state_name"], "label" : response[item_city]["state_name"]});
+          }
+          setStates(obj_city);
         }
         fetch();
       }, [selectedCountry]);
@@ -76,19 +71,18 @@ const EProfilePage = () => {
     const [firstNameValue, setFirstNameValue] = React.useState("");
     const [lastNameValue, setLastNameValue] = React.useState("");
     const [emailValue, setEmailValue] = React.useState("");
-    const [birthDateValue, setBirthDateValue] = React.useState(new Date("1923-01-01"));
+    const [birthDateValue, setBirthDateValue] = React.useState("");
     const [genderValue, setGenderValue] = React.useState("");
     const [bioValue, setBioValue] = React.useState("");
-    const [userNameValue, setUserNameValue] = React.useState("");
-    const [newUserNameValue, setNewUserNameValue] = React.useState("")
-    const [newUserNameError , setNewUserNameError] = React.useState(false)
+    // const [userNameValue, setUserNameValue] = React.useState("");
+    // const [newUserNameValue, setNewUserNameValue] = React.useState("")
+    // const [newUserNameError , setNewUserNameError] = React.useState(false)
     const [passwordValue, setPasswordValue] = React.useState("");
     const [passwordConfirmValue, setPasswrodConfirmValue] = React.useState("");
     const [currentPasswrodValue, setCurrentPasswrodValue] = React.useState("");
     const [countryValue, setCountryValue] = React.useState("");
     const [cityValue, setCityValue] = React.useState("");
     const [imgValue, setImgValue] = React.useState("");
-    const [birthDateISOValue, setbirthDateISOValue] = React.useState("");
     const [passwordErrorConfirmation, setPasswordErrorConfirmation] =React.useState(false);
     const [passwordErrorCurrent, setPasswordErrorCurrent] = React.useState(false);
 
@@ -103,11 +97,6 @@ const EProfilePage = () => {
     };
     const handleEmailchange = (event) => {
         setEmailValue(event.target.value);
-    };
-    const handleBirthDateChange = (selectedDate) => {
-        setBirthDateValue(selectedDate);
-        setbirthDateISOValue(moment(selectedDate).format("YYYY-MM-DD"));
-        console.log(birthDateISOValue);
     };
     const handleGenderchange = (event) => {
         setGenderValue(event.target.value);
@@ -127,12 +116,7 @@ const EProfilePage = () => {
             setPasswordErrorCurrent(false);
         }
     };
-    const handleCountryChange = (event) => {
-        setCountryValue(event.target.value);
-    };
-    const handleCityChange = (event) => {
-        setCityValue(event.target.value);
-    };
+
     const handleImgValue = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -145,21 +129,21 @@ const EProfilePage = () => {
     // const handleRemoveImg = (e) => {
     //     setImgValue("");
     // };
-    const handleNewUsername = (e) => {
-        e.preventDefault();
-        setNewUserNameValue(
-            e.target.value
-                .replace(/[^a-zA-Z0-9_.]/g, "")
-                .replace(/^[^a-zA-Z]/g, "")
-        );
-        console.log(userNameValue);
-        if (e.target.value===userNameValue) {
-            setNewUserNameError(true)
-        }
-        else{
-            setNewUserNameError(false)
-        }
-    };
+    // const handleNewUsername = (e) => {
+    //     e.preventDefault();
+    //     setNewUserNameValue(
+    //         e.target.value
+    //             .replace(/[^a-zA-Z0-9_.]/g, "")
+    //             .replace(/^[^a-zA-Z]/g, "")
+    //     );
+    //     console.log(userNameValue);
+    //     if (e.target.value===userNameValue) {
+    //         setNewUserNameError(true)
+    //     }
+    //     else{
+    //         setNewUserNameError(false)
+    //     }
+    // };
     const handlePassword = (e) => {
         e.preventDefault();
         setPasswordValue(e.target.value);
@@ -177,25 +161,25 @@ const EProfilePage = () => {
     };
     const [isEditprofile, setEditprofile] = React.useState(true);
     const [isChangePassword, setChangePassword] = React.useState(false);
-    const [isChangeUsername, setChangeUsername] = React.useState(false);
+    // const [isChangeUsername, setChangeUsername] = React.useState(false);
 
     const editProfileModeHandler = () => {
         setEditprofile(true);
         setChangePassword(false);
-        setChangeUsername(false);
+        // setChangeUsername(false);
     };
     const changePasswordModeHandler = () => {
         setEditprofile(false);
         setChangePassword(true);
-        setChangeUsername(false);
+        // setChangeUsername(false);
         cancelEditHandler();
     };
-    const changeUsernameModeHandler = () => {
-        setEditprofile(false);
-        setChangePassword(false);
-        setChangeUsername(true);
-        cancelEditHandler();
-    };
+    // const changeUsernameModeHandler = () => {
+    //     setEditprofile(false);
+    //     setChangePassword(false);
+    //     // setChangeUsername(true);
+    //     cancelEditHandler();
+    // };
 
     const [isEditMode, setEditMode] = React.useState(false);
     const editModeHandler = () => {
@@ -205,23 +189,42 @@ const EProfilePage = () => {
         setEditMode(false);
     };
 
-    const [show, setShow] = React.useState(false);
-    const handleClose = (state) => {
-        if (isEditMode) {
-            setShow(state);
-        }
-    };
 
 
 
-    const submitButtonPassword = () => {
+    const submitButtonPassword = async () => {
         setOnSubmitDisabledButton(true);
+        let form_password = {};
+        if ((data.Password == currentPasswrodValue) && (passwordValue == passwordConfirmValue)){
+            form_password = { ...form_password, Password: passwordValue};
+        }
+        try{
+            const response = await useEditprofile(form_password);
+            console.log(response.status);
+            if (response.status >= 200 && response.status < 300) {
+              toast.success("Password changed successfully!", {
+                position: toast.POSITION.TOP_LEFT,
+            });
+              
+            } else{
+                toast.error("password are not correct!", {
+                    position: toast.POSITION.TOP_LEFT,
+                });
+            }
+            
+          }  catch(error){
+            toast.error(error.response.data.message, {
+              position: toast.POSITION.TOP_LEFT,
+            });
+            throw error;
+          }
 
     };
 
-    const submitButtonUserName = () => {
     
-    };
+    // const submitButtonUserName = () => {
+    // };
+
     const submitButtonProfile = async () => {
         setOnSubmitDisabledButton(true);
         let form_data = {};
@@ -231,13 +234,22 @@ const EProfilePage = () => {
         if (data.LastName != lastNameValue){
             form_data = { ...form_data, LastName: lastNameValue};
         }
+        console.log(data.Country);
+        console.log(selectedCountry["value"]);
+        if (data.Country != selectedCountry["value"]){
+            form_data = { ...form_data, Country: selectedCountry["value"]};
+        }
+        console.log(data.City);
+        console.log(selectedState["value"]);
+        if (data.City != selectedState["value"]){
+            form_data = { ...form_data, City: selectedState["value"]};
+        }
+        form_data = { ...form_data, Bio: bioValue};
 
         try{
             const response = await useEditprofile(form_data);
             console.log(response.status);
             if (response.status >= 200 && response.status < 300) {
-              // Successful response (status code 2xx)
-              // Redirect to /login
               toast.success("Profile edited successfully!", {
                 position: toast.POSITION.TOP_LEFT,
             });
@@ -259,12 +271,13 @@ const EProfilePage = () => {
 
 
     const style = {
-        control: base => ({
+        control: (base, state) => ({
           ...base,
           backgroundColor:"#EBE4D1",
           borderRadius: "8px",
           border : "none",
           outline: "0.5px solid #26577C",
+          opacity: state.isDisabled ? 0.8 : 1,
 
         }),
         option: (base, state) => ({
@@ -277,6 +290,39 @@ const EProfilePage = () => {
             ...base,
             border: "none",
           }),
+          valueContainer: (base) => ({
+            ...base,
+            fontSize: '14px'
+          }),
+          singleValue: base => ({
+            ...base,
+            color: "#26577C",
+          }), 
+      };
+
+      const disstyle = {
+        control: base => ({
+          ...base,
+          backgroundColor:"#B4B4B3",
+          borderRadius: "8px",
+          border : "none",
+          outline: "0.5px solid #26577C",
+
+        }),
+        option: (base, state) => ({
+          ...base,
+          backgroundColor: state.isFocused ? "#26577C" : "#B4B4B3",
+          color: state.isFocused ? "#B4B4B3" : "#26577C",
+          
+        }),   
+        input3: base => ({
+            ...base,
+            border: "none",
+          }),
+          valueContainer: (base) => ({
+            ...base,
+            fontSize: '14px'
+          }),
           singleValue: base => ({
             ...base,
             color: "#26577C",
@@ -288,7 +334,7 @@ const EProfilePage = () => {
     return (
         <div>
             <ToastContainer />
-                <Card className=" mt-1 m-5 mb-1 rounded-xl md:w-[960px]  sm:w-auto bg-pallate-secondary border-pallate-Third">
+                <Card className=" mt-1 m-8 mb-8 rounded-xl md:w-[960px]  sm:w-auto bg-pallate-secondary border-pallate-Third">
                     <div className="grid md:grid-cols-3 md:gap-16 sm:grid-cols-1 gap-4">
                     <Button
                         className={
@@ -348,7 +394,7 @@ const EProfilePage = () => {
                                         <label>Bio:</label>
                                     </div>
                                     <Textarea
-                                        className="bg-pallate-primary text-pallate-Third placeholder-pallate-Third border-pallate-Third focus:border-pallate-Third resize-none focus:ring-pallate-Third"
+                                        className="bg-pallate-primary text-pallate-Third text-sm placeholder-pallate-Third disabled:opacity-80 border-pallate-Third focus:border-pallate-Third resize-none focus:ring-pallate-Third"
                                         rows={5}
                                         placeholder={data && data.Bio != "" ? data.Bio : "bio..."}
                                         maxLength={100}
@@ -427,7 +473,6 @@ const EProfilePage = () => {
                                                 setSelectedCountry(selectedCountry)
                                                 setFormData({ ...formDataa, ["country"]:  selectedCountry.value});
                                             }}
-                                            // defaultValue={countries.filter(option => option.value === data.Country)}
                                             isSearchable
                                             required
                                             styles={style}
@@ -442,10 +487,7 @@ const EProfilePage = () => {
                                         <Select
                                             id="city"
                                             name="city"
-                                            options= {states && states.map(state => ({
-                                                value: state.state_name,
-                                                label: state.state_name,
-                                              }))}
+                                            options= {states && states}
                                             value={selectedState}
                                             onChange={(selectedState) => {
                                                 setSelectedState(selectedState)
@@ -453,7 +495,6 @@ const EProfilePage = () => {
                                               }}
                                             isSearchable
                                             isDisabled = {selectedCountry == "" || !isEditMode}
-                                            placeholder="Select city"
                                             required
                                             styles={style}
 
@@ -469,42 +510,33 @@ const EProfilePage = () => {
                                         <div className="relative">
                                         <Select
                                             id="bd"
-                                            class="w-full md:w-36  bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={true}
-                                            value={selectedCountry}
-                                            onChange={(selectedCountry) => {
-                                                setSelectedCountry(selectedCountry)
-                                                setFormData({ ...formDataa, ["country"]:  selectedCountry.value});
-                                            }}
+                                            isDisabled={true}
+                                            value={birthDateValue}
+                                            placeholder = {data && data.BirthDate}
                                             isSearchable
-                                            styles={style}
+                                            styles={disstyle}
                                         />
                                     </div>
                                     </div>
                                     <div className="">
-                                    <div className="flex justify-start items-center md:pl-3 text-pallate-Third">
+                                    <div className="flex justify-start items-center  text-pallate-Third">
                                             <BsGenderAmbiguous className="mr-1" />
                                             <label>Gender:</label>
                                         </div>
                                         <Select
                                             id="gender"
-                                            class="w-full md:w-36 md:ml-3 bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third rounded-lg focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={!isEditMode}
+                                            isDisabled={true}
                                             value={genderValue}
                                             onChange={handleGenderchange}
-                                            styles={style}
-                                        >
-                                            {/* <option>Male</option>
-                                            <option>Female</option>
-                                            <option>Not Selected</option> */}
-                                            <option selected> {data && Genderarr[data.Gender]}</option>
-                                        </Select>
+                                            styles={disstyle}
+                                            placeholder={data && Genderarr[data.Gender]}
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="grid md:grid-cols-2 grid-cols-1 justify-center items-center gap-20 pl-9 pr-9">
-                            <div className="grid grid-cols-1 gap-4">
+                            <div className="grid grid-cols-2 gap-4">
                                 {!isEditMode && (
                                     <Button
                                         className="bg-yellow-400 hover:bg-yellow-500"
@@ -531,8 +563,7 @@ const EProfilePage = () => {
                                         disabled={
                                             onSubmitDisabledButton ||
                                             firstNameValue.length === 0 ||
-                                            lastNameValue.length === 0 ||
-                                            genderValue === "Not Selected"
+                                            lastNameValue.length === 0                                         
                                         }
                                     >
                                         <BsCheckLg />
@@ -572,17 +603,15 @@ const EProfilePage = () => {
                                             ? "border-red-500 focus:ring-red-500 focus:border-red-500 "
                                             : "border-pallate-Third  placeholder-pallate-Third  focus:ring-pallate-Third focus:border-pallate-Third"
                                     } `}
-                                    placeholder="new passwrord..."
+                                    placeholder="current passwrord"
                                     // disabled={!isEditMode}
-                                    value={currentPasswrodValue}
                                     onChange={handleCurrentPassswrod}
                                 />
                             </div>
                             <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                                 <div>
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                        <HiLockClosed className="mr-1" />
-
+                                        <HiLockClosed className="mr-1"/>
                                         <label>New Password:</label>
                                     </div>
                                     <input
@@ -594,8 +623,7 @@ const EProfilePage = () => {
                                                 ? "border-red-500 focus:ring-red-500 focus:border-red-500 "
                                                 : "border-pallate-Third  placeholder-pallate-Third  focus:ring-pallate-Third focus:border-pallate-Third"
                                             } `}
-                                        placeholder="new passwrord..."
-                                        // disabled={!isEditMode}
+                                        placeholder="new passwrord"
                                         value={passwordValue}
                                         onChange={handlePassword}
                                     />
@@ -603,7 +631,7 @@ const EProfilePage = () => {
 
                                 <div>
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                        <HiLockClosed className="mr-1" />
+                                        <HiLockClosed className="mr-1"/>
                                         <label>Confirm new Password:</label>
                                     </div>
                                     <input
@@ -615,8 +643,7 @@ const EProfilePage = () => {
                                                 ? "border-red-500 focus:ring-red-500 focus:border-red-500 "
                                                 : "border-pallate-Third  placeholder-pallate-Third  focus:ring-pallate-Third focus:border-pallate-Third"
                                         } `}
-                                        placeholder="confirm new passwrord..."
-                                        // disabled={!isEditMode}
+                                        placeholder="confirm new passwrord"
                                         value={passwordConfirmValue}
                                         onChange={handleConfirmPassword}
                                     />
