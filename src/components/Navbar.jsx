@@ -11,7 +11,7 @@ import profImg from "../assets/profile.jpg"
 import logo from "../assets/logo/logo.png"
 
 const navigation = [
-  { name: 'Home', href: '#', current: true },
+  { name: 'Home', href: '/', current: true },
   { name: 'About', href: '#', current: false },
 ]
 
@@ -30,7 +30,7 @@ export default function Navbar() {
   }
 
   return (
-    <Disclosure as="nav" className="sticky w-full bg-gray-800">
+    <Disclosure as="nav" className="z-50 sticky w-full bg-gray-800">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
