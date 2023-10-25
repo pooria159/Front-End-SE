@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {Card,} from "flowbite-react";
 import "react-datepicker/dist/react-datepicker.css";
-import image from "../../assets/myl.png";
+// import image from "../../assets/myl.png";
 import {BsPersonFill,BsEnvelopeFill,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,} from "react-icons/bs";
 import axios from "axios";
 import { useProfile } from "../../hooks/useProfile";

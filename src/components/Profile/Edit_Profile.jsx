@@ -4,8 +4,8 @@ import React,{useState, useEffect} from "react";
 import {Button,Card,Textarea,} from "flowbite-react";
 import Select from 'react-select';
 import "react-datepicker/dist/react-datepicker.css";
-import image from "../../assets/myl.png";
-import {BsPencilSquare,BsPersonFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,BsPersonFillLock,} from "react-icons/bs";
+import image from "../../assets/person.png";
+import {BsPencilSquare,BsPersonFill,BsCameraFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,BsPersonFillLock,} from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
 import useEditprofile from "../../hooks/useEditProfile.js"
 import { useProfile } from "../../hooks/useProfile";
@@ -117,18 +117,25 @@ const EProfilePage = () => {
         }
     };
 
+
     const handleImgValue = (e) => {
         const file = e.target.files[0];
+        var image = document.getElementById('user_avatar');
         const reader = new FileReader();
-        reader.readAsDataURL(file);
+        console.log("fukeeeeeeeeee");
+        console.log(imgValue);
         reader.onloadend = () => {
-            setImgValue(reader.result);
+            image.src = reader.result;
         };
+        reader.readAsDataURL(file);
         console.log(imgValue);
     };
+
     // const handleRemoveImg = (e) => {
     //     setImgValue("");
     // };
+
+
     // const handleNewUsername = (e) => {
     //     e.preventDefault();
     //     setNewUserNameValue(
@@ -144,11 +151,13 @@ const EProfilePage = () => {
     //         setNewUserNameError(false)
     //     }
     // };
+
+
     const handlePassword = (e) => {
         e.preventDefault();
         setPasswordValue(e.target.value);
         setPasswordErrorConfirmation(
-            e.target.value !== passwordConfirmValue || e.target.value.length < 8
+            e.target.value !== passwordConfirmValue
         );
     };
 
@@ -156,7 +165,7 @@ const EProfilePage = () => {
         e.preventDefault();
         setPasswrodConfirmValue(e.target.value);
         setPasswordErrorConfirmation(
-            e.target.value !== passwordValue || e.target.value.length < 8
+            e.target.value !== passwordValue
         );
     };
     const [isEditprofile, setEditprofile] = React.useState(true);
@@ -221,7 +230,6 @@ const EProfilePage = () => {
 
     };
 
-    
     // const submitButtonUserName = () => {
     // };
 
@@ -373,21 +381,19 @@ const EProfilePage = () => {
                     disabled={true}
                     >
                         History
-
                     </Button>
                 </div>
                 {isEditprofile && (
                     <div className="grid grid-cols-1 gap-4 ">
                         <div className="grid md:grid-cols-2 md:gap-0 sm:grid-cols-1 sm:gap-2">
                             <div className="leftside grid grid-cols-1 gap-9 p-9 justify-center justify-items-center">
-                                <div onChange={handleImgValue}
-                                type="file"
-                                accept="image/*"
-                                id="user_avatar"
-                                >
-                                    <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={image}  style={{width: "12rem", height: "12rem", borderRadius: "50%"}}/>
+                                <div className="relative w-52 h-52">
+                                    <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={image} style={{width: "14rem", height: "13rem", borderRadius: "50%"}}/>
+                                    <input type="file" disabled={!isEditMode} accept="image/*" id="user_avatar" className="hidden" onChange={handleImgValue}/>
+                                    <div className={`absolute inset-0 flex items-center justify-center w-full h-full rounded-full bg-pallate-Third bg-opacity-0 ${isEditMode ? 'hover:bg-opacity-30' : ''} transition-all duration-500 ease-in-out cursor-pointer`} onClick={isEditMode ? () => document.getElementById('user_avatar').click() : null}>
+                                    <BsCameraFill className={`opacity-0 ${isEditMode ? 'hover:opacity-100' : ''} transition-opacity duration-500 items-center text-pallate-Third/[0.8] text-6xl`}/>
                                 </div>
-
+                            </div>
                                 <div className="w-full">
                                 <div className="flex justify-start items-center pl-1 p-4 pb-1 mt-1 text-pallate-Third">
                                         <BsPenFill className="mr-1" />
@@ -416,7 +422,6 @@ const EProfilePage = () => {
                                         type="text"
                                         id="firstname"
                                         className="bg-pallate-primary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
-                                        // placeholder={data && data.FirstName}
                                         disabled={!isEditMode}
                                         value={firstNameValue}
                                         defaultValue={data && data.FirstName}
