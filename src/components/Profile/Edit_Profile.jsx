@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import image from "../../assets/person.png";
 import {BsPencilSquare,BsPersonFill,BsCameraFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,BsPersonFillLock,} from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
+import { BiSolidCameraOff } from "react-icons/bi";
 import useEditprofile from "../../hooks/useEditProfile.js"
 import { useProfile } from "../../hooks/useProfile";
 import { toast, ToastContainer } from "react-toastify";
@@ -120,20 +121,18 @@ const EProfilePage = () => {
 
     const handleImgValue = (e) => {
         const file = e.target.files[0];
-        var image = document.getElementById('user_avatar');
         const reader = new FileReader();
-        console.log("fukeeeeeeeeee");
-        console.log(imgValue);
         reader.onloadend = () => {
-            image.src = reader.result;
+            setImgValue(reader.result);
         };
         reader.readAsDataURL(file);
-        console.log(imgValue);
     };
 
-    // const handleRemoveImg = (e) => {
-    //     setImgValue("");
-    // };
+    const handleRemoveImg = (e) => {
+        setImgValue("");
+        document.getElementById('user_avatar').value = null;
+    };
+    
 
 
     // const handleNewUsername = (e) => {
@@ -242,17 +241,19 @@ const EProfilePage = () => {
         if (data.LastName != lastNameValue){
             form_data = { ...form_data, LastName: lastNameValue};
         }
-        console.log(data.Country);
-        console.log(selectedCountry["value"]);
         if (data.Country != selectedCountry["value"]){
             form_data = { ...form_data, Country: selectedCountry["value"]};
         }
-        console.log(data.City);
-        console.log(selectedState["value"]);
         if (data.City != selectedState["value"]){
             form_data = { ...form_data, City: selectedState["value"]};
         }
+        if (data.Img === null || data.Img === ""){
+            setImgValue(image);
+        }else{
+            form_data = { ...form_data, Img: imgValue}; 
+        }
         form_data = { ...form_data, Bio: bioValue};
+
 
         try{
             const response = await useEditprofile(form_data);
@@ -388,13 +389,16 @@ const EProfilePage = () => {
                         <div className="grid md:grid-cols-2 md:gap-0 sm:grid-cols-1 sm:gap-2">
                             <div className="leftside grid grid-cols-1 gap-9 p-9 justify-center justify-items-center">
                                 <div className="relative w-52 h-52">
-                                    <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={image} style={{width: "14rem", height: "13rem", borderRadius: "50%"}}/>
-                                    <input type="file" disabled={!isEditMode} accept="image/*" id="user_avatar" className="hidden" onChange={handleImgValue}/>
-                                    <div className={`absolute inset-0 flex items-center justify-center w-full h-full rounded-full bg-pallate-Third bg-opacity-0 ${isEditMode ? 'hover:bg-opacity-30' : ''} transition-all duration-500 ease-in-out cursor-pointer`} onClick={isEditMode ? () => document.getElementById('user_avatar').click() : null}>
-                                    <BsCameraFill className={`opacity-0 ${isEditMode ? 'hover:opacity-100' : ''} transition-opacity duration-500 items-center text-pallate-Third/[0.8] text-6xl`}/>
+                                    <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={imgValue} style={{width: "14rem", height: "13rem", borderRadius: "50%"}}/>
+                                    <input type="file" accept="image/*" id="user_avatar" className="hidden" onChange={handleImgValue}/>
+                                    {isEditMode && !imgValue && <div className={`absolute inset-0 flex items-center justify-center w-full h-full rounded-full bg-pallate-Third bg-opacity-0 hover:bg-opacity-30 transition-all duration-500 ease-in-out cursor-pointer`} onClick={() => document.getElementById('user_avatar').click()}>
+                                        <BsCameraFill className='opacity-0 hover:opacity-100 transition-opacity duration-500 items-center text-pallate-Third/[0.8] text-6xl'/>
+                                    </div>}
+                                    {isEditMode && imgValue && <div className={`absolute inset-0 flex items-center justify-center w-full h-full rounded-full bg-pallate-Third bg-opacity-0 hover:bg-opacity-30 transition-all duration-500 ease-in-out cursor-pointer`} onClick={handleRemoveImg}>
+                                        <BiSolidCameraOff className='opacity-0 hover:opacity-100 transition-opacity duration-500 items-center text-pallate-Third/[0.8] text-6xl'/>
+                                    </div>}
                                 </div>
-                            </div>
-                                <div className="w-full">
+                            <div className="w-full">
                                 <div className="flex justify-start items-center pl-1 p-4 pb-1 mt-1 text-pallate-Third">
                                         <BsPenFill className="mr-1" />
                                         <label>Bio:</label>
