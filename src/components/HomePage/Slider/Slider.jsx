@@ -22,9 +22,9 @@ const Slider = () => {
         slideShadows: false
       },
       loop: true,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: true,
       },
       keyboard: {
         enabled: true

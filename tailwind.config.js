@@ -20,6 +20,20 @@ export default {
           Third: '#26577C',
           fourth: '#E55604'
         }
+      },
+      animation: {
+        'fade-in': 'fade-in 0.75s ease-in forwards',
+        'fade-out': 'fade-out 1s ease-out forwards'
+      },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 }
+        },
+        'fade-out': {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 }
+        }
       }
     },
   },
