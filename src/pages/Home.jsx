@@ -1,7 +1,6 @@
 import Slider from "../components/HomePage/Slider/Slider";
-import Card from "../components/HomePage/AnncCard";
-import MiddleSec
- from "../components/HomePage/MiddleSec";
+import AnncPanel from "../components/HomePage/AnncPannel";
+import MiddleSec from "../components/HomePage/MiddleSec";
 const Home = () => {
     return(
         <div className="items-center justify-center">
@@ -10,10 +9,10 @@ const Home = () => {
             <MiddleSec/>
 
 
-            
-            <div className="flex justify-center items-center min-h-screen mb-10">
+            <AnncPanel/>
+            {/* <div className="flex justify-center items-center min-h-screen mb-10">
 
-                <div className="p-10 rounded-xl grid grid-cols-2 gap-2 shadow-2xl">
+                <div className="p-10 rounded-xl grid  md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 shadow-2xl">
                     <Card/>
                     <Card/>
                     <Card/>
@@ -22,7 +21,9 @@ const Home = () => {
                     <Card/>
                     <Card/>
                 </div>
-            </div>
+            </div> */}
+
+
 
             
         </div>

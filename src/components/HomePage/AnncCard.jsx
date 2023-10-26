@@ -6,9 +6,9 @@ import bakimg from "../../assets/baktash.jpg";
 
 const Card = () => {
   return (
-    <div className="max-w-md mx-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-md m-5">
-      <div className="md:flex">
-        <div className="md:flex-shrink-0 ">
+    <div className="max-w-md h-[21rem] mx-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-[27rem] m-2">
+      <div className="md:flex h-full">
+        <div className="xl:block 2xl:block  md:flex-shrink-0 overflow-hidden">
           <img className="h-full w-full object-cover md:w-48 transform transition duration-500 hover:scale-110" src={bakimg} alt="An image"/>
         </div>
         <div className="p-5">
@@ -28,5 +28,7 @@ const Card = () => {
     </div>
   );
 };
+
+
 
 export default Card;
