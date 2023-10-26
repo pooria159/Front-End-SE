@@ -1,30 +1,47 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react/jsx-key */
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect, Fragment} from "react";
 import {Button,Card,Textarea,} from "flowbite-react";
 import Select from 'react-select';
 import "react-datepicker/dist/react-datepicker.css";
 import image from "../../assets/person.png";
-import {BsPencilSquare,BsPersonFill,BsCameraFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,BsPersonFillLock,} from "react-icons/bs";
+import {BsPencilSquare,BsPersonFill,BsCameraFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,} from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
-import { BiSolidCameraOff } from "react-icons/bi";
+import { FiCameraOff } from "react-icons/fi";
 import useEditprofile from "../../hooks/useEditProfile.js"
 import { useProfile } from "../../hooks/useProfile";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCityCountry } from "../../hooks/useCityCountry"
+import Modal from "./Modal";
 
 
 const EProfilePage = () => {
+    const [onSubmitDisabledButton, setOnSubmitDisabledButton] = React.useState(false);
+    const [firstNameValue, setFirstNameValue] = React.useState("");
+    const [lastNameValue, setLastNameValue] = React.useState("");
+    const [emailValue, setEmailValue] = React.useState("");
+    const [birthDateValue, setBirthDateValue] = React.useState("");
+    const [genderValue, setGenderValue] = React.useState("");
+    const [bioValue, setBioValue] = React.useState("");
+    const [passwordValue, setPasswordValue] = React.useState("");
+    const [passwordConfirmValue, setPasswrodConfirmValue] = React.useState("");
+    const [currentPasswrodValue, setCurrentPasswrodValue] = React.useState("");
+    const [countryValue, setCountryValue] = React.useState("");
+    const [cityValue, setCityValue] = React.useState("");
+    const [imgValue, setImgValue] = React.useState("");
+    const [passwordErrorConfirmation, setPasswordErrorConfirmation] =React.useState(false);
+    const [passwordErrorCurrent] = React.useState(false);
+    const [isEditprofile, setEditprofile] = React.useState(true);
+    const [isChangePassword, setChangePassword] = React.useState(false);
+    const [isEditMode, setEditMode] = React.useState(false);
     const [countries, setCountries] = useState(null);
     const [states, setStates] = useState(null);
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedState, setSelectedState] = useState("");
     const [formDataa, setFormData] = useState({});
     const [data , setData] = React.useState(null);
+    const [showModal , setShowModal] = useState(false);
     const Genderarr = ["","Male" ,"Female", "Other"];
 
-    
     useEffect (() => {
         const fetch = async () => {
             const res = await useProfile();
@@ -39,6 +56,8 @@ const EProfilePage = () => {
             setCountryValue(res.data.Country);
             setSelectedCountry({"value" : res.data.Country, "label" : res.data.Country });
             setSelectedState({"value" : res.data.City, "label" : res.data.City });
+            setCurrentPasswrodValue(res.data.currentpasswrod);
+            setPasswordValue(res.data.newpassword);
         }
         fetch();
     } , []);
@@ -67,27 +86,6 @@ const EProfilePage = () => {
         fetch();
       }, [selectedCountry]);
   
-
-    const [onSubmitDisabledButton, setOnSubmitDisabledButton] = React.useState(false);
-    const [firstNameValue, setFirstNameValue] = React.useState("");
-    const [lastNameValue, setLastNameValue] = React.useState("");
-    const [emailValue, setEmailValue] = React.useState("");
-    const [birthDateValue, setBirthDateValue] = React.useState("");
-    const [genderValue, setGenderValue] = React.useState("");
-    const [bioValue, setBioValue] = React.useState("");
-    // const [userNameValue, setUserNameValue] = React.useState("");
-    // const [newUserNameValue, setNewUserNameValue] = React.useState("")
-    // const [newUserNameError , setNewUserNameError] = React.useState(false)
-    const [passwordValue, setPasswordValue] = React.useState("");
-    const [passwordConfirmValue, setPasswrodConfirmValue] = React.useState("");
-    const [currentPasswrodValue, setCurrentPasswrodValue] = React.useState("");
-    const [countryValue, setCountryValue] = React.useState("");
-    const [cityValue, setCityValue] = React.useState("");
-    const [imgValue, setImgValue] = React.useState("");
-    const [passwordErrorConfirmation, setPasswordErrorConfirmation] =React.useState(false);
-    const [passwordErrorCurrent, setPasswordErrorCurrent] = React.useState(false);
-
-
     const handleFirstNamechange = (e) => {
         e.preventDefault();
         setFirstNameValue(e.target.value.replace(/[^a-zA-Z]/g, ""));
@@ -108,88 +106,36 @@ const EProfilePage = () => {
     const handleCurrentPassswrod = (e) => {
         e.preventDefault();
         setCurrentPasswrodValue(e.target.value);
-        if (
-            currentPasswrodValue.length > 0 &&
-            currentPasswrodValue !== localStorage.getItem("password")
-        ) {
-            setPasswordErrorCurrent(true);
-        } else {
-            setPasswordErrorCurrent(false);
-        }
     };
-
-
     const handleImgValue = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
-        reader.onloadend = () => {
-            setImgValue(reader.result);
-        };
+        reader.onloadend = () => {setImgValue(reader.result);};
         reader.readAsDataURL(file);
     };
-
     const handleRemoveImg = (e) => {
         setImgValue("");
         document.getElementById('user_avatar').value = null;
     };
-    
-
-
-    // const handleNewUsername = (e) => {
-    //     e.preventDefault();
-    //     setNewUserNameValue(
-    //         e.target.value
-    //             .replace(/[^a-zA-Z0-9_.]/g, "")
-    //             .replace(/^[^a-zA-Z]/g, "")
-    //     );
-    //     console.log(userNameValue);
-    //     if (e.target.value===userNameValue) {
-    //         setNewUserNameError(true)
-    //     }
-    //     else{
-    //         setNewUserNameError(false)
-    //     }
-    // };
-
-
     const handlePassword = (e) => {
         e.preventDefault();
         setPasswordValue(e.target.value);
-        setPasswordErrorConfirmation(
-            e.target.value !== passwordConfirmValue
-        );
+        setPasswordErrorConfirmation(e.target.value !== passwordConfirmValue);
     };
-
     const handleConfirmPassword = (e) => {
         e.preventDefault();
         setPasswrodConfirmValue(e.target.value);
-        setPasswordErrorConfirmation(
-            e.target.value !== passwordValue
-        );
+        setPasswordErrorConfirmation(e.target.value !== passwordValue);
     };
-    const [isEditprofile, setEditprofile] = React.useState(true);
-    const [isChangePassword, setChangePassword] = React.useState(false);
-    // const [isChangeUsername, setChangeUsername] = React.useState(false);
-
     const editProfileModeHandler = () => {
         setEditprofile(true);
         setChangePassword(false);
-        // setChangeUsername(false);
     };
     const changePasswordModeHandler = () => {
         setEditprofile(false);
         setChangePassword(true);
-        // setChangeUsername(false);
         cancelEditHandler();
     };
-    // const changeUsernameModeHandler = () => {
-    //     setEditprofile(false);
-    //     setChangePassword(false);
-    //     // setChangeUsername(true);
-    //     cancelEditHandler();
-    // };
-
-    const [isEditMode, setEditMode] = React.useState(false);
     const editModeHandler = () => {
         setEditMode(true);
     };
@@ -198,13 +144,11 @@ const EProfilePage = () => {
     };
 
 
-
-
     const submitButtonPassword = async () => {
         setOnSubmitDisabledButton(true);
         let form_password = {};
-        if ((data.Password == currentPasswrodValue) && (passwordValue == passwordConfirmValue)){
-            form_password = { ...form_password, Password: passwordValue};
+        if ((passwordValue == passwordConfirmValue)){
+            form_password = { currentpassword: currentPasswrodValue,newpassword: passwordValue};
         }
         try{
             const response = await useEditprofile(form_password);
@@ -219,7 +163,6 @@ const EProfilePage = () => {
                     position: toast.POSITION.TOP_LEFT,
                 });
             }
-            
           }  catch(error){
             toast.error(error.response.data.message, {
               position: toast.POSITION.TOP_LEFT,
@@ -228,9 +171,6 @@ const EProfilePage = () => {
           }
 
     };
-
-    // const submitButtonUserName = () => {
-    // };
 
     const submitButtonProfile = async () => {
         setOnSubmitDisabledButton(true);
@@ -254,7 +194,6 @@ const EProfilePage = () => {
         }
         form_data = { ...form_data, Bio: bioValue};
 
-
         try{
             const response = await useEditprofile(form_data);
             console.log(response.status);
@@ -268,7 +207,6 @@ const EProfilePage = () => {
                     position: toast.POSITION.TOP_LEFT,
                 });
             }
-            
           }  catch(error){
             toast.error(error.response.data.message, {
               position: toast.POSITION.TOP_LEFT,
@@ -338,8 +276,6 @@ const EProfilePage = () => {
           }), 
       };
       
-    
-
     return (
         <div>
             <ToastContainer />
@@ -367,17 +303,6 @@ const EProfilePage = () => {
                         >
                         Change Password
                     </Button>
-                    {/* <Button
-                        className={
-                            isChangeUsername
-                            ? "bg-pallate-Third hover:bg-pallate-primary"
-                            : "bg-pallate-primary text-pallate-Third hover:text-pallate-primary"
-                        }
-                        onClick={changeUsernameModeHandler}
-                        disabled={onSubmitDisabledButton}
-                        >
-                        Change username
-                    </Button> */}
                     <Button className={"bg-pallate-primary text-pallate-Third hover:text-pallate-primary"}
                     disabled={true}
                     >
@@ -395,7 +320,7 @@ const EProfilePage = () => {
                                         <BsCameraFill className='opacity-0 hover:opacity-100 transition-opacity duration-500 items-center text-pallate-Third/[0.8] text-6xl'/>
                                     </div>}
                                     {isEditMode && imgValue && <div className={`absolute inset-0 flex items-center justify-center w-full h-full rounded-full bg-pallate-Third bg-opacity-0 hover:bg-opacity-30 transition-all duration-500 ease-in-out cursor-pointer`} onClick={handleRemoveImg}>
-                                        <BiSolidCameraOff className='opacity-0 hover:opacity-100 transition-opacity duration-500 items-center text-pallate-Third/[0.8] text-6xl'/>
+                                        <FiCameraOff className='opacity-0 hover:opacity-100 transition-opacity duration-500 items-center text-pallate-Third/[0.8] text-6xl'/>
                                     </div>}
                                 </div>
                             <div className="w-full">
@@ -486,7 +411,6 @@ const EProfilePage = () => {
                                             required
                                             styles={style}
                                         />
-
                                     </div>
                                     <div className="">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
@@ -544,6 +468,7 @@ const EProfilePage = () => {
                                 </div>
                             </div>
                         </div>
+                        <Fragment>
                         <div className="grid md:grid-cols-2 grid-cols-1 justify-center items-center gap-20 pl-9 pr-9">
                             <div className="grid grid-cols-2 gap-4">
                                 {!isEditMode && (
@@ -570,9 +495,7 @@ const EProfilePage = () => {
                                         className="bg-pallate-Third hover:bg-pallate-Third text-4xl"
                                         onClick={submitButtonProfile}
                                         disabled={
-                                            onSubmitDisabledButton ||
-                                            firstNameValue.length === 0 ||
-                                            lastNameValue.length === 0                                         
+                                            onSubmitDisabledButton || firstNameValue.length === 0 || lastNameValue.length === 0                                         
                                         }
                                     >
                                         <BsCheckLg />
@@ -580,20 +503,13 @@ const EProfilePage = () => {
                                     </Button>
                                 )}
                             </div>
-                            {/* {onSubmitDisabledButton && isEditMode && (
-                                <Progress
-                                    progress={percentDone}
-                                    labelProgress={true}
-                                    progressLabelPosition="inside"
-                                    textLabel="Uploading..."
-                                    labelText={true}
-                                    textLabelPosition="outside"
-                                    color="green"
-                                    size="xl"
-                                    className="w-full"
-                                ></Progress>
-                            )} */}
+                            <Button className="bg-pallate-Third w-full hover:bg-pallate-Third text-4xl" onClick={ () => setShowModal(true)}>
+                                        <BsPencilSquare />
+                                        Create Card
+                            </Button>
                         </div>
+                        <Modal isVisible={showModal} onClose={() => setShowModal(false)}/>
+                        </Fragment>
                     </div>
                 )}
                 {isChangePassword && (
@@ -613,7 +529,6 @@ const EProfilePage = () => {
                                             : "border-pallate-Third  placeholder-pallate-Third  focus:ring-pallate-Third focus:border-pallate-Third"
                                     } `}
                                     placeholder="current passwrord"
-                                    // disabled={!isEditMode}
                                     onChange={handleCurrentPassswrod}
                                 />
                             </div>
@@ -637,7 +552,6 @@ const EProfilePage = () => {
                                         onChange={handlePassword}
                                     />
                                 </div>
-
                                 <div>
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                         <HiLockClosed className="mr-1"/>
@@ -661,14 +575,7 @@ const EProfilePage = () => {
                             <div className="">
                                 <Button
                                     className="w-full bg-pallate-Third hover:bg-gray-600"
-                                    disabled={
-                                        passwordErrorConfirmation ||
-                                        passwordErrorConfirmation ||
-                                        currentPasswrodValue.length === 0 ||
-                                        passwordConfirmValue.length === 0 ||
-                                        passwordValue.length === 0 ||
-                                        onSubmitDisabledButton
-                                    }
+                                    disabled={onSubmitDisabledButton}
                                     onClick={submitButtonPassword}
                                 >
                                     Submit
@@ -676,68 +583,8 @@ const EProfilePage = () => {
                             </div>
                         </div>
                 )}
-                {/* {isChangeUsername && (
-                        <div className="grid grid-cols-1 gap-4 p-8">
-                            <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
-                                <div>
-                                    <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                        <BsPersonFillLock className="mr-1" />
-                                        <label>UserName:</label>
-                                    </div>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <span className="text-pallate-Third">
-                                                @
-                                            </span>
-                                        </div>
-                                        <input
-                                            maxLength={50}
-                                            type="text"
-                                            id="username"
-                                            className="bg-pallate-primary disabled:opacity-80 disabled:bg-pallate-secondary/[0.8] border text-pallate-Third border-pallate-Third text-sm rounded-lg focus:ring-pallate-Third focus:border-pallate-Third block w-full pl-10 p-2.5 "
-                                            placeholder="username"
-                                            value={userNameValue}
-                                            disabled={true}
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                        <BsPersonFillLock className="mr-1" />
-                                        <label>New UserName:</label>
-                                    </div>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <span className="text-pallate-Third">
-                                                @
-                                            </span>
-                                        </div>
-                                        <input
-                                            maxLength={50}
-                                            type="text"
-                                            id="newusername"
-                                            className="bg-pallate-primary disabled:opacity-80 disabled:bg-pallate-secondary/[0.8] border text-pallate-Third border-pallate-Third text-sm rounded-lg focus:ring-pallate-Third focus:border-pallate-Third block w-full pl-10 p-2.5 "
-                                            placeholder="New UserName"
-                                            value={newUserNameValue}
-                                            onChange={(handleNewUsername)}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="">
-                                <Button
-                                    className="w-full bg-pallate-Third hover:bg-gray-600 disabled:hover:bg-gray-600"
-                                    disabled={newUserNameError || newUserNameValue.length ===0 || onSubmitDisabledButton}
-                                    onClick={submitButtonUserName}
-                                >
-                                    Submit
-                                </Button>
-                            </div>
-                        </div>
-                )} */}
             </Card>
         </div>
     );
 };
-
 export default EProfilePage;
