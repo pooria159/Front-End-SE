@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  react-app:
+    build: .
+    # container_name: react-app
+    # image: node:19 # You can choose the Node.js version that suits your app
+    volumes:
+      - ./src:/app/src # Map your app directory into the container
+    # working_dir: /app
+    ports:
+      - "3000:3000" # Map the app's development server port to host
+    # command: npm run dev
+  #   environment:
+  #     - NODE_ENV=development
+  #   depends_on:
+  #     - react-app-deps
+
+  # react-app-deps:
+  #   image: node:14 # Node.js version for dependencies
+  #   volumes:
+  #     - ./app:/app
+  #   working_dir: /app
+  #   command: npm install
