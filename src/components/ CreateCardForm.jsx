@@ -6,7 +6,6 @@ import { useCityCountry } from "../hooks/useCityCountry";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 
-
 // Function to format the date
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -26,14 +25,21 @@ const CreateCardForm = () => {
     startDate: "",
     endDate: "",
     country: "",
+    state: "",
     city: "",
+    travelerCount: "",
   });
+
+  const numberItems = ["1", "2", "3", "4", "5", "6"];
 
   const [isLoading, setIsLoading] = useState(false);
   const [countries, setCountries] = useState(null);
   const [states, setStates] = useState(null);
+  const [cities, setCities] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [TravelerCount, setTravelerCount] = useState("");
   const [selectedLanguage1, setselectedLanguage1] = useState("en");
   const [selectedLanguage2, setselectedLanguage2] = useState("en");
 
@@ -55,32 +61,15 @@ const CreateCardForm = () => {
     fetch();
   }, [selectedCountry]);
 
-  //     const handleSignup = async (updatedFormData) => {
-  //       try{
-  //         const response = await Usesignup(updatedFormData);
-  //         if (response.status >= 200 && response.status < 300) {
-  //           // Successful response (status code 2xx)
-  //           // Redirect to /login
-  //           toast.success('Signup successful!', {
-  //               autoClose: 1000, // Close the toast after 3 seconds
-  //               position: toast.POSITION.TOP_LEFT,
-  //           });
-  //           setTimeout(() => {
-  //             navigate('/checkmail'); // Navigate to /login
-  //           }, 1500);
-
-  //         } else{
-  //             toast.error(response.data["message"], {
-  //                 position: toast.POSITION.TOP_LEFT,
-  //             });
-  //         }
-  //       } catch(error){
-  //         toast.error(error.response.data.message, {
-  //           position: toast.POSITION.TOP_LEFT,
-  //         });
-  //         throw error;
-  //       }
-  //     }
+  useEffect(() => {
+    setSelectedCity("");
+    const fetch = async () => {
+      console.log(selectedState);
+      const response = await useCityCountry("city", selectedState.value);
+      setCities(response);
+    };
+    fetch();
+  }, [selectedState]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -89,16 +78,16 @@ const CreateCardForm = () => {
     setFormData({ ...formData, [name]: formattedValue });
   };
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        // Add form submission logic here
-        if (Validate(formData)){
-          const updatedFormData = { ...formData };
-          delete updatedFormData.confirmPassword;
-          handleSignup(updatedFormData);
-        }
-        return;
-      };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Add form submission logic here
+    if (Validate(formData)) {
+      const updatedFormData = { ...formData };
+      delete updatedFormData.confirmPassword;
+      handleSignup(updatedFormData);
+    }
+    return;
+  };
 
   // Event handler for language selection
   const onSelectLanguage1 = (languageCode) => {
@@ -109,19 +98,15 @@ const CreateCardForm = () => {
     setselectedLanguage2(languageCode);
     console.log("Selected language code:", languageCode);
   };
-  // const customOnSelect = (languageCode) => {
-  //   onSelectLanguage(languageCode); // Call your custom handler
-  // };
 
   return (
-    <div className="mt-5 h-[22.5rem] sm:mx-auto sm:w-full sm:max-w-sm">
-
-      <h2 className="mb-5  text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+    <div className="mt-5 m-0 w-5/6 h-[22.5rem] selectedCity mx-auto">
+      <h2 className="m-0 mb-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Create your jurney announcement
-      </h2>  
-      <form className="space-y-2" onSubmit={handleSubmit}>
-      <div className="flex flex-wrap -mx-3 mb-4">
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      </h2>
+      <form className="m-0 space-y-2" onSubmit={handleSubmit}>
+        <div className="flex flex-wrap -mx-3 mb-4">
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block text-sm font-medium leading-6 text-gray-900"
               htmlFor="country"
@@ -147,20 +132,20 @@ const CreateCardForm = () => {
                 });
               }}
               isSearchable
-              placeholder="Select a country"
+              placeholder="Select"
               required
             />
           </div>
-          <div className="w-full md:w-1/2 px-3">
+          <div className="w-full md:w-1/3 px-3">
             <label
               className="block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="city"
+              htmlFor="state"
             >
               State
             </label>
             <Select
-              id="city"
-              name="city"
+              id="state"
+              name="state"
               options={
                 states &&
                 states.map((state) => ({
@@ -171,39 +156,66 @@ const CreateCardForm = () => {
               value={selectedState}
               onChange={(selectedState) => {
                 setSelectedState(selectedState);
-                setFormData({ ...formData, ["city"]: selectedState.value });
+                setFormData({ ...formData, ["state"]: selectedState.value });
               }}
               isSearchable
               isDisabled={selectedCountry == ""}
-              placeholder="Select an state"
+              placeholder="Select"
               required
             />
           </div>
-        </div>    
-        <div className="w-full  px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/3 px-3">
             <label
               className="block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="description"
+              htmlFor="city"
             >
-              Description
+              City
             </label>
-            <input
-              className="block w-full rounded-md border-0 py-1.5 h-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              id="description"
-              type="text"
-              name="description"
-              placeholder="Describe your traveling style and the places you would like to go in that state"
-              // autoComplete="on"
-              value={formData.description}
-              onChange={handleChange}
+            <Select
+              id="city"
+              name="city"
+              options={
+                cities &&
+                cities.map((state) => ({
+                  value: state.city_name,
+                  label: state.city_name,
+                }))
+              }
+              value={selectedCity}
+              onChange={(selectedCity) => {
+                setSelectedCity(selectedCity);
+                setFormData({ ...formData, ["city"]: selectedCity.value });
+              }}
+              isSearchable
+              isDisabled={selectedState == ""}
+              placeholder="Select"
               required
             />
           </div>
-          <div className="flex flex-wrap  -mx-3 mb-6">
+        </div>
+        <div className="w-full mb-8 ">
+          <label
+            className="block text-sm font-medium leading-6 text-gray-900"
+            htmlFor="description"
+          >
+            Description
+          </label>
+          <textarea
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            id="description"
+            name="description"
+            placeholder="Describe your traveling style, places you would like to go in that state, transportation, other traveller priorities,..."
+            // autoComplete="on"
+            value={formData.description}
+            onChange={handleChange}
+            required
+          ></textarea>
+        </div>
+        <div className="flex flex-wrap  -mx-3 mb-8">
           {/* Calender */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="mt-4 block text-sm font-medium leading-6 text-gray-900"
               htmlFor="dob"
             >
               Start Date
@@ -219,9 +231,9 @@ const CreateCardForm = () => {
               max={new Date().toISOString().split("T")[0]}
             />
           </div>
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className=" mt-4 block text-sm font-medium leading-6 text-gray-900"
               htmlFor="dob"
             >
               End Date
@@ -237,40 +249,76 @@ const CreateCardForm = () => {
               max={new Date().toISOString().split("T")[0]}
             />
           </div>
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label
+              className=" mt-4 block text-sm font-medium leading-6 text-gray-900"
+              htmlFor="travelersCount"
+            >
+              Travelers Count
+            </label>
+            <Select
+              className="w-2/3"
+              id="travelersCount"
+              name="travelersCount"
+              options={numberItems.map((n) => ({
+                value: n,
+                label: n,
+              }))}
+              value={TravelerCount}
+              onChange={(tc) => {
+                setTravelerCount(tc);
+                setFormData({
+                  ...formData,
+                  ["travelerCount"]: TravelerCount.value,
+                });
+              }}
+              isSearchable
+              // isDisabled={selectedCountry == ""}
+              placeholder="Select"
+              // defaultInputValue="1"
+              required
+            />
+          </div>
         </div>
 
         <label
-              className="block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="dob"
-            >
-              preferred languages:
-            </label>
-            <div className="flex flex-wrap  -mx-3 mb-6">
-        <div>
-        <h1>First:</h1>
-        <ReactLanguageSelect
-          // value={selectedLanguage1}
-          searchable={true}
-          onSelect={onSelectLanguage1}
-          defaultLanguage={selectedLanguage1}
-        />
-      </div>
-      <div>
-        <h1>Second:</h1>
-        <ReactLanguageSelect
-          // value={selectedLanguage2}
-          searchable={true}
-          onSelect={onSelectLanguage2}
-          defaultLanguage={selectedLanguage2}
-        />
-      </div>
+          className="mt-8 block text-md font-medium leading-6 text-gray-900"
+          htmlFor="dob"
+        >
+          Preferred Languages:
+        </label>
+        <div className=" w-5/6 mx-auto flex flex-wrap -mx-3 mb-6">
+          <div className="w-full md:w-1/2 px-3 mb-4">
+            {" "}
+            {/* This div takes up half the width */}
+            <label>First:</label>
+            <ReactLanguageSelect
+              // className="w-2/3 border border-gray-300 rounded-md p-1"
+
+              searchable={true}
+              onSelect={onSelectLanguage1}
+              defaultLanguage={selectedLanguage1}
+            />
+          </div>
+          <div className="w-full md:w-1/2 px-3 mb-4">
+            {" "}
+            {/* This div also takes up half the width */}
+            <label>Second:</label>
+            <ReactLanguageSelect
+              // value={selectedLanguage2}
+              searchable={true}
+              onSelect={onSelectLanguage2}
+              defaultLanguage={selectedLanguage2}
+            />
+          </div>
         </div>
+
         <div className="flex flex-wrap -mx-3 mb-6"></div>
 
         <div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-1/2 mx-auto justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Create!
           </button>
