@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCityCountry } from "../../hooks/useCityCountry"
 import Modal from "./Modal";
+import { uploadIMG, downloadIMG } from "../../hooks/useObjectStorage";
 
 
 const EProfilePage = () => {
@@ -85,7 +86,7 @@ const EProfilePage = () => {
         }
         fetch();
       }, [selectedCountry]);
-  
+
     const handleFirstNamechange = (e) => {
         e.preventDefault();
         setFirstNameValue(e.target.value.replace(/[^a-zA-Z]/g, ""));
@@ -110,7 +111,9 @@ const EProfilePage = () => {
     const handleImgValue = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
-        reader.onloadend = () => {setImgValue(reader.result);};
+        reader.onloadend = () => {
+            setImgValue(reader.result);
+        };
         reader.readAsDataURL(file);
     };
     const handleRemoveImg = (e) => {
@@ -187,11 +190,12 @@ const EProfilePage = () => {
         if (data.City != selectedState["value"]){
             form_data = { ...form_data, City: selectedState["value"]};
         }
-        if (data.Img === null || data.Img === ""){
-            setImgValue(image);
-        }else{
-            form_data = { ...form_data, Img: imgValue}; 
-        }
+        // if (data.img === null || data.img === ""){
+        //     setImgValue(image);
+        //     uploadIMG(imgValue);
+        // }else{
+        //     form_data = { ...form_data, Img: imgValue}; 
+        // }
         form_data = { ...form_data, Bio: bioValue};
 
         try{
@@ -207,6 +211,7 @@ const EProfilePage = () => {
                     position: toast.POSITION.TOP_LEFT,
                 });
             }
+            
           }  catch(error){
             toast.error(error.response.data.message, {
               position: toast.POSITION.TOP_LEFT,
