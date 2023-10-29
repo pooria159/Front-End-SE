@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useCityCountry } from "../hooks/useCityCountry";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import { useCreateCard } from "../hooks/useCreateCard";
 
 // Function to format the date
 const formatDate = (dateString) => {
@@ -19,15 +20,14 @@ const CreateCardForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    description: "",
-    language1: "",
-    language2: "",
-    startDate: "",
-    endDate: "",
-    country: "",
-    state: "",
-    city: "",
-    travelerCount: "",
+    Description: "",
+    PreferredLanguages: [],
+    StartDate: "",
+    EndDate: "",
+    DestinationCountry: "",
+    DestinationState: "",
+    DestinationCity: "",
+    NumberOfTravelers: "",
   });
 
   const numberItems = ["1", "2", "3", "4", "5", "6"];
@@ -80,27 +80,53 @@ const CreateCardForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add form submission logic here
-    if (Validate(formData)) {
-      const updatedFormData = { ...formData };
-      delete updatedFormData.confirmPassword;
-      handleSignup(updatedFormData);
+    const updatedFormData = { ...formData };
+    useCreateCard(updatedFormData);
+    try {
+      const response = await useCreateCard(updatedFormData);
+      if (response.status >= 200 && response.status < 300) {
+        // Successful response (status code 2xx)
+        // Redirect to /login
+        toast.success("Card is created successfully !", {
+          autoClose: 1000,
+          position: toast.POSITION.TOP_LEFT,
+        });
+        setTimeout(() => {
+        }, 1500);
+      } else {
+        toast.error(response.data["message"], {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      }
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_LEFT,
+      });
+      throw error;
     }
+
     return;
   };
-
-  // Event handler for language selection
   const onSelectLanguage1 = (languageCode) => {
     setselectedLanguage1(languageCode);
-    console.log("Selected language code:", languageCode);
+    setFormData({
+      ...formData,
+      PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
+    });
   };
+  
   const onSelectLanguage2 = (languageCode) => {
     setselectedLanguage2(languageCode);
-    console.log("Selected language code:", languageCode);
+    setFormData({
+      ...formData,
+      PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
+    });
   };
+  
+
 
   return (
-    <div className="mt-5 m-0 w-5/6 h-[22.5rem] selectedCity mx-auto">
+    <div className="mt-5 m-0 w-5/6 selectedCity mx-auto">
       <h2 className="m-0 mb-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Create your jurney announcement
       </h2>
@@ -128,7 +154,7 @@ const CreateCardForm = () => {
                 setSelectedCountry(selectedCountry);
                 setFormData({
                   ...formData,
-                  ["country"]: selectedCountry.value,
+                  ["DestinationCountry"]: selectedCountry.value,
                 });
               }}
               isSearchable
@@ -156,7 +182,10 @@ const CreateCardForm = () => {
               value={selectedState}
               onChange={(selectedState) => {
                 setSelectedState(selectedState);
-                setFormData({ ...formData, ["state"]: selectedState.value });
+                setFormData({
+                  ...formData,
+                  ["DestinationState"]: selectedState.value,
+                });
               }}
               isSearchable
               isDisabled={selectedCountry == ""}
@@ -184,7 +213,10 @@ const CreateCardForm = () => {
               value={selectedCity}
               onChange={(selectedCity) => {
                 setSelectedCity(selectedCity);
-                setFormData({ ...formData, ["city"]: selectedCity.value });
+                setFormData({
+                  ...formData,
+                  ["DestinationCity"]: selectedCity.value,
+                });
               }}
               isSearchable
               isDisabled={selectedState == ""}
@@ -203,12 +235,11 @@ const CreateCardForm = () => {
           <textarea
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             id="description"
-            name="description"
+            name="Description"
             placeholder="Describe your traveling style, places you would like to go in that state, transportation, other traveller priorities,..."
             // autoComplete="on"
-            value={formData.description}
+            value={formData.Description}
             onChange={handleChange}
-            required
           ></textarea>
         </div>
         <div className="flex flex-wrap  -mx-3 mb-8">
@@ -224,11 +255,11 @@ const CreateCardForm = () => {
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               type="date"
               id="startDate"
-              name="startDate"
-              value={formData.startDate}
+              name="StartDate"
+              value={formData.StartDate}
               onChange={handleChange}
               required
-              max={new Date().toISOString().split("T")[0]}
+              min={new Date().toISOString().split("T")[0]}
             />
           </div>
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -242,14 +273,13 @@ const CreateCardForm = () => {
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               type="date"
               id="endDate"
-              name="endDate"
-              value={formData.endDate}
+              name="EndDate"
+              value={formData.EndDate}
               onChange={handleChange}
               required
-              max={new Date().toISOString().split("T")[0]}
             />
           </div>
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/3 px-3 mb-2">
             <label
               className=" mt-4 block text-sm font-medium leading-6 text-gray-900"
               htmlFor="travelersCount"
@@ -269,20 +299,18 @@ const CreateCardForm = () => {
                 setTravelerCount(tc);
                 setFormData({
                   ...formData,
-                  ["travelerCount"]: TravelerCount.value,
+                  ["NumberOfTravelers"]: TravelerCount.value,
                 });
               }}
               isSearchable
-              // isDisabled={selectedCountry == ""}
               placeholder="Select"
-              // defaultInputValue="1"
               required
             />
           </div>
         </div>
 
         <label
-          className="mt-8 block text-md font-medium leading-6 text-gray-900"
+          className="block text-md font-medium leading-6 text-gray-900"
           htmlFor="dob"
         >
           Preferred Languages:
@@ -293,7 +321,6 @@ const CreateCardForm = () => {
             {/* This div takes up half the width */}
             <label>First:</label>
             <ReactLanguageSelect
-              // className="w-2/3 border border-gray-300 rounded-md p-1"
 
               searchable={true}
               onSelect={onSelectLanguage1}
@@ -305,7 +332,6 @@ const CreateCardForm = () => {
             {/* This div also takes up half the width */}
             <label>Second:</label>
             <ReactLanguageSelect
-              // value={selectedLanguage2}
               searchable={true}
               onSelect={onSelectLanguage2}
               defaultLanguage={selectedLanguage2}
