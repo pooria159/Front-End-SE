@@ -12,7 +12,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCityCountry } from "../../hooks/useCityCountry"
 import Modal from "./Modal";
-import { uploadIMG, downloadIMG } from "../../hooks/useObjectStorage";
 
 
 const EProfilePage = () => {
