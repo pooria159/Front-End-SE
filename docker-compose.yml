@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  terkdestiny-frontend:
+    build: .
+    container_name: trekdestiny_frontend
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3000:3000
+    restart: on-failure
+    networks:
+      - trekdestiny-frontend
+
+networks:
+  trekdestiny-frontend:
