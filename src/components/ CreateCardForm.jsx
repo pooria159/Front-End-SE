@@ -21,7 +21,7 @@ const CreateCardForm = () => {
 
   const [formData, setFormData] = useState({
     Description: "",
-    PreferredLanguages: [],
+    PreferredLanguages: ["en","en"],
     StartDate: "",
     EndDate: "",
     DestinationCountry: "",
@@ -81,7 +81,7 @@ const CreateCardForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedFormData = { ...formData };
-    useCreateCard(updatedFormData);
+    // useCreateCard(updatedFormData);
     try {
       const response = await useCreateCard(updatedFormData);
       if (response.status >= 200 && response.status < 300) {
@@ -111,7 +111,8 @@ const CreateCardForm = () => {
     setselectedLanguage1(languageCode);
     setFormData({
       ...formData,
-      PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
+      PreferredLanguages: [formData.PreferredLanguages[0], languageCode],
+      // PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
     });
   };
   
@@ -119,7 +120,9 @@ const CreateCardForm = () => {
     setselectedLanguage2(languageCode);
     setFormData({
       ...formData,
-      PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
+      // PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
+      PreferredLanguages: [languageCode, formData.PreferredLanguages[1]],
+      
     });
   };
   
@@ -130,7 +133,7 @@ const CreateCardForm = () => {
       <h2 className="m-0 mb-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Create your journey announcement
       </h2>
-      <form className="m-0 space-y-2" onSubmit={handleSubmit}>
+      <form className="m-0 space-y-2" >
         <div className="flex flex-wrap -mx-3 mb-4">
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
@@ -345,6 +348,7 @@ const CreateCardForm = () => {
           <button
             type="submit"
             className="flex w-1/2 mx-auto justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={handleSubmit}
           >
             Create!
           </button>
