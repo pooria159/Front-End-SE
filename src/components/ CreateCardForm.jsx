@@ -128,7 +128,7 @@ const CreateCardForm = () => {
   return (
     <div className="mt-5 m-0 w-5/6 selectedCity mx-auto">
       <h2 className="m-0 mb-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-        Create your jurney announcement
+        Create your journey announcement
       </h2>
       <form className="m-0 space-y-2" onSubmit={handleSubmit}>
         <div className="flex flex-wrap -mx-3 mb-4">
