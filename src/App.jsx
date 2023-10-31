@@ -12,6 +12,7 @@ import ResetPasswordPage from './pages/ResetPassword';
 import VerificationPage from './pages/Verification';
 import Checkmail from './pages/Checkmail';
 import ProfilePage from './pages/Profile';
+import CreateCardPage from './pages/CreateCard';
 
 
 import { ToastContainer} from 'react-toastify';
@@ -38,6 +39,7 @@ const App = () => {
                <Route path="/reset-password" element={<ResetPasswordPage />} />
                <Route path="/verify-email" element={<VerificationPage />} />
                <Route path="/checkmail" element={<Checkmail/>} />
+               <Route path="/create-card" element={<CreateCardPage/>} />
             </Routes>
             
          </div>
