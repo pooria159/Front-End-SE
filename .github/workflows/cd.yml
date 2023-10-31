@@ -1,0 +1,21 @@
+name: CD
+on:
+  push:
+    branches: [ develop ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy TrekDestiny using  ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: 22
+        script: |
+            cd /root/git/TrekDestinyFrontend
+            docker compose down 
+            git pull origin develop
+            docker compose up --build -d 
+            docker image prune -f
