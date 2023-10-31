@@ -1,7 +1,9 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+
+import useAnncCard from '../../hooks/useAncCard'
 
 import Card from './AnncCard'
 
@@ -62,7 +64,18 @@ function classNames(...classes) {
 }
 
 export default function AnncPanel() {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [cardData, setCardData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await useAnncCard();
+      setCardData(data.data.Cards);
+    }
+    fetchData();
+    
+  }, []);
 
   return (
     <div className="bg-white">
@@ -293,10 +306,10 @@ export default function AnncPanel() {
 
               {/* Product grid */}
               <div className="lg:col-span-6 flex flex-wrap justify-center items-center">
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
+                {cardData && cardData.map((data, index) => {
+                    return <Card key={index} data ={data} />
+                })}
+
               </div>
             </div>
           </section>
