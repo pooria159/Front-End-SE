@@ -14,6 +14,10 @@ export default defineConfig({
     globals: true,
     testMatch: ['./src/tests/**/*.test.jsx'],
     setupFiles: './src/tests/setup.js',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html']
+    },
   },
   
   server: {
