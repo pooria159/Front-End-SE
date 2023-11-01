@@ -318,8 +318,8 @@ const CreateCardForm = () => {
         >
           Preferred Languages:
         </label>
-        <div className=" w-5/6 mx-auto flex flex-wrap -mx-3 mb-6">
-          <div className="w-full md:w-1/2 px-3 mb-4">
+        <div className=" w-full mx-auto flex flex-wrap -mx-3 mb-6">
+          <div className="w-full md:w-1/2 mb-4">
             {" "}
             {/* This div takes up half the width */}
             <label>First:</label>
@@ -330,7 +330,7 @@ const CreateCardForm = () => {
               defaultLanguage={selectedLanguage1}
             />
           </div>
-          <div className="w-full md:w-1/2 px-3 mb-4">
+          <div className="w-full md:w-1/2 mb-4 ">
             {" "}
             {/* This div also takes up half the width */}
             <label>Second:</label>
