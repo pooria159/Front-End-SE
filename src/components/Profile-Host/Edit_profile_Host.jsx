@@ -3,9 +3,9 @@ import {Button,Card,Textarea,} from "flowbite-react";
 import Select from 'react-select';
 import "react-datepicker/dist/react-datepicker.css";
 import image from "../../assets/person.png";
-import {BsPencilSquare,BsFillPhoneVibrateFill,BsPersonFill,BsCameraFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,} from "react-icons/bs";
+import {BsPencilSquare,BsChatSquareTextFill,BsFillPhoneVibrateFill,BsPersonFill,BsCameraFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,} from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
-import { MdOutlineVerified , MdOutlineBedroomChild } from "react-icons/md";
+import { MdOutlineVerified , MdOutlineBedroomChild , MdEditLocationAlt ,MdFavorite} from "react-icons/md";
 import { TbBuildingEstate } from "react-icons/tb";
 import { FiCameraOff } from "react-icons/fi";
 import useEditprofile from "../../hooks/useEditProfile.js"
@@ -14,9 +14,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCityCountry } from "../../hooks/useCityCountry"
 import Modal from "../Profile/Modal";
-import { downloadIMG } from "../../hooks/useObjectStorageD";
-import { uploadIMG} from "../../hooks/useObjectStorageU";
-import CheckboxVerticalListGroup from "./checkbox.jsx";
+// import { downloadIMG } from "../../hooks/useObjectStorageD";
+// import { uploadIMG} from "../../hooks/useObjectStorageU";
 
 
 
@@ -347,8 +346,8 @@ const EProfileHostPage = () => {
                 </div>
                 {isEditprofile && (
                     <div className="grid grid-cols-1 gap-2 ">
-                        <div className="grid md:grid-cols-4 md:gap-0 sm:grid-cols-1 sm:gap-2">
-                            <div className="leftside grid grid-cols-1 gap-4 p-2 justify-center justify-items-center">
+                        <div className="grid md:grid-cols-4 md:gap-0 sm:grid-cols-1 first-letter sm:gap-2">
+                            <div className="leftside grid grid-cols-1 gap-4 p-2  justify-center justify-items-center">
                                 <div className="relative w-52 h-52">
                                     <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={imgValue} style={{width: "14rem", height: "13rem", borderRadius: "50%"}}/>
                                     <input type="file" accept="image/*" id="user_avatar" className="hidden" onChange={handleImgValue}/>
@@ -391,6 +390,7 @@ const EProfileHostPage = () => {
                                         className="bg-pallate-primary h-10 text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
                                         disabled={!isEditMode}
                                         value={firstNameValue}
+                                        placeholder="First Name"
                                         defaultValue={data && data.FirstName}
                                         onChange={handleFirstNamechange}
                                     />
@@ -408,6 +408,7 @@ const EProfileHostPage = () => {
                                         disabled={!isEditMode}
                                         value={lastNameValue}
                                         defaultValue={data && data.LastName}
+                                        placeholder="Last Name"
                                         onChange={handleLastNamechange}
                                     />
                                 </div>
@@ -491,14 +492,15 @@ const EProfileHostPage = () => {
                                     <div className="">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <MdOutlineVerified className="mr-1" />
-                                            <label>Join in date:</label>
+                                            <label>Joining date:</label>
                                         </div>
                                         <div className="relative">
                                         <Select
                                             id="bd"
                                             isDisabled={true}
                                             value={JoinInDateValue}
-                                            placeholder = {data && data.Join}
+                                            // placeholder = {data && data.Join}
+                                            placeholder = "2023-11-01"
                                             isSearchable
                                             styles={disstyle}
                                         />
@@ -558,7 +560,12 @@ const EProfileHostPage = () => {
                                     </div>
                                 </div>
                             </div>
-                        <div className="rightside grid grid-cols-1 gap-4 p-1">
+
+  
+
+
+                            <div className="leftside grid grid-cols-1 pl-1 justify-center justify-items-center ">
+                            <div className="grid grid-cols-1 gap-3 p-1">
                                 <div className="grid grid-cols-2 md:gap-2 gap-1">
                                     <div>
                                 <div className="flex justify-start items-center pl-1 text-pallate-Third">
@@ -573,6 +580,7 @@ const EProfileHostPage = () => {
                                         disabled={!isEditMode}
                                         value={phonenumberValue}
                                         defaultValue={data && data.Phone}
+                                        placeholder="09216321669"
                                         onChange={handlephonenumberchange}
                                     />
                                     </div>
@@ -589,15 +597,72 @@ const EProfileHostPage = () => {
                                         disabled={!isEditMode}
                                         value={roomnumberValue}
                                         defaultValue={data && data.Room}
+                                        placeholder="2"
                                         onChange={handleroomenumberchange}
-                                    />   
+                                    />
                                 </div>
-                                <CheckboxVerticalListGroup/>
+                            </div>
+                            <div className="flex items-center h-10 pl-4 border border-pallate-Third rounded-lg dark:border-gray-700">
+                                <input id="bordered-checkbox-1" type="checkbox" value="" className="w-4 h-4 text-pallate-Third rounded-lg"></input>
+                                <label className="w-full py-4 ml-2 text-sm text-pallate-Third">is pet friendly</label>
+                            </div>
+                            <div className="flex items-center h-10 pl-4 border border-pallate-Third rounded-lg dark:border-gray-700">
+                                <input id="bordered-checkbox-2" type="checkbox" value="" className="w-4 h-4 text-pallate-Third rounded-lg"></input>
+                                <label className="w-full py-4 ml-2 text-sm text-pallate-Third">is kid friendly</label>
+                            </div>
+                            <div className="flex items-center h-10 pl-4 border border-pallate-Third rounded-lg dark:border-gray-700">
+                                <input id="bordered-checkbox-3" type="checkbox" value="" className="w-4 h-4 text-pallate-Third rounded-lg"></input>
+                                <label className="w-full py-4 ml-2 text-sm text-pallate-Third">is smoking</label>
+                            </div>
+                            </div>
+                            <div className="w-full">
+                                <div className="flex justify-start items-center pl-1 p-3 pb-1  text-pallate-Third">
+                                        <MdEditLocationAlt className="mr-1" />
+                                        <label>Address:</label>
+                                    </div>
+                                    <Textarea
+                                        className="bg-pallate-primary text-pallate-Third text-sm placeholder-pallate-Third disabled:opacity-80 border-pallate-Third focus:border-pallate-Third resize-none focus:ring-pallate-Third"
+                                        rows={5}
+                                        placeholder={data && data.Address != "" ? data.Address : "Write address..."}
+                                        maxLength={100}
+                                        id="address"
+                                        disabled={!isEditMode}
+                                        // value={bioValue}
+                                        // onChange={handleBiochange}
+                                    ></Textarea>
+                                </div>
                             </div>
 
 
+                            <div className="grid grid-cols-1  p-2 justify-center justify-items-center">
+                                <div className="w-full">
+                                <div className="flex justify-start items-center text-pallate-Third">
+                                        <MdFavorite className="mr-1" />
+                                        <label>Favorites:</label>
+                                    </div>
+                                    <Textarea
+                                        className="bg-pallate-primary text-pallate-Third text-sm placeholder-pallate-Third disabled:opacity-80 border-pallate-Third focus:border-pallate-Third resize-none focus:ring-pallate-Third"
+                                        rows={9}
+                                        maxLength={500}
+                                        id="languages"
+                                        disabled={!isEditMode}
+                                    ></Textarea>
+                                </div>
+                            <div className="w-full">
+                                <div className="flex justify-start items-center pl-1 p-3 pb-1 mt-1 text-pallate-Third">
+                                        <BsChatSquareTextFill className="mr-1" />
+                                        <label>languages:</label>
+                                    </div>
+                                    <Textarea
+                                        className="bg-pallate-primary text-pallate-Third text-sm placeholder-pallate-Third disabled:opacity-80 border-pallate-Third focus:border-pallate-Third resize-none focus:ring-pallate-Third"
+                                        rows={5}
+                                        maxLength={100}
+                                        id="languages"
+                                        disabled={!isEditMode}
+                                    ></Textarea>
+                                </div>
+                            </div>
 
-                        </div>
                         </div>
                         <Fragment>
                         <div className="grid md:grid-cols-2 grid-cols-1 justify-center items-center gap-9 pl-4 pr-4">

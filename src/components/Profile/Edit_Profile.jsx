@@ -23,8 +23,6 @@ import { setState } from "@vitest/expect";
 const EProfileHostPage = () => {
     const [onSubmitDisabledButton, setOnSubmitDisabledButton] = React.useState(false);
     const [firstNameValue, setFirstNameValue] = React.useState("");
-    const [phonenumberValue , setPhonenumberValue] = React.useState("");
-    const [roomnumberValue , setRoomNumberValue] = React.useState("");
     const [lastNameValue, setLastNameValue] = React.useState("");
     const [emailValue, setEmailValue] = React.useState("");
     const [birthDateValue, setBirthDateValue] = React.useState("");
@@ -68,6 +66,7 @@ const EProfileHostPage = () => {
             setCountryValue(res.data.Country);
             setSelectedCountry({"value" : res.data.Country, "label" : res.data.Country });
             setSelectCitys({"value" : res.data.City, "label" : res.data.City });
+            setSelectedStates({"value" : res.data.State, "label" : res.data.State });
             setCurrentPasswrodValue(res.data.currentpasswrod);
             setPasswordValue(res.data.newpassword);
         }
@@ -94,8 +93,7 @@ const EProfileHostPage = () => {
             for (var item_state in response){
                 obj_state.push({"value" : response[item_state]["state_name"], "label" : response[item_state]["state_name"]});
             }
-            console.log(response);
-            setState(response);
+            setStates(obj_state);
         };
         fetch();
       }, [selectedCountry]);
@@ -113,17 +111,10 @@ const EProfileHostPage = () => {
         fetch();
       }, [selectedStates]);
 
+
     const handleFirstNamechange = (e) => {
         e.preventDefault();
         setFirstNameValue(e.target.value.replace(/[^a-zA-Z]/g, ""));
-    };
-    const handlephonenumberchange = (e) => {
-        e.preventDefault();
-        setPhonenumberValue(e.target.value.replace(/[^0-9]/g, ""));
-    };
-    const handleroomenumberchange = (e) => {
-        e.preventDefault();
-        setRoomNumberValue(e.target.value.replace(/[^0-9]/g, ""));
     };
     const handleLastNamechange = (e) => {
         e.preventDefault();
@@ -227,6 +218,9 @@ const EProfileHostPage = () => {
         }
         if (data.City != selectcitys["value"]){
             form_data = { ...form_data, City: selectcitys["value"]};
+        }
+        if (data.State != selectedStates["value"]){
+            form_data = { ...form_data, State: selectedStates["value"]};
         }
         // if (data.img === null || data.img === ""){
         //     setImgValue(image);
@@ -399,6 +393,7 @@ const EProfileHostPage = () => {
                                         disabled={!isEditMode}
                                         value={firstNameValue}
                                         defaultValue={data && data.FirstName}
+                                        placeholder="First Name"
                                         onChange={handleFirstNamechange}
                                     />
                                     </div>
@@ -414,6 +409,7 @@ const EProfileHostPage = () => {
                                         className="bg-pallate-primary h-10 text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
                                         disabled={!isEditMode}
                                         value={lastNameValue}
+                                        placeholder="Last Name"
                                         defaultValue={data && data.LastName}
                                         onChange={handleLastNamechange}
                                     />
@@ -432,6 +428,7 @@ const EProfileHostPage = () => {
                                             isDisabled={!isEditMode}
                                             options= {countries && countries}
                                             value={selectedCountry}
+                                            placeholder = "Selected country"
                                             onChange={(selectedCountry) => {
                                                 setSelectedCountry(selectedCountry)
                                                 setFormData({ ...formDataa, ["country"]:  selectedCountry.value});
@@ -450,7 +447,7 @@ const EProfileHostPage = () => {
                                             id="state"
                                             name="state"
                                             options={states && states}
-                                            value={selectedStates}
+                                            value={selectedStates && selectedStates}
                                             onChange={(selectedStates) => {
                                                 setSelectedStates(selectedStates);
                                                 setFormData({
@@ -459,7 +456,7 @@ const EProfileHostPage = () => {
                                                 });
                                               }}
                                             isSearchable
-                                            isDisabled = {selectedCountry == "" || !isEditMode}
+                                            isDisabled = {!(isEditMode && selectedCountry && selectedCountry !== "")}
                                             required
                                             styles={style}
 
@@ -484,7 +481,7 @@ const EProfileHostPage = () => {
                                                 setFormData({ ...formDataa, ["city"]:  selectcitys.value});
                                               }}
                                             isSearchable
-                                            isDisabled = {selectedCountry == "" || !isEditMode}
+                                            isDisabled = {!(isEditMode && selectedStates && selectedStates !== "")}
                                             required
                                             styles={style}
 
@@ -500,7 +497,8 @@ const EProfileHostPage = () => {
                                             id="bd"
                                             isDisabled={true}
                                             value={JoinInDateValue}
-                                            placeholder = {data && data.Join}
+                                            placeholder="2023-11-01"
+                                            // placeholder = {data && data.Join}
                                             isSearchable
                                             styles={disstyle}
                                         />
