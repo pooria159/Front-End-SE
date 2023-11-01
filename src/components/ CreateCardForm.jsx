@@ -27,10 +27,10 @@ const CreateCardForm = () => {
     DestinationCountry: "",
     DestinationState: "",
     DestinationCity: "",
-    NumberOfTravelers: "",
+    NumberOfTravelers: 1,
   });
 
-  const numberItems = ["1", "2", "3", "4", "5", "6"];
+  const numberItems = [1,2,3,4,5,6];
 
   const [isLoading, setIsLoading] = useState(false);
   const [countries, setCountries] = useState(null);
@@ -42,6 +42,8 @@ const CreateCardForm = () => {
   const [TravelerCount, setTravelerCount] = useState("");
   const [selectedLanguage1, setselectedLanguage1] = useState("en");
   const [selectedLanguage2, setselectedLanguage2] = useState("en");
+  const [isTravelerCountFocused, setIsTravelerCountFocused] = useState(false);
+
 
   useEffect(() => {
     const fetch = async () => {
@@ -61,6 +63,10 @@ const CreateCardForm = () => {
     fetch();
   }, [selectedCountry]);
 
+  // const handleTravelerCountFocus = () => {
+  //   setIsTravelerCountFocused(true);
+  // };
+
   useEffect(() => {
     setSelectedCity("");
     const fetch = async () => {
@@ -77,12 +83,57 @@ const CreateCardForm = () => {
     let formattedValue = e.target.type === "date" ? formatDate(value) : value;
     setFormData({ ...formData, [name]: formattedValue });
   };
+  const handleTravelerCountChange = (tc) => {
+    // if (isTravelerCountFocused) {
+      setTravelerCount(tc);
+      setFormData({
+        ...formData,
+        ["NumberOfTravelers"]: tc.value,
+      });
+    // }
+    // setIsTravelerCountFocused(false);
+  };
 
+  const isFormValid = (formData) => {
+    if (
+
+    !formData.StartDate ||
+    !formData.EndDate ||
+    !formData.DestinationCountry ||
+    !formData.DestinationState ||
+    !formData.DestinationCity ||
+    !formData.NumberOfTravelers
+    ) {
+    // Display an error message or handle the validation as needed
+    toast.error("Please fill in all required fields.", {
+    position: toast.POSITION.TOP_LEFT,
+    });
+    return false;
+    }
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedFormData = { ...formData };
-    // useCreateCard(updatedFormData);
-    try {
+    if (
+
+      !formData.StartDate ||
+      !formData.EndDate ||
+      !formData.DestinationCountry ||
+      !formData.DestinationState ||
+      !formData.DestinationCity ||
+      !formData.NumberOfTravelers
+      ) {
+      // Display an error message or handle the validation as needed
+      toast.error("Please fill in all required fields.", {
+      position: toast.POSITION.TOP_LEFT,
+      });
+      return false;
+      }
+    // if (!isFormValid(formData)) {
+    //   // If the form is not valid, don't proceed with submission
+    //   return;
+    // }else{
+         try {
       const response = await useCreateCard(updatedFormData);
       if (response.status >= 200 && response.status < 300) {
         // Successful response (status code 2xx)
@@ -105,7 +156,10 @@ const CreateCardForm = () => {
       throw error;
     }
 
-    return;
+    return; 
+    // }
+    // useCreateCard(updatedFormData);
+
   };
   const onSelectLanguage1 = (languageCode) => {
     setselectedLanguage1(languageCode);
@@ -133,7 +187,7 @@ const CreateCardForm = () => {
       <h2 className="m-0 mb-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Create your journey announcement
       </h2>
-      <form className="m-0 space-y-2" >
+      <div className="m-0 space-y-2" >
         <div className="flex flex-wrap -mx-3 mb-4">
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
@@ -279,6 +333,7 @@ const CreateCardForm = () => {
               name="EndDate"
               value={formData.EndDate}
               onChange={handleChange}
+              min={new Date().toISOString().split("T")[0]}
               required
             />
           </div>
@@ -298,13 +353,8 @@ const CreateCardForm = () => {
                 label: n,
               }))}
               value={TravelerCount}
-              onChange={(tc) => {
-                setTravelerCount(tc);
-                setFormData({
-                  ...formData,
-                  ["NumberOfTravelers"]: TravelerCount.value,
-                });
-              }}
+              // onFocus={handleTravelerCountFocus}
+              onChange={handleTravelerCountChange}
               isSearchable
               placeholder="Select"
               required
@@ -318,8 +368,8 @@ const CreateCardForm = () => {
         >
           Preferred Languages:
         </label>
-        <div className=" w-5/6 mx-auto flex flex-wrap -mx-3 mb-6">
-          <div className="w-full md:w-1/2 px-3 mb-4">
+        <div className=" w-full mx-auto flex flex-wrap -mx-3 mb-6">
+          <div className="w-full md:w-1/2 mb-4">
             {" "}
             {/* This div takes up half the width */}
             <label>First:</label>
@@ -328,9 +378,10 @@ const CreateCardForm = () => {
               searchable={true}
               onSelect={onSelectLanguage1}
               defaultLanguage={selectedLanguage1}
+              
             />
           </div>
-          <div className="w-full md:w-1/2 px-3 mb-4">
+          <div className="w-full md:w-1/2 mb-4 ">
             {" "}
             {/* This div also takes up half the width */}
             <label>Second:</label>
@@ -338,6 +389,7 @@ const CreateCardForm = () => {
               searchable={true}
               onSelect={onSelectLanguage2}
               defaultLanguage={selectedLanguage2}
+              // disabled={isTravelerCountFocused} 
             />
           </div>
         </div>
@@ -353,7 +405,7 @@ const CreateCardForm = () => {
             Create!
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
