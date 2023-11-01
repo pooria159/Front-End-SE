@@ -75,14 +75,12 @@ const Slider = () => {
           <span>best city</span>
           <div class="slide-content">
             <h3>Tehran</h3>
-
           </div>
         </div>
         <div class="swiper-slide swiper-slide--two">
           <span>best city</span>
           <div class="slide-content">
             <h3>Isfahan</h3>
-
           </div>
 
         </div>
@@ -90,7 +88,6 @@ const Slider = () => {
           <span>best city</span>
           <div class="slide-content">
             <h3>NewYork</h3>
-
           </div>
 
         </div>
@@ -98,7 +95,6 @@ const Slider = () => {
           <span>best city</span>
           <div class="slide-content">
             <h3>Paris</h3>
-
           </div>
 
         </div>
@@ -106,7 +102,6 @@ const Slider = () => {
           <span>best city</span>
           <div class="slide-content">
             <h3>Tokyo</h3>
-
           </div>
 
         </div>
@@ -114,7 +109,6 @@ const Slider = () => {
           <span>best city</span>
           <div class="slide-content">
             <h3>Chicago</h3>
-
           </div>
 
         </div>
