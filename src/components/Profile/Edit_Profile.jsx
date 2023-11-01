@@ -3,9 +3,9 @@ import {Button,Card,Textarea,} from "flowbite-react";
 import Select from 'react-select';
 import "react-datepicker/dist/react-datepicker.css";
 import image from "../../assets/person.png";
-import {BsPencilSquare,BsPersonFill,BsCameraFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,} from "react-icons/bs";
+import {BsPencilSquare,BsFillPhoneVibrateFill,BsPersonFill,BsCameraFill,BsXLg,BsEnvelopeFill,BsCheckLg,BsPenFill,BsGenderAmbiguous,BsMapFill,BsCalendar,} from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
-import { MdOutlineVerified } from "react-icons/md";
+import { MdOutlineVerified , MdOutlineBedroomChild } from "react-icons/md";
 import { TbBuildingEstate } from "react-icons/tb";
 import { FiCameraOff } from "react-icons/fi";
 import useEditprofile from "../../hooks/useEditProfile.js"
@@ -14,11 +14,17 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCityCountry } from "../../hooks/useCityCountry"
 import Modal from "./Modal";
+import { downloadIMG } from "../../hooks/useObjectStorageD";
+import { uploadIMG} from "../../hooks/useObjectStorageU";
+import { setState } from "@vitest/expect";
 
 
-const EProfilePage = () => {
+
+const EProfileHostPage = () => {
     const [onSubmitDisabledButton, setOnSubmitDisabledButton] = React.useState(false);
     const [firstNameValue, setFirstNameValue] = React.useState("");
+    const [phonenumberValue , setPhonenumberValue] = React.useState("");
+    const [roomnumberValue , setRoomNumberValue] = React.useState("");
     const [lastNameValue, setLastNameValue] = React.useState("");
     const [emailValue, setEmailValue] = React.useState("");
     const [birthDateValue, setBirthDateValue] = React.useState("");
@@ -36,9 +42,11 @@ const EProfilePage = () => {
     const [isChangePassword, setChangePassword] = React.useState(false);
     const [isEditMode, setEditMode] = React.useState(false);
     const [countries, setCountries] = useState(null);
-    const [states, setStates] = useState(null);
+    const [citys, setCitys] = useState(null);
+    const [states , setStates] = useState(null);
     const [selectedCountry, setSelectedCountry] = useState("");
-    const [selectedState, setSelectedState] = useState("");
+    const [selectcitys, setSelectCitys] = useState("");
+    const [selectedStates, setSelectedStates] = useState("");
     const [formDataa, setFormData] = useState({});
     const [data , setData] = React.useState(null);
     const [showModal , setShowModal] = useState(false);
@@ -59,7 +67,7 @@ const EProfilePage = () => {
             setCityValue(res.data.City);
             setCountryValue(res.data.Country);
             setSelectedCountry({"value" : res.data.Country, "label" : res.data.Country });
-            setSelectedState({"value" : res.data.City, "label" : res.data.City });
+            setSelectCitys({"value" : res.data.City, "label" : res.data.City });
             setCurrentPasswrodValue(res.data.currentpasswrod);
             setPasswordValue(res.data.newpassword);
         }
@@ -78,29 +86,44 @@ const EProfilePage = () => {
         fetch();
       }, []);
   
-      useEffect(() => {
-        const fetch = async () => {
-          const response = await useCityCountry("state", selectedCountry.value);
-          let obj_city = [];
-          for (var item_city in response){
-            obj_city.push({"value" : response[item_city]["state_name"], "label" : response[item_city]["state_name"]});
-          }
-          setStates(obj_city);
-        }
-        fetch();
-      }, [selectedCountry]);
 
       useEffect(() => {
         const fetch = async () => {
-            const response = await useCityCountry("city", selectedStates.value);
-            setCitys(response);
+            const response = await useCityCountry("state", selectedCountry.value);
+            let obj_state = [];
+            for (var item_state in response){
+                obj_state.push({"value" : response[item_state]["state_name"], "label" : response[item_state]["state_name"]});
+            }
+            console.log(response);
+            setState(response);
         };
+        fetch();
+      }, [selectedCountry]);
+
+
+      useEffect(() => {
+        const fetch = async () => {
+          const response = await useCityCountry("city", selectedStates.value);
+          let obj_city = [];
+          for (var item_city in response){
+            obj_city.push({"value" : response[item_city]["city_name"], "label" : response[item_city]["city_name"]});
+          }
+          setCitys(obj_city);
+        }
         fetch();
       }, [selectedStates]);
 
     const handleFirstNamechange = (e) => {
         e.preventDefault();
         setFirstNameValue(e.target.value.replace(/[^a-zA-Z]/g, ""));
+    };
+    const handlephonenumberchange = (e) => {
+        e.preventDefault();
+        setPhonenumberValue(e.target.value.replace(/[^0-9]/g, ""));
+    };
+    const handleroomenumberchange = (e) => {
+        e.preventDefault();
+        setRoomNumberValue(e.target.value.replace(/[^0-9]/g, ""));
     };
     const handleLastNamechange = (e) => {
         e.preventDefault();
@@ -123,7 +146,10 @@ const EProfilePage = () => {
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onloadend = () => {
+            
             setImgValue(reader.result);
+            console.log(reader.result); 
+        
         };
         reader.readAsDataURL(file);
     };
@@ -199,8 +225,8 @@ const EProfilePage = () => {
         if (data.Country != selectedCountry["value"]){
             form_data = { ...form_data, Country: selectedCountry["value"]};
         }
-        if (data.City != selectedState["value"]){
-            form_data = { ...form_data, City: selectedState["value"]};
+        if (data.City != selectcitys["value"]){
+            form_data = { ...form_data, City: selectcitys["value"]};
         }
         // if (data.img === null || data.img === ""){
         //     setImgValue(image);
@@ -296,8 +322,8 @@ const EProfilePage = () => {
     return (
         <div>
             <ToastContainer />
-                <Card className=" mt-1 m-8 mb-8 rounded-xl md:w-[960px]  sm:w-auto bg-pallate-secondary border-pallate-Third">
-                    <div className="grid md:grid-cols-3 md:gap-16 sm:grid-cols-1 gap-4">
+                <Card className=" mt-1 m-8 mb-8 rounded-xl md:w-[1200px]  sm:w-auto bg-pallate-secondary border-pallate-Third">
+                    <div className="grid md:grid-cols-3 md:gap-8 sm:grid-cols-1 gap-4">
                     <Button
                         className={
                             isEditprofile
@@ -327,9 +353,9 @@ const EProfilePage = () => {
                     </Button>
                 </div>
                 {isEditprofile && (
-                    <div className="grid grid-cols-1 gap-4 ">
+                    <div className="grid grid-cols-1 gap-2 ">
                         <div className="grid md:grid-cols-2 md:gap-0 sm:grid-cols-1 sm:gap-2">
-                            <div className="leftside grid grid-cols-1 gap-9 p-9 justify-center justify-items-center">
+                            <div className="leftside grid grid-cols-1 gap-4 p-2 justify-center justify-items-center">
                                 <div className="relative w-52 h-52">
                                     <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={imgValue} style={{width: "14rem", height: "13rem", borderRadius: "50%"}}/>
                                     <input type="file" accept="image/*" id="user_avatar" className="hidden" onChange={handleImgValue}/>
@@ -357,8 +383,10 @@ const EProfilePage = () => {
                                     ></Textarea>
                                 </div>
                             </div>
-                            <div className="rightside grid grid-cols-1 gap-4 p-8">
-                                <div>
+                            
+                            <div className="rightside grid grid-cols-1 gap-4 p-1">
+                                <div className="grid grid-cols-2 md:gap-2 gap-1">
+                                    <div>
                                 <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                         <BsPersonFill className="mr-1" />
                                         <label>First Name:</label>
@@ -373,7 +401,7 @@ const EProfilePage = () => {
                                         defaultValue={data && data.FirstName}
                                         onChange={handleFirstNamechange}
                                     />
-                                </div>
+                                    </div>
                                 <div>
                                 <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                         <BsPersonFill className="mr-1" />
@@ -390,25 +418,9 @@ const EProfilePage = () => {
                                         onChange={handleLastNamechange}
                                     />
                                 </div>
-                                <div>
-                                <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                        <BsEnvelopeFill className="mr-1" />
-                                        <label>Email:</label>
-                                    </div>
-                                    <div className="relative">
-                                        <input
-                                            maxLength={50}
-                                            type="email"
-                                            id="email"
-                                            className="bg-pallate-secondary text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
-                                            disabled={true}
-                                            value={emailValue}
-                                            placeholder = {data && data.Email}
-                                            onChange={handleEmailchange}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-2 md:gap-2 gap-1">
+                            </div>
+                            
+                            <div className="grid grid-cols-2 md:gap-2 gap-1">
                                     <div className="w-full">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <BsMapFill className="mr-1" />
@@ -431,6 +443,34 @@ const EProfilePage = () => {
                                     </div>
                                     <div className="">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
+                                            <TbBuildingEstate className="mr-1" />
+                                            <label>State:</label>
+                                        </div>
+                                        <Select
+                                            id="state"
+                                            name="state"
+                                            options={states && states}
+                                            value={selectedStates}
+                                            onChange={(selectedStates) => {
+                                                setSelectedStates(selectedStates);
+                                                setFormData({
+                                                  ...formDataa,
+                                                  ["DestinationState"]: selectedStates.value,
+                                                });
+                                              }}
+                                            isSearchable
+                                            isDisabled = {selectedCountry == "" || !isEditMode}
+                                            required
+                                            styles={style}
+
+                                        /> 
+                                    </div>
+
+                                </div>
+                                <div>
+                                <div className="grid grid-cols-2 md:gap-2 gap-1">
+                                <div className="">
+                                    <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <BsMapFill className="mr-1" />
                                             <label>City:</label>
                                         </div>
@@ -450,43 +490,10 @@ const EProfilePage = () => {
 
                                         /> 
                                     </div>
-                                </div>
-                                <div>
-                                <div className="grid grid-cols-2 md:gap-2 gap-1">
-                                <div className="">
-                                    <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                            <TbBuildingEstate className="mr-1" />
-                                            <label>State:</label>
-                                        </div>
-                                        <Select
-                                            id="state"
-                                            name="state"
-                                            options={
-                                                states &&
-                                                states.map((state) => ({
-                                                  value: state.state_name,
-                                                  label: state.state_name,
-                                                }))
-                                              }
-                                            value={selectedStates}
-                                            onChange={(selectedStates) => {
-                                                setSelectedStates(selectedStates);
-                                                setFormData({
-                                                  ...formDataa,
-                                                  ["DestinationState"]: selectedStates.value,
-                                                });
-                                              }}
-                                            isSearchable
-                                            isDisabled = {selectedCountry == "" || !isEditMode}
-                                            required
-                                            styles={style}
-
-                                        /> 
-                                    </div>
                                     <div className="">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <MdOutlineVerified className="mr-1" />
-                                            <label>Join in date:</label>
+                                            <label>Joining date:</label>
                                         </div>
                                         <div className="relative">
                                         <Select
@@ -555,7 +562,7 @@ const EProfilePage = () => {
                             </div>
                         </div>
                         <Fragment>
-                        <div className="grid md:grid-cols-2 grid-cols-1 justify-center items-center gap-20 pl-9 pr-9">
+                        <div className="grid md:grid-cols-2 grid-cols-1 justify-center items-center gap-9 pl-4 pr-4">
                             <div className="grid grid-cols-2 gap-4">
                                 {!isEditMode && (
                                     <Button
@@ -673,4 +680,4 @@ const EProfilePage = () => {
         </div>
     );
 };
-export default EProfilePage;
+export default EProfileHostPage;
