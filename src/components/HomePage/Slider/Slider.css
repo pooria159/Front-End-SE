@@ -13,7 +13,7 @@
   padding-inline: 2.3em;
   align-items: center;
   justify-content: center;
-  background: #461356;
+  background: #5C6BC0;
   overflow: hidden;
 }
 @media screen and (min-width: 960px) {
@@ -66,21 +66,22 @@
   margin-top: 3px;
 }
 .Slider .btn {
-  background-color: #d51a6d;
+  background-color: #334adc;
   border: none;
   color: white;
   padding: 12px 20px;
   font-size: 16px;
   cursor: pointer;
   display: inline-block;
-  border-radius: 4px;
+  border-radius: 10px;
   transition: 0.3s ease-in;
+
 }
 .Slider .btn i {
   margin-left: 15px;
 }
 .Slider .btn:hover {
-  background-color: #ae0a53;
+  background-color: #0f30e6;
 }
 
 .swiper-container {
@@ -118,7 +119,7 @@
 }
 .swiper-slide span {
   display: inline-block;
-  background: #9926e1;
+  background: #3949AB;
   border-radius: 0 50px 50px 0;
   text-transform: capitalize;
   padding: 12px 20px;
