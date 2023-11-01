@@ -15,48 +15,45 @@ const sortOptions = [
   { name: 'Price: High to Low', href: '#', current: false },
 ]
 const subCategories = [
-  { name: 'Totes', href: '#' },
-  { name: 'Backpacks', href: '#' },
-  { name: 'Travel Bags', href: '#' },
-  { name: 'Hip Bags', href: '#' },
-  { name: 'Laptop Sleeves', href: '#' },
+  { name: 'Cat1', href: '#' },
+  { name: 'Cat2', href: '#' },
 ]
 const filters = [
   {
-    id: 'color',
-    name: 'Color',
+    id: 'tcount',
+    name: 'Traveler\'s count',
     options: [
-      { value: 'white', label: 'White', checked: false },
-      { value: 'beige', label: 'Beige', checked: false },
-      { value: 'blue', label: 'Blue', checked: true },
-      { value: 'brown', label: 'Brown', checked: false },
-      { value: 'green', label: 'Green', checked: false },
-      { value: 'purple', label: 'Purple', checked: false },
+      { value: '1', label: '1', checked: false },
+      { value: '2', label: '2', checked: false },
+      { value: '3', label: '3', checked: true },
+      { value: '4', label: '4', checked: false },
+      { value: '5', label: '5', checked: false },
+      { value: '6', label: '6', checked: false },
     ],
   },
-  {
-    id: 'category',
-    name: 'Category',
-    options: [
-      { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-      { value: 'sale', label: 'Sale', checked: false },
-      { value: 'travel', label: 'Travel', checked: true },
-      { value: 'organization', label: 'Organization', checked: false },
-      { value: 'accessories', label: 'Accessories', checked: false },
-    ],
-  },
-  {
-    id: 'size',
-    name: 'Size',
-    options: [
-      { value: '2l', label: '2L', checked: false },
-      { value: '6l', label: '6L', checked: false },
-      { value: '12l', label: '12L', checked: false },
-      { value: '18l', label: '18L', checked: false },
-      { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: true },
-    ],
-  },
+  // {
+  //   id: 'category',
+  //   name: 'Category',
+  //   options: [
+  //     { value: 'new-arrivals', label: 'New Arrivals', checked: false },
+  //     { value: 'sale', label: 'Sale', checked: false },
+  //     { value: 'travel', label: 'Travel', checked: true },
+  //     { value: 'organization', label: 'Organization', checked: false },
+  //     { value: 'accessories', label: 'Accessories', checked: false },
+  //   ],
+  // },
+  // {
+  //   id: 'size',
+  //   name: 'Size',
+  //   options: [
+  //     { value: '2l', label: '2L', checked: false },
+  //     { value: '6l', label: '6L', checked: false },
+  //     { value: '12l', label: '12L', checked: false },
+  //     { value: '18l', label: '18L', checked: false },
+  //     { value: '20l', label: '20L', checked: false },
+  //     { value: '40l', label: '40L', checked: true },
+  //   ],
+  // },
 ]
 
 function classNames(...classes) {
@@ -250,7 +247,7 @@ export default function AnncPanel() {
 
             <div className="grid grid-cols-1s gap-x-1 gap-y-10 lg:grid-cols-7">
               {/* Filters */}
-              <form className="hidden lg:block w-[12rem]">
+              <form className="hidden lg:block w-[10rem]">
                 <h3 className="sr-only">Categories</h3>
                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
