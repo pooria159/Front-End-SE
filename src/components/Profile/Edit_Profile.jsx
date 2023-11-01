@@ -115,6 +115,7 @@ const EProfilePage = () => {
         };
         reader.readAsDataURL(file);
     };
+    
     const handleRemoveImg = (e) => {
         setImgValue("");
         document.getElementById('user_avatar').value = null;
