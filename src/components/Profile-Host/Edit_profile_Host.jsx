@@ -13,10 +13,10 @@ import { useProfile } from "../../hooks/useProfile";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCityCountry } from "../../hooks/useCityCountry"
-import Modal from "./Modal";
+import Modal from "../Profile/Modal";
 import { downloadIMG } from "../../hooks/useObjectStorageD";
 import { uploadIMG} from "../../hooks/useObjectStorageU";
-import { setState } from "@vitest/expect";
+import CheckboxVerticalListGroup from "./checkbox.jsx";
 
 
 
@@ -86,30 +86,23 @@ const EProfileHostPage = () => {
         fetch();
       }, []);
   
-
       useEffect(() => {
         const fetch = async () => {
-            const response = await useCityCountry("state", selectedCountry.value);
-            let obj_state = [];
-            for (var item_state in response){
-                obj_state.push({"value" : response[item_state]["state_name"], "label" : response[item_state]["state_name"]});
-            }
-            console.log(response);
-            setState(response);
-        };
-        fetch();
-      }, [selectedCountry]);
-
-
-      useEffect(() => {
-        const fetch = async () => {
-          const response = await useCityCountry("city", selectedStates.value);
+          const response = await useCityCountry("state", selectedCountry.value);
           let obj_city = [];
           for (var item_city in response){
-            obj_city.push({"value" : response[item_city]["city_name"], "label" : response[item_city]["city_name"]});
+            obj_city.push({"value" : response[item_city]["state_name"], "label" : response[item_city]["state_name"]});
           }
           setCitys(obj_city);
         }
+        fetch();
+      }, [selectedCountry]);
+
+      useEffect(() => {
+        const fetch = async () => {
+            const response = await useCityCountry("city", selectedStates.value);
+            setCitys(response);
+        };
         fetch();
       }, [selectedStates]);
 
@@ -354,7 +347,7 @@ const EProfileHostPage = () => {
                 </div>
                 {isEditprofile && (
                     <div className="grid grid-cols-1 gap-2 ">
-                        <div className="grid md:grid-cols-2 md:gap-0 sm:grid-cols-1 sm:gap-2">
+                        <div className="grid md:grid-cols-4 md:gap-0 sm:grid-cols-1 sm:gap-2">
                             <div className="leftside grid grid-cols-1 gap-4 p-2 justify-center justify-items-center">
                                 <div className="relative w-52 h-52">
                                     <img className="block w-full text-sm text-pallate-Third border border-pallate-Third rounded-lg cursor-pointer bg-pallate-secondary" src={imgValue} style={{width: "14rem", height: "13rem", borderRadius: "50%"}}/>
@@ -443,34 +436,6 @@ const EProfileHostPage = () => {
                                     </div>
                                     <div className="">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
-                                            <TbBuildingEstate className="mr-1" />
-                                            <label>State:</label>
-                                        </div>
-                                        <Select
-                                            id="state"
-                                            name="state"
-                                            options={states && states}
-                                            value={selectedStates}
-                                            onChange={(selectedStates) => {
-                                                setSelectedStates(selectedStates);
-                                                setFormData({
-                                                  ...formDataa,
-                                                  ["DestinationState"]: selectedStates.value,
-                                                });
-                                              }}
-                                            isSearchable
-                                            isDisabled = {selectedCountry == "" || !isEditMode}
-                                            required
-                                            styles={style}
-
-                                        /> 
-                                    </div>
-
-                                </div>
-                                <div>
-                                <div className="grid grid-cols-2 md:gap-2 gap-1">
-                                <div className="">
-                                    <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <BsMapFill className="mr-1" />
                                             <label>City:</label>
                                         </div>
@@ -490,10 +455,43 @@ const EProfileHostPage = () => {
 
                                         /> 
                                     </div>
+                                </div>
+                                <div>
+                                <div className="grid grid-cols-2 md:gap-2 gap-1">
+                                <div className="">
+                                    <div className="flex justify-start items-center pl-1 text-pallate-Third">
+                                            <TbBuildingEstate className="mr-1" />
+                                            <label>State:</label>
+                                        </div>
+                                        <Select
+                                            id="state"
+                                            name="state"
+                                            options={
+                                                states &&
+                                                states.map((state) => ({
+                                                  value: state.state_name,
+                                                  label: state.state_name,
+                                                }))
+                                              }
+                                            value={selectedStates}
+                                            onChange={(selectedStates) => {
+                                                setSelectedStates(selectedStates);
+                                                setFormData({
+                                                  ...formDataa,
+                                                  ["DestinationState"]: selectedStates.value,
+                                                });
+                                              }}
+                                            isSearchable
+                                            isDisabled = {selectedCountry == "" || !isEditMode}
+                                            required
+                                            styles={style}
+
+                                        /> 
+                                    </div>
                                     <div className="">
                                     <div className="flex justify-start items-center pl-1 text-pallate-Third">
                                             <MdOutlineVerified className="mr-1" />
-                                            <label>Joining date:</label>
+                                            <label>Join in date:</label>
                                         </div>
                                         <div className="relative">
                                         <Select
@@ -560,6 +558,46 @@ const EProfileHostPage = () => {
                                     </div>
                                 </div>
                             </div>
+                        <div className="rightside grid grid-cols-1 gap-4 p-1">
+                                <div className="grid grid-cols-2 md:gap-2 gap-1">
+                                    <div>
+                                <div className="flex justify-start items-center pl-1 text-pallate-Third">
+                                        <BsFillPhoneVibrateFill className="mr-1" />
+                                        <label>Phone number:</label>
+                                    </div>
+                                    <input
+                                        maxLength={50}
+                                        type="text"
+                                        id="phone"
+                                        className="bg-pallate-primary h-10 text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
+                                        disabled={!isEditMode}
+                                        value={phonenumberValue}
+                                        defaultValue={data && data.Phone}
+                                        onChange={handlephonenumberchange}
+                                    />
+                                    </div>
+                                <div>
+                                <div className="flex justify-start items-center pl-1 text-pallate-Third">
+                                        <MdOutlineBedroomChild className="mr-1" />
+                                        <label>Room number:</label>
+                                    </div>
+                                    <input
+                                        maxLength={50}
+                                        type="text"
+                                        id="room"
+                                        className="bg-pallate-primary h-10 text-pallate-Third disabled:opacity-80 border-pallate-Third placeholder-pallate-Third text-sm rounded-lg block w-full p-2.5 focus:ring-pallate-Third focus:border-pallate-Third"
+                                        disabled={!isEditMode}
+                                        value={roomnumberValue}
+                                        defaultValue={data && data.Room}
+                                        onChange={handleroomenumberchange}
+                                    />   
+                                </div>
+                                <CheckboxVerticalListGroup/>
+                            </div>
+
+
+
+                        </div>
                         </div>
                         <Fragment>
                         <div className="grid md:grid-cols-2 grid-cols-1 justify-center items-center gap-9 pl-4 pr-4">
