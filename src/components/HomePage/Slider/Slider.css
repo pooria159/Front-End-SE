@@ -13,7 +13,7 @@
   padding-inline: 2.3em;
   align-items: center;
   justify-content: center;
-  background: #461356;
+  background: #5C6BC0;
   overflow: hidden;
 }
 @media screen and (min-width: 960px) {
@@ -66,21 +66,22 @@
   margin-top: 3px;
 }
 .Slider .btn {
-  background-color: #d51a6d;
+  background-color: #334adc;
   border: none;
   color: white;
   padding: 12px 20px;
   font-size: 16px;
   cursor: pointer;
   display: inline-block;
-  border-radius: 4px;
+  border-radius: 10px;
   transition: 0.3s ease-in;
+
 }
 .Slider .btn i {
   margin-left: 15px;
 }
 .Slider .btn:hover {
-  background-color: #ae0a53;
+  background-color: #0f30e6;
 }
 
 .swiper-container {
@@ -118,7 +119,7 @@
 }
 .swiper-slide span {
   display: inline-block;
-  background: #9926e1;
+  background: #3949AB;
   border-radius: 0 50px 50px 0;
   text-transform: capitalize;
   padding: 12px 20px;
@@ -157,30 +158,30 @@
 }
 .swiper-slide--one {
   background: #0f2027;
-  background: linear-gradient(to bottom, #2c536400, #203a4303, #0f2027cc), url("https://images.unsplash.com/photo-1573858240709-817d285b7672") no-repeat 50% 50%/cover;
+  background: linear-gradient(to bottom, #2c536400, #203a4303, #0f2027cc), url("../../../assets/slider/0.jpeg") no-repeat 50% 50%/cover;
 }
 .swiper-slide--one h3 {
   font-family: "Courgette", cursive;
   font-weight: 300;
 }
 .swiper-slide--two {
-  background: linear-gradient(to bottom, #2c536400, #203a4303, #0f2027cc), url("https://images.unsplash.com/photo-1577523549496-b49fa4a80631") no-repeat 50% 50%/cover;
+  background: linear-gradient(to bottom, #2c536400, #203a4303, #0f2027cc), url("../../../assets/slider/1.5.jpeg") no-repeat 50% 50%/cover;
 }
 .swiper-slide--two h3 {
   font-family: "Noto Serif Vithkuqi", serif;
   font-weight: 300;
 }
 .swiper-slide--three {
-  background: url("https://images.unsplash.com/photo-1566546415667-71e5245881ad") no-repeat 50% 50%/cover;
+  background: url("../../../assets/slider/1.jpeg") no-repeat 50% 50%/cover;
 }
 .swiper-slide--four {
-  background: url("https://images.unsplash.com/photo-1549144511-f099e773c147") no-repeat 50% 50%/cover;
+  background: url("../../../assets/slider/2.jpeg") no-repeat 50% 50%/cover;
 }
 .swiper-slide--five {
-  background: url("https://images.unsplash.com/photo-1544885935-98dd03b09034") no-repeat 50% 50%/cover;
+  background: url("../../../assets/slider/3.jpeg") no-repeat 50% 50%/cover;
 }
 .swiper-slide--six {
-  background: linear-gradient(to bottom, #2c536400, #203a4303, #0f2027cc), url("https://images.unsplash.com/photo-1579033014049-f33d9b14d37e") no-repeat 50% 50%/cover;
+  background: linear-gradient(to bottom, #2c536400, #203a4303, #0f2027cc), url("../../../assets/slider/4.jpeg") no-repeat 50% 50%/cover;
 }
 .swiper-slide--six h3 {
   font-family: "Chonburi", cursive;
