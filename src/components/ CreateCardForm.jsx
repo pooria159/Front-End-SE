@@ -374,18 +374,19 @@ const CreateCardForm = () => {
             {/* This div takes up half the width */}
             <label>First:</label>
             <ReactLanguageSelect
-
+              className="z-0"
               searchable={true}
               onSelect={onSelectLanguage1}
               defaultLanguage={selectedLanguage1}
               
             />
           </div>
-          <div className="w-full md:w-1/2 mb-4 ">
+          <div className="w-full md:w-1/2 mb-4">
             {" "}
             {/* This div also takes up half the width */}
             <label>Second:</label>
             <ReactLanguageSelect
+              className="z-0"
               searchable={true}
               onSelect={onSelectLanguage2}
               defaultLanguage={selectedLanguage2}
