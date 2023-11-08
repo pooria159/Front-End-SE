@@ -32,9 +32,9 @@ const App = () => {
          {!['/login', '/signup'].includes(location.pathname) && <Navbar />}
             <Routes>
                <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
-               <Route path="/Eprofile" element={islogin ? <EProfilePage /> : <Navigate to="/login" />} />
+               {/* <Route path="/Eprofile" element={islogin ? <EProfilePage /> : <Navigate to="/login" />} /> */}
                <Route path="/profile" element={islogin ? <ProfilePage /> : <Navigate to="/login" />} />
-               <Route path="/Eprofile-Host" element={islogin ? <ProfileHostPage /> : <Navigate to="/login" />} />
+               {/* <Route path="/Eprofile-Host" element={islogin ? <ProfileHostPage /> : <Navigate to="/login" />} /> */}
                <Route path="/login" element={<LoginPage />} />
                <Route path="/signup" element={<SignupPage />} />
                <Route path="/forget-password" element={<ForgetPasswordPage />} />

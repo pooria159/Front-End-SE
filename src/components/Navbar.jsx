@@ -30,7 +30,7 @@ export default function Navbar() {
   }
 
   return (
-    <Disclosure as="nav" className="z-50 sticky w-full bg-gray-800">
+    <Disclosure as="nav" className="z-50 sticky w-full bg-pallate-primary">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -109,7 +109,7 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/Eprofile"
+                            href="/profile"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Your Profile

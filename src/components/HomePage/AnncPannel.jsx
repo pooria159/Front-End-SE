@@ -122,7 +122,7 @@ export default function AnncPanel() {
   }, []);
 
   return (
-    <div className="bg-white">
+    <div >
       <div>
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -439,7 +439,7 @@ export default function AnncPanel() {
                     {({ open }) => (
                       <>
                         <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <Disclosure.Button className="flex w-full items-center justify-between  py-3 text-sm text-gray-400 hover:text-gray-500">
                             <span className="font-medium text-gray-900">{section.name}</span>
                             <span className="ml-6 flex items-center">
                               {open ? (
