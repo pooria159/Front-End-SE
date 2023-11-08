@@ -14,6 +14,7 @@ import Checkmail from './pages/Checkmail';
 import ProfilePage from './pages/Profile';
 import ProfileHostPage from './pages/Eprofile-Host';
 import CreateCardPage from './pages/CreateCard';
+import ChatRoomPage from './pages/ChatRoom';
 
 
 import { ToastContainer} from 'react-toastify';
@@ -42,6 +43,7 @@ const App = () => {
                <Route path="/verify-email" element={<VerificationPage />} />
                <Route path="/checkmail" element={<Checkmail/>} />
                <Route path="/create-card" element={<CreateCardPage/>} />
+               <Route path="/chat" element={<ChatRoomPage/>}/>
             </Routes>
             
          </div>
