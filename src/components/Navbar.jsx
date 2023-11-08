@@ -6,9 +6,12 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom';
 import Handlelogout from './Handlelogout'; 
 
-
+import { useEffect, useState } from 'react';
 import profImg from "../assets/profile.jpg"
 import logo from "../assets/logo/logo.png"
+import { red } from '@mui/material/colors';
+
+
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -28,6 +31,32 @@ export default function Navbar() {
       navigate("/login")
     }
   }
+  const [hasNotification, setHasNotification] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+
+  const toggleNotifDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+  
+
+  useEffect(() => {
+    // const socket = new WebSocket('wss://your-websocket-server-url');
+
+    // socket.onmessage = (event) => {
+    //   const data = JSON.parse(event.data);
+    //   if (data.type === 'notification') {
+    //     setHasNotification(true);
+    //     setNotifications([...notifications, data.notification]);
+    //   }
+    // };
+
+    // // Clean up the WebSocket connection when the component unmounts
+    // return () => {
+    //   socket.close();
+    // };
+  }, [notifications]);
+  
 
   return (
     <Disclosure as="nav" className="z-50 sticky w-full bg-gray-800">
@@ -74,14 +103,45 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+       <div className="relative">
+              <button
+                type="button"
+                className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                onClick={toggleNotifDropdown}
+              >
+                {hasNotification && (
+                  <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full" />
+                )}
+                <span className="absolute -inset-1.5" />
+                <span className="sr-only">View notifications</span>
+                <BellIcon className="h-6 w-6" aria-hidden="true" />
+              </button>
+              <Transition
+                as={Fragment}
+                show={isDropdownOpen}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+                  <ul>{
+                    (notifications.length === 0 )? 
+                    <li 
+                    className={'block px-4 py-2 text-sm text-gray-700'}
+                    >No new notifications.</li>
+                   : notifications.map((notification, index) => (
+                      <li key={index}
+                      className={'block px-4 py-2 text-sm text-gray-700'}
+                      >{notification}</li>
+                    ))
+                  }
+                  </ul>
+                </div>
+              </Transition>
+            </div>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
