@@ -10,6 +10,7 @@ export default {
     extend: {
       backgroundImage:{
         'loginbackground': 'url(./src/assets/login_background.jpg)',
+        'Infobackground': 'url(./src/assets/login_background.jpg)',
         'loginimage': 'url(./src/assets/LoginPage2.jpg)',
         'signupimage': 'url(./src/assets/signupimage.jpg)',
       },

@@ -59,7 +59,7 @@ const EProfileHostPage = () => {
             setFirstNameValue(res.data.FirstName);
             setLastNameValue(res.data.LastName);
             setBirthDateValue(res.data.BirthDate);
-            setJoinValue(res.data.Join);
+            setJoinValue(res.data.JoiningDate);
             setGenderValue(res.data.Gender);
             setBioValue(res.data.Bio);
             setCityValue(res.data.City);
@@ -219,9 +219,7 @@ const EProfileHostPage = () => {
         if (data.City != selectcitys["value"]){
             form_data = { ...form_data, City: selectcitys["value"]};
         }
-        if (data.State != selectedStates["value"]){
-            form_data = { ...form_data, State: selectedStates["value"]};
-        }
+        form_data = { ...form_data, State: selectedStates["value"]};
         // if (data.img === null || data.img === ""){
         //     setImgValue(image);
         //     uploadIMG(imgValue);
@@ -497,8 +495,7 @@ const EProfileHostPage = () => {
                                             id="bd"
                                             isDisabled={true}
                                             value={JoinInDateValue}
-                                            placeholder="2023-11-01"
-                                            // placeholder = {data && data.Join}
+                                            placeholder = {data && data.JoiningDate}
                                             isSearchable
                                             styles={disstyle}
                                         />

@@ -14,6 +14,8 @@ import Checkmail from './pages/Checkmail';
 import ProfilePage from './pages/Profile';
 import ProfileHostPage from './pages/Eprofile-Host';
 import CreateCardPage from './pages/CreateCard';
+import OfferPage from './pages/Offer';
+import PublicProfile from './pages/PublicProfile';
 
 
 import { ToastContainer} from 'react-toastify';
@@ -42,6 +44,8 @@ const App = () => {
                <Route path="/verify-email" element={<VerificationPage />} />
                <Route path="/checkmail" element={<Checkmail/>} />
                <Route path="/create-card" element={<CreateCardPage/>} />
+               <Route path="/test" element={<OfferPage/>} />
+               <Route path="/public" element={<PublicProfile/>} />
             </Routes>
             
          </div>
