@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import image from "../../assets/baktash.jpg"
+import image from "../../assets/baktash.jpg";
+import Modal from './Modal';
 
 const Timelineitem = () => {
     const [cards, setCards] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const addCard = () => {
     setCards([...cards, {
@@ -27,7 +29,7 @@ const Timelineitem = () => {
                 <ol key={index} className="hover:cursor-pointer">
                     <li>
                         <div className="items-center block p-3  bg-indigo-200 sm:flex rounded-lg hover:bg-indigo-400">
-                            <img className="w-12 h-12 mb-3 mr-3 rounded-full sm:mb-0" src={card.image} alt={"miooooo"}/>
+                            <img className="w-12 h-12 mb-3 mr-3 rounded-full sm:mb-0" src={image}/>
                                 <div className="flex-grow">
                                     <div className="text-base font-normal text-gray-600"><span className="font-medium text-black dark:text-white">{card.name}</span> has applied to become a <span className="font-medium text-black">{card.role}</span></div>
                                         <span className="inline-flex items-center text-xs font-normal text-black">
@@ -37,14 +39,15 @@ const Timelineitem = () => {
                                             id card : {card.idCard}
                                         </span> 
                                     </div>
-                                <div className="flex flex-col sm:flex-row gap-2">
-                                    <button onClick={() => removeCard(index)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
-                                        Accept
-                                    </button>
-                                    <button onClick={() => removeCard(index)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg ">
-                                        Decline
-                                    </button>
-                                </div>
+                                    <div className="flex flex-col sm:flex-row gap-2">
+                                        <button onClick={ () => setModalIsOpen(true)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
+                                            Accept
+                                        </button>
+                                        <button onClick={ () => setModalIsOpen(true)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg ">
+                                            Decline
+                                        </button>
+                                        <Modal isVisible={modalIsOpen} onClose={() => setModalIsOpen(false)}/>
+                                    </div>
                             </div>
                         </li>
                     </ol>
