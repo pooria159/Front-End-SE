@@ -5,11 +5,6 @@ services:
     container_name: trekdestiny_frontend
     volumes:
       - ./src:/app/src
-    environment:
-      - VITE_API_URL=http://localhost:9090
-      - VITE_API_URL_CITY_COUNTRY=https://www.universal-tutorial.com/api
-      - VITE_CITY_COUNTRY_TOKEN=E6rF_oDIfaEzvTtWbdvdisQkYGvK8lxveSsgV56F-RthwRK69J5fsGzauHS29BbXJZ0
-      - VITE_CITY_COUNTRY_EMAIL=baktash.ansari1381@gmail.com
     ports:
       - 3000:3000
     restart: on-failure
