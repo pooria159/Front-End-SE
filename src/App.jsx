@@ -16,6 +16,8 @@ import ProfileHostPage from './pages/Eprofile-Host';
 import CreateCardPage from './pages/CreateCard';
 import OfferPage from './pages/Offer';
 import PublicProfile from './pages/PublicProfile';
+import Errornotfound from './pages/notfound';
+
 
 
 import { ToastContainer} from 'react-toastify';
@@ -46,6 +48,7 @@ const App = () => {
                <Route path="/create-card" element={<CreateCardPage/>} />
                <Route path="/offer" element={<OfferPage/>} />
                <Route path="/public" element={<PublicProfile/>} />
+               <Route path='*' element={<Errornotfound/>}/>
             </Routes>
             
          </div>

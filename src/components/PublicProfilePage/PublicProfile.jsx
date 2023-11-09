@@ -15,7 +15,6 @@ const PublicProfile = () => {
     useEffect (() => {
         const fetch = async () => {
             const res = await useProfile();
-            console.log(res);
             setData(res.data);
         }
         fetch();

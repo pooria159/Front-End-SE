@@ -5,6 +5,7 @@ import Modal from './Modal';
 const Timelineitem = () => {
     const [cards, setCards] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [isAccept , setIsAccept] = useState(true);
 
   const addCard = () => {
     setCards([...cards, {
@@ -40,13 +41,13 @@ const Timelineitem = () => {
                                         </span> 
                                     </div>
                                     <div className="flex flex-col sm:flex-row gap-2">
-                                        <button onClick={ () => setModalIsOpen(true)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
+                                        <button onClick={ () => { setModalIsOpen(true); setIsAccept(true); } } className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
                                             Accept
                                         </button>
-                                        <button onClick={ () => setModalIsOpen(true)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg ">
+                                        <button onClick={ () => { setModalIsOpen(true); setIsAccept(false); } } className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg ">
                                             Decline
                                         </button>
-                                        <Modal isVisible={modalIsOpen} onClose={() => setModalIsOpen(false)}/>
+                                        <Modal isVisible={modalIsOpen} onClose={() => setModalIsOpen(false)} isAccept={isAccept}/>
                                     </div>
                             </div>
                         </li>
