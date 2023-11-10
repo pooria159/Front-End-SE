@@ -43,7 +43,27 @@ export default function Navbar() {
     // console.log("id issss");
     // console.log(id);
     const socket = new WebSocket(wsurl + "/" + id.UserID);
+    socket.onopen = (event) => {
+      console.warn("WebSocket connection opened:", event);
+    };
 
+    socket.onclose = (event) => {
+      console.error("WebSocket connection closed:", event);
+    };
+
+    socket.onerror = (event) => {
+      console.error("WebSocket error:", event);
+    };
+
+    socket.onmessage = (event) => {
+      console.log("WebSocket message received:", event.data);
+      const data = JSON.parse(event.data);
+      if (data.type === "notification") {
+        setHasNotification(true);
+        setNotifications([...notifications, data.notification]);
+      }
+    };
+    // console.log("WebSocket URL:", socket);
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.type === "notification") {
