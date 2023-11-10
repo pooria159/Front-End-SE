@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import profImg from "../assets/profile.jpg"
 import logo from "../assets/logo/logo.png"
 import { red } from '@mui/material/colors';
+import getDecodedToken from '../hooks/useNotification';
+const wsurl = import.meta.env.VITE_WEBSOCKET_URL;
 
 
 
@@ -41,20 +43,21 @@ export default function Navbar() {
   
 
   useEffect(() => {
-    // const socket = new WebSocket('wss://your-websocket-server-url');
+    const id =getDecodedToken();
+    const socket = new WebSocket(wsurl+"/"+id.exp);
 
-    // socket.onmessage = (event) => {
-    //   const data = JSON.parse(event.data);
-    //   if (data.type === 'notification') {
-    //     setHasNotification(true);
-    //     setNotifications([...notifications, data.notification]);
-    //   }
-    // };
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === 'notification') {
+        setHasNotification(true);
+        setNotifications([...notifications, data.notification]);
+      }
+    };
 
-    // // Clean up the WebSocket connection when the component unmounts
-    // return () => {
-    //   socket.close();
-    // };
+    // Clean up the WebSocket connection when the component unmounts
+    return () => {
+      socket.close();
+    };
   }, [notifications]);
   
 
