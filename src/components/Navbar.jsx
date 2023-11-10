@@ -1,38 +1,35 @@
-import React from 'react';
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import React from "react";
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
-import { useNavigate } from 'react-router-dom';
-import Handlelogout from './Handlelogout'; 
+import { useNavigate } from "react-router-dom";
+import Handlelogout from "./Handlelogout";
 
-import { useEffect, useState } from 'react';
-import profImg from "../assets/profile.jpg"
-import logo from "../assets/logo/logo.png"
-import { red } from '@mui/material/colors';
-import getDecodedToken from '../hooks/useNotification';
+import { useEffect, useState } from "react";
+import profImg from "../assets/profile.jpg";
+import logo from "../assets/logo/logo.png";
+import { red } from "@mui/material/colors";
+import getDecodedToken from "../hooks/useNotification";
 const wsurl = import.meta.env.VITE_WEBSOCKET_URL;
 
-
-
 const navigation = [
-  { name: 'Home', href: '/', current: false },
-  { name: 'About', href: '/', current: false },
-]
+  { name: "Home", href: "/", current: false },
+  { name: "About", href: "/", current: false },
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
-
   const navigate = useNavigate();
 
   const handlelogout = () => {
-    if(Handlelogout()){
-      navigate("/login")
+    if (Handlelogout()) {
+      navigate("/login");
     }
-  }
+  };
   const [hasNotification, setHasNotification] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -40,15 +37,16 @@ export default function Navbar() {
   const toggleNotifDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  
 
   useEffect(() => {
-    const id =getDecodedToken();
-    const socket = new WebSocket(wsurl+"/"+id.exp);
+    const id = getDecodedToken();
+    // console.log("id issss");
+    // console.log(id);
+    const socket = new WebSocket(wsurl + "/" + id.UserID);
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === 'notification') {
+      if (data.type === "notification") {
         setHasNotification(true);
         setNotifications([...notifications, data.notification]);
       }
@@ -59,7 +57,6 @@ export default function Navbar() {
       socket.close();
     };
   }, [notifications]);
-  
 
   return (
     <Disclosure as="nav" className="z-50 sticky w-full bg-gray-800">
@@ -81,11 +78,7 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src={logo}
-                    alt="TrekDestiny"
-                  />
+                  <img className="h-8 w-auto" src={logo} alt="TrekDestiny" />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -94,10 +87,12 @@ export default function Navbar() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          item.current
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
                       </a>
@@ -106,46 +101,33 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-       <div className="relative">
-              <button
-                type="button"
-                className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                onClick={toggleNotifDropdown}
-              >
-                {hasNotification && (
-                  <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full" />
-                )}
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">View notifications</span>
-                <BellIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
-              <Transition
-                as={Fragment}
-                show={isDropdownOpen}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
-                  <ul>{
-                    (notifications.length === 0 )? 
-                    <li 
-                    className={'block px-4 py-2 text-sm text-gray-700'}
-                    >No new notifications.</li>
-                   : notifications.map((notification, index) => (
-                      <li key={index}
-                      className={'block px-4 py-2 text-sm text-gray-700'}
-                      >{notification}</li>
-                    ))
-                  }
-                  </ul>
-                </div>
-              </Transition>
-            </div>
-
+                <Menu as="div" className="relative">
+                  <Menu.Button className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none ">
+                    {hasNotification && (
+                      <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full" />
+                    )}
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only">View notifications</span>
+                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  </Menu.Button>
+                  <Menu.Items className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg focus:outline-none">
+                    {notifications.length === 0 ? (
+                      <Menu.Item>
+                        <span className="block px-4 py-2 text-sm text-gray-700">
+                          No new notifications.
+                        </span>
+                      </Menu.Item>
+                    ) : (
+                      notifications.map((notification, index) => (
+                        <Menu.Item key={index}>
+                          <span className="block px-4 py-2 text-sm text-gray-700">
+                            {notification}
+                          </span>
+                        </Menu.Item>
+                      ))
+                    )}
+                  </Menu.Items>
+                </Menu>
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
@@ -173,18 +155,24 @@ export default function Navbar() {
                         {({ active }) => (
                           <a
                             href="/Eprofile"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
                           >
                             Your Profile
                           </a>
                         )}
                       </Menu.Item>
-                      
+
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             onClick={handlelogout}
-                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100 cursor-pointer" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
                           >
                             Log out
                           </a>
@@ -205,10 +193,12 @@ export default function Navbar() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2 text-base font-medium"
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
@@ -218,5 +208,5 @@ export default function Navbar() {
         </>
       )}
     </Disclosure>
-  )
+  );
 }
