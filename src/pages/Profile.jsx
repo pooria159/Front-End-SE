@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import defaultProfilePic from "../assets/defaultUserPic.png";
+import { useProfile } from '../hooks/useProfile';
 
 // Sections:
 import InfoSec from '../components/Profile/InfoSec';
