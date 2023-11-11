@@ -4,6 +4,7 @@ import { useProfile } from '../hooks/useProfile';
 
 // Sections:
 import InfoSec from '../components/Profile/InfoSec';
+import EditSec from '../components/Profile/EditSec';
 
 
 const sections = ['Info', 'Edit', 'Change Pass', 'Offers', 'Blog'];
@@ -53,7 +54,13 @@ const ProfilePage = () => {
     fileInputRef.current.click();
   }
 
+  // Callback function to update formData
+  const updateFormData = (newFormData) => {
+    setFormData(newFormData);
+  };
+
   return (
+
     <div className="grid grid-cols-8 gap-4 p-10">
       <div className="col-span-2 bg-gray-100 p-10 rounded-2xl flex flex-col justify-center items-center">
       <h2 className="text-xl font-bold mb-4">Mike Wasowski</h2>
@@ -62,13 +69,15 @@ const ProfilePage = () => {
             <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={image ? image : defaultProfilePic} alt="Profile" />
         </label>
         
-        <div className='flex space-x-1 mb-1'>
-            <button className='w-24 p-1 rounded-md md:text-md text-red-500 border-double border-2 border-red-500 hover:text-red-300 hover:border-red-300' onClick={handleRemoveImage}>Remove</button>
-            <button className='w-24 p-1 rounded-md text-indigo-500 border-double border-2 border-indigo-500 hover:text-indigo-300 hover:border-indigo-300' onClick={openExplorer}>Change</button>
+        <div className='flex flex-col justify-center items-center w-full space-x-1 mb-1'>
+            <div className='flex w-full justify-center items-center gap-1'>
+              <button className='w-2/6 p-1 rounded-md md:text-md text-red-500 border-double border-2 border-red-500 hover:text-red-300 hover:border-red-300' onClick={handleRemoveImage}>Remove</button>
+              <button className='w-2/6 p-1 rounded-md text-indigo-500 border-double border-2 border-indigo-500 hover:text-indigo-300 hover:border-indigo-300' onClick={openExplorer}>Change</button>
+            </div>
         </div>
 
-        <div className='mb-4'>
-          <button className='w-48 p-1 rounded-md text-indigo-500 border-double border-2 border-indigo-500 hover:text-indigo-300 hover:border-indigo-300' onClick={handleSubmitImage}>Submit</button>
+        <div className='mb-4 w-full flex flex-col items-center'>
+          <button className='w-4/6 p-1 rounded-md text-indigo-500 border-double border-2 border-indigo-500 hover:text-indigo-300 hover:border-indigo-300' onClick={handleSubmitImage}>Submit</button>
         </div>
 
         <div className='w-full h-full mt-14'>
@@ -88,6 +97,7 @@ const ProfilePage = () => {
       <div className="col-span-6 bg-gray-100  p-4 flex flex-col  items-center rounded-2xl">
         <h2 className="text-xl font-bold mb-4">{activeSection}</h2>
         {activeSection === 'Info' && <InfoSec formData = {formData}/>}
+        {activeSection === 'Edit' && <EditSec formData = {formData} updateFormData={updateFormData}/>}
       </div>
 
     </div>
