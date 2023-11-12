@@ -4,7 +4,9 @@ import api from './api'
 
 
 export const useProfile = async () => {
-    try{    
+    //write a username
+    try{   
+        // const response = await api.get("/profile/" + username);
         const response = await api.get("/profile");
         return response;
     }
