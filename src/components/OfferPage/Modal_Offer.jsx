@@ -42,7 +42,6 @@ const ModalTimeLine = ({ isVisible, onClose }) => {
   //   }
 
   const removeCard = (index) => {
-    // setCards(cards.filter((card, i) => i !== index));
     console.log("index: " + index);
     setCards((prevCards) => {
       prevCards.filter((prevCard, i) => {
