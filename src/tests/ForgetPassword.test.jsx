@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import ForgetPassword from '../components/Forgetpasswordform';
+import ForgetPassword from '../components/ForgetPasswordForm';
 import { useForgetPassword } from '../hooks/useForgetPassword';
 
 vi.mock('../hooks/useForgetPassword'); // Mocking the useForgetPassword hook
