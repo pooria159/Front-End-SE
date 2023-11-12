@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Imageval from '../../assets/pic2.jpg';
 import test from '../../assets/prof.jpg';
 import { useProfile } from "../../hooks/useProfile";
@@ -10,17 +11,19 @@ import {MdLocationPin,MdOutlineVerified} from "react-icons/md";
 
 
 const PublicProfile = () => {
+    const params = useParams();
     const [data , setData] = React.useState(null);
     const Genderarr = ["","Male" ,"Female", "Other"];
     useEffect (() => {
         const fetch = async () => {
             const res = await useProfile();
+            console.log(res.data);
             setData(res.data);
         }
         fetch();
     } , []);
-
-
+    
+    
     
     return(
         <div style={{ backgroundImage: `url(${Imageval})`}} className="font-sans antialiased text-gray-900  tracking-wider  overflow-hidden ">
