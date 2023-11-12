@@ -1,7 +1,8 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faVenusMars, faLanguage, faInfoCircle, faTags, faChild, faCalendar, faPhone, faAddressCard, faDog, faSmoking, faBed } from '@fortawesome/free-solid-svg-icons';
 import { Chip } from '@material-tailwind/react';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Genders = [" ", "Man" , "Woman", "Other"]
 const Intrests = ['Coding', 'Traveling', 'Photography', 'Reading']
@@ -15,9 +16,26 @@ const Chips = ({text}) => {
   );
 }
 
-const InfoSec = ({ formData }) => {
+const Loading = () => {
   return (
-    formData && 
+      <div className="flex justify-center items-center h-screen">
+          <ClipLoader color="#2563EB" size={150} />
+      </div>
+  );
+};
+
+
+const InfoSec = ({ formData }) => {
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if(formData !== null)
+      setIsLoading(false);
+  }, [formData]);
+
+  return (
+    isLoading ? <Loading/> : 
     <div className='space-y-5 w-full h-full'>
       <div className="p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md flex flex-wrap">
         <div className="w-full sm:w-1/2 flex flex-col">

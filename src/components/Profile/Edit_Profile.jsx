@@ -284,7 +284,7 @@ const EProfileHostPage = () => {
           }), 
       };
 
-      const disstyle = {
+        const disstyle = {
         control: base => ({
           ...base,
           backgroundColor:"#B4B4B3",
@@ -311,7 +311,7 @@ const EProfileHostPage = () => {
             ...base,
             color: "#26577C",
           }), 
-      };
+        };
       
     return (
         <div>

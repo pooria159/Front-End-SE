@@ -1,4 +1,5 @@
 import Select from 'react-select';
+import ClipLoader from "react-spinners/ClipLoader";
 
 import React,{useRef, useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +13,13 @@ const Genders = [" ", "Man" , "Woman", "Other"]
 const Intrests = ['Coding', 'Traveling', 'Photography', 'Reading']
 
 
-// Add more refs as needed
+const Loading = () => {
+    return (
+        <div className="flex justify-center items-center h-screen">
+            <ClipLoader color="#2563EB" size={150} />
+        </div>
+    );
+};
 
 const fetchCityCountry = async (type, relevent = "") => {
     let obj = [];
@@ -40,13 +47,19 @@ const fetchCityCountry = async (type, relevent = "") => {
 
 const EditSec = ({ formData, updateFormData }) => {
 
+    if(formData == null)
+        formData = {"City" : "", "Country" : "", "State" : ""};
+
+
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
     const phoneRef = useRef(null);
     
-    const [selectedCountry, setSelectedCountry] = useState({"value" : formData.Country, "label" : formData.Country});
-    const [selectedState, setSelectedState] = useState({"value" : formData.State, "label" : formData.State});
-    const [selectedCity, setSelectedCity] = useState({"value" : formData.City, "label" : formData.City});
+    
+    const [isLoading, setIsLoading] = useState(true);
+    const [selectedCountry, setSelectedCountry] = useState({"value" : formData ? formData.Country : " ", "label" : formData ? formData.Country : " "});
+    const [selectedState, setSelectedState] = useState({"value" : formData ? formData.State : " ", "label" : formData ? formData.State : " "});
+    const [selectedCity, setSelectedCity] = useState({"value" : formData ? formData.City : " ", "label" : formData ? formData.City : " "});
 
     const bioRef = useRef(null);
 
@@ -68,19 +81,23 @@ const EditSec = ({ formData, updateFormData }) => {
       };
 
     useEffect(() => {
+        if(formData.Country !== "")
+            setIsLoading(false);
+    }, []);
+    
+    useEffect(() => {
         fetchCityCountry('country').then(setCountryOptions);
         fetchCityCountry('state', formData.Country).then(setStateOptions);
         fetchCityCountry('city', formData.State).then(setCityOptions);
     }, [formData.Country, formData.State]);
 
+
     useEffect(() => {
         fetchCityCountry('state', selectedCountry.value).then(setStateOptions);
-        // setSelectedState(" ")
     }, [selectedCountry]);
 
     useEffect(() => {
         fetchCityCountry('city', selectedState.value).then(setCityOptions);
-        // setSelectedCity(" ")
     }, [selectedState]);
 
 
@@ -96,7 +113,15 @@ const EditSec = ({ formData, updateFormData }) => {
     };
 
     const fetch = async () => {
-        const response = await useProfile();
+        try{
+            const response = await useProfile();
+            setIsLoading(false);
+        }catch(error){
+            toast.error(error.response.data.message, {
+                position: toast.POSITION.TOP_LEFT,
+            });
+            throw error;
+        }
         return response;
     }
 
@@ -140,7 +165,8 @@ const EditSec = ({ formData, updateFormData }) => {
       
 
     return(
-        formData && 
+
+        isLoading ? <Loading/> :
         <form className='flex flex-col  items-center space-y-5 w-full h-full' onSubmit={handleSubmit}>
             <div className="p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md flex flex-wrap">
                 <div className="w-full sm:w-1/2 flex flex-col">

@@ -5,9 +5,11 @@ import { useProfile } from '../hooks/useProfile';
 // Sections:
 import InfoSec from '../components/Profile/InfoSec';
 import EditSec from '../components/Profile/EditSec';
+import ChangePassSec from '../components/Profile/ChangePassSec';
+import MyAnncSec from '../components/Profile/MyAnnouncementsSec';
 
 
-const sections = ['Info', 'Edit', 'Change Pass', 'Offers', 'Blog'];
+const sections = ['Info', 'Edit', 'Change Pass', 'Offers', 'My Announcements', 'Blog'];
 
 const ProfilePage = () => {
 
@@ -98,6 +100,8 @@ const ProfilePage = () => {
         <h2 className="text-xl font-bold mb-4">{activeSection}</h2>
         {activeSection === 'Info' && <InfoSec formData = {formData}/>}
         {activeSection === 'Edit' && <EditSec formData = {formData} updateFormData={updateFormData}/>}
+        {activeSection === 'Change Pass' && <ChangePassSec/> }
+        {activeSection === 'My Announcements' && <MyAnncSec/> }
       </div>
 
     </div>
