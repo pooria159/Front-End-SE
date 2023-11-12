@@ -1,11 +1,43 @@
 import React, { useEffect, useState } from "react";
+const wsurl = import.meta.env.VITE_WEBSOCKET_CHAT_URL;
 
-function ChatRoom({ username }) {
+function ChatRoom(id1) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [ws, setWs] = useState(null);
 
   useEffect(() => {
+    const id = getDecodedToken();
+    // console.log("id issss");
+    // console.log(id);
+    if(id1>id.UserID){
+      firstID=id.UserID
+      secondID=id1
+    }else{
+      firstID=id1
+      secondID=id.UserID
+    }
+    const socket = new WebSocket(wsurl + "/" + firstID + "/" + secondID);
+    socket.onopen = (event) => {
+      console.warn("WebSocket connection opened:", event);
+    };
+
+    socket.onclose = (event) => {
+      console.error("WebSocket connection closed:", event);
+    };
+
+    socket.onerror = (event) => {
+      console.error("WebSocket error:", event);
+    };
+
+    socket.onmessage = (event) => {
+      console.log("WebSocket message received:", event.data);
+      const data = JSON.parse(event.data);
+      if (data.signal === 1) {
+        setHasNotification(true);
+        // setNotifications([...notifications, data.notification]);
+      }
+    };
     // Create a WebSocket connection
     // const newWebSocket = new WebSocket('wss://your-websocket-server-url');
 
@@ -14,10 +46,10 @@ function ChatRoom({ username }) {
     //   setWs(newWebSocket);
     // };
 
-    // newWebSocket.onmessage = (event) => {
-    //   const newMessage = JSON.parse(event.data);
-    //   setMessages((prevMessages) => [...prevMessages, newMessage]);
-    // };
+    socket.onmessage = (event) => {
+      const newMessage = JSON.parse(event.data);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    };
 
     // newWebSocket.onclose = () => {
     //   console.log('WebSocket connection closed');
@@ -28,7 +60,7 @@ function ChatRoom({ username }) {
     //     ws.close();
     //   }
     // };
-    setMessages(sampleMessages);
+    // setMessages(sampleMessages);
   }, []);
 
   const sendMessage = () => {
@@ -96,8 +128,8 @@ function ChatRoom({ username }) {
             className="bg-white p-2 mb-2 rounded-md shadow-md w-3/4"
           >
             <strong>{msg.username}</strong>
-            <div>{msg.text} </div>
-            <div className="text-sm text-right c">({msg.timestamp})</div>
+            <div>{msg.message} </div>
+            <div className="text-sm text-right c">({msg.time})</div>
           </div>
         ))}
       </div>
