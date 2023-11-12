@@ -10,8 +10,9 @@ import { useEffect, useState } from "react";
 import profImg from "../assets/profile.jpg";
 import logo from "../assets/logo/logo.png";
 import { red } from "@mui/material/colors";
-import getDecodedToken from "../hooks/useNotification";
-const wsurl = import.meta.env.VITE_WEBSOCKET_URL;
+import getDecodedToken from "../hooks/useDecodedToken";
+const wsurl = import.meta.env.VITE_WEBSOCKET_NOTIFICATION_URL;
+import { useGetNotification } from "../hooks/useGetNotifications";
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -58,25 +59,34 @@ export default function Navbar() {
     socket.onmessage = (event) => {
       console.log("WebSocket message received:", event.data);
       const data = JSON.parse(event.data);
-      if (data.type === "notification") {
+      if (data.signal === 1) {
         setHasNotification(true);
-        setNotifications([...notifications, data.notification]);
+        // setNotifications([...notifications, data.notification]);
       }
     };
     // console.log("WebSocket URL:", socket);
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === "notification") {
-        setHasNotification(true);
-        setNotifications([...notifications, data.notification]);
-      }
-    };
+    // socket.onmessage = (event) => {
+    //   const data = JSON.parse(event.data);
+    //   if (data.type === "notification") {
+    //     setHasNotification(true);
+    //     setNotifications([...notifications, data.notification]);
+    //   }
+    // };
 
     // Clean up the WebSocket connection when the component unmounts
     return () => {
       socket.close();
     };
-  }, [notifications]);
+  });
+
+  const setNotificationList = async() =>{
+    console.log("get notif is called");
+    if(hasNotification){
+      const data = await useGetNotification();
+      setNotifications(data.data);
+    }
+    console.log("get notif is called");
+  };
 
   return (
     <Disclosure as="nav" className="z-50 sticky w-full bg-gray-800">
@@ -122,9 +132,12 @@ export default function Navbar() {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Menu as="div" className="relative">
-                  <Menu.Button className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none ">
+                  <Menu.Button className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none "
+                  onClick={setNotificationList}
+                  >
                     {hasNotification && (
-                      <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full" />
+                      <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full" 
+                      />
                     )}
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
@@ -141,7 +154,7 @@ export default function Navbar() {
                       notifications.map((notification, index) => (
                         <Menu.Item key={index}>
                           <span className="block px-4 py-2 text-sm text-gray-700">
-                            {notification}
+                            {notification.message}
                           </span>
                         </Menu.Item>
                       ))
