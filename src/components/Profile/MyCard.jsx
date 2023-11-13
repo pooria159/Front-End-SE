@@ -2,9 +2,14 @@ import {React, useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe, faFlag, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
+import ModalTimeLine from '../OfferPage/Modal_Offer';
+
 import mycard from "../../assets/myCard.jpg";
 
 const MyCard = ({data}) => {
+
+    const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     console.log(data)
   }, []);
@@ -29,7 +34,8 @@ const MyCard = ({data}) => {
             <li className='text-sm'><FontAwesomeIcon icon={faCalendarAlt} /> End Date: {data.EndDate}</li>
           </ul>
           <p className="h-[3rem] mt-2 text-gray-500 text-sm border-t">{data.Description && data.Description.substring(0, 90) + (data.Description.length > 90 ? "..." : "")}</p>
-          <button className="mt-4 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>Offers</button>
+          <button className="mt-4 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }} onClick={() => setShowModal(true)}>Offers</button>
+          <ModalTimeLine isVisible={showModal} onClose={() => setShowModal(false)}/>
         </div>
       </div>
     </div>
