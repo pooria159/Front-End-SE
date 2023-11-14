@@ -16,10 +16,10 @@ export default {
       },
       colors: {
         pallate: {
-          primary: '#EBE4D1',
-          secondary: '#B4B4B3',
-          Third: '#26577C',
-          fourth: '#E55604'
+          primary: '#222831',
+          secondary: '#393E46',
+          third: '#00ADB5',
+          fourth: '#EEEEEE'
         }
       },
       animation: {
