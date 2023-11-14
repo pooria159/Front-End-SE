@@ -13,6 +13,7 @@ import { red } from "@mui/material/colors";
 import getDecodedToken from "../hooks/useDecodedToken";
 const wsurl = import.meta.env.VITE_WEBSOCKET_NOTIFICATION_URL;
 import { useGetNotification } from "../hooks/useGetNotifications";
+import useAnncCard from "../hooks/useAncCard";
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -31,7 +32,7 @@ export default function Navbar() {
       navigate("/login");
     }
   };
-  const [hasNotification, setHasNotification] = useState(true);
+  const [hasNotification, setHasNotification] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
@@ -39,10 +40,13 @@ export default function Navbar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  useEffect(() => {
+  useState(() => {
     const id = getDecodedToken();
-    // console.log("id issss");
-    // console.log(id);
+
+    const token = localStorage.getItem('token');
+    console.log(token);
+
+    
     const socket = new WebSocket(wsurl + "/" + id.UserID);
     socket.onopen = (event) => {
       console.warn("WebSocket connection opened:", event);
@@ -64,16 +68,7 @@ export default function Navbar() {
         // setNotifications([...notifications, data.notification]);
       }
     };
-    // console.log("WebSocket URL:", socket);
-    // socket.onmessage = (event) => {
-    //   const data = JSON.parse(event.data);
-    //   if (data.type === "notification") {
-    //     setHasNotification(true);
-    //     setNotifications([...notifications, data.notification]);
-    //   }
-    // };
 
-    // Clean up the WebSocket connection when the component unmounts
     return () => {
       socket.close();
     };
@@ -86,6 +81,7 @@ export default function Navbar() {
       setNotifications(data.data);
     }
     console.log("get notif is called");
+    setHasNotification(false);
   };
 
   return (
@@ -143,7 +139,7 @@ export default function Navbar() {
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                   </Menu.Button>
-                  <Menu.Items className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg focus:outline-none">
+                  <Menu.Items className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded shadow-lg focus:outline-none">
                     {notifications.length === 0 ? (
                       <Menu.Item>
                         <span className="block px-4 py-2 text-sm text-gray-700">
@@ -153,7 +149,7 @@ export default function Navbar() {
                     ) : (
                       notifications.map((notification, index) => (
                         <Menu.Item key={index}>
-                          <span className="block px-4 py-2 text-sm text-gray-700">
+                          <span className="block px-4 py-2 text-sm text-gray-700 border-t">
                             {notification.message}
                           </span>
                         </Menu.Item>
