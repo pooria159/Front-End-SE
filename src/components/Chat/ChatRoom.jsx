@@ -8,8 +8,11 @@ function ChatRoom() {
   const [ws, setWs] = useState(null);
 
   useState(() => {
-    const id = getDecodedToken();
-    const id1 = 11;
+    // const id = getDecodedToken();
+    /////needs to be changed
+    const id1 = 3;
+    const id =2;
+    ///////
     let firstID, secondID;
 
     if (id1 > id.UserID) {
@@ -19,8 +22,8 @@ function ChatRoom() {
       firstID = id1;
       secondID = id.UserID;
     }
-
-    const socket = new WebSocket(wsurl + "/2/3");
+    ////////////needs to be changed
+    const socket = new WebSocket(wsurl + "/"+firstID+"/"+secondID);
     socket.onopen = (event) => {
       console.warn("WebSocket connection opened:", event);
       setWs(socket);
@@ -50,7 +53,7 @@ function ChatRoom() {
 
   const sendMessage = () => {
     const id = getDecodedToken();
-    console.log("send is called");
+    // console.log("send is called");
     if (message && ws) {
       const chatRequest = {
         message: message,
@@ -60,48 +63,17 @@ function ChatRoom() {
 
       // Send the chat request to the server
       ws.send(JSON.stringify(chatRequest));
-      console.log("send is DONE");
+      // console.log("send is DONE");
       // Update the local state
       // setMessages([...messages, chatRequest]);
       setMessage("");
     }
   };
-  // return (
-  //   <div className="flex flex-col h-screen bg-gray-100 p-4 rounded-lg shadow-lg">
-  //     <div className="message-list flex-grow max-h-60 overflow-y-auto">
-  //       {messages.map((msg, index) => (
-  //         <div
-  //           key={index}
-  //           className="bg-white p-2 mb-2 rounded-md shadow-md w-3/4"
-  //         >
-  //           <strong>{msg.username}</strong>
-  //           <div>{msg.message} </div>
-  //           <div className="text-sm text-right c">({msg.time})</div>
-  //         </div>
-  //       ))}
-  //     </div>
-  //     <div className="message-input ml-4 m-0  w-full flex items-center">
-  //       <input
-  //         type="text"
-  //         className="flex-grow px-3 py-2 rounded-full border-2 border-gray-200 focus:outline-none focus:border-blue-500"
-  //         placeholder="Type your message..."
-  //         value={message}
-  //         onChange={(e) => setMessage(e.target.value)}
-  //       />
-  //       <button
-  //         className="ml-4 m-0 bg-blue-500 text-white px-2 py-2 rounded-full"
-  //         onClick={sendMessage}
-  //       >
-  //         Send
-  //       </button>
-  //     </div>
-  //   </div>
-  // );
 
   return (
     <div className="bg-gray-100 p-4 rounded-lg shadow-lg w-full">
       <h2 className="text-xl font-bold mb-4">Welcome !</h2>
-      <div className="message-list max-h-60 overflow-y-auto">
+      <div className="message-list h-60 overflow-y-auto">
         {messages.map((msg, index) => (
           <div
             key={index}
