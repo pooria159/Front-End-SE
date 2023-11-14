@@ -42,19 +42,10 @@ export default function Navbar() {
 
   useState(() => {
     const id = getDecodedToken();
-    // console.log("id issss");
-    // console.log(id);
-    ///////
+
     const token = localStorage.getItem('token');
     console.log(token);
 
-    // const fetchData = async () => {
-    //   const data = await useAnncCard();
-    //   console.log(data);
-    // }
-    // fetchData();
-    
-    ///////
     
     const socket = new WebSocket(wsurl + "/" + id.UserID);
     socket.onopen = (event) => {
@@ -90,6 +81,7 @@ export default function Navbar() {
       setNotifications(data.data);
     }
     console.log("get notif is called");
+    setHasNotification(false);
   };
 
   return (
@@ -147,7 +139,7 @@ export default function Navbar() {
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                   </Menu.Button>
-                  <Menu.Items className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg focus:outline-none">
+                  <Menu.Items className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded shadow-lg focus:outline-none">
                     {notifications.length === 0 ? (
                       <Menu.Item>
                         <span className="block px-4 py-2 text-sm text-gray-700">
@@ -157,7 +149,7 @@ export default function Navbar() {
                     ) : (
                       notifications.map((notification, index) => (
                         <Menu.Item key={index}>
-                          <span className="block px-4 py-2 text-sm text-gray-700">
+                          <span className="block px-4 py-2 text-sm text-gray-700 border-t">
                             {notification.message}
                           </span>
                         </Menu.Item>
