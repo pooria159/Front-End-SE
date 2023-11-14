@@ -8,25 +8,13 @@ const MyCard = ({data}) => {
 
     const [showModal, setShowModal] = useState(false);
 
-
-  useEffect (() => {
-    const fetch = async () => {
-        const res = await useMyCard();
-        console.log(res.data.Cards[0])
-        setData(res.data.Cards[0]);
-    }
-    fetch();
-} , []);
-  
   return (
     <div className="max-w-md border border-gray-300 h-[22rem] w-[30rem] mx-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-[30rem] m-2">
       <div className="md:flex h-full">
         <div className="xl:block 2xl:block  md:flex-shrink-0 overflow-hidden">
           <img className="h-full w-full object-cover md:w-48 transform transition duration-500 hover:scale-110" src={mycard} alt="An image"/>
         </div>
-        <div className="p-5">
-          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Baktash</div>
-          
+        <div className="p-5">          
           <ul className="mt-3 text-gray-600 space-y-1">
             <li className='text-sm '><FontAwesomeIcon icon={faGlobe} /> Languages: {data.PreferredLanguages.join(", ")}</li>
                                                                                       
