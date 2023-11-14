@@ -1,48 +1,27 @@
 import React,{useState, useEffect} from "react";
 import MyCard from "./MyCard";
-
-const cardData = [
-    {
-        "PreferredLanguages" : ["English", "Persian"],
-        "DestinationState" : "Tehran",
-        "DestinationCity" : "Tehran",
-        "DestinationCountry" : "Iran",
-        "StartDate" : "2023-10-2",
-        "EndDate" : "2023-10-5",
-        "Description" : "This is my description"
-    },
-    {
-        "PreferredLanguages" : ["English", "Persian"],
-        "DestinationState" : "Tehran",
-        "DestinationCity" : "Tehran",
-        "DestinationCountry" : "Iran",
-        "StartDate" : "2023-10-2",
-        "EndDate" : "2023-10-5",
-        "Description" : "This is my description"
-    },
-    {
-        "PreferredLanguages" : ["English", "Persian"],
-        "DestinationState" : "Tehran",
-        "DestinationCity" : "Tehran",
-        "DestinationCountry" : "Iran",
-        "StartDate" : "2023-10-2",
-        "EndDate" : "2023-10-5",
-        "Description" : "This is my description"
-    },
-    {
-        "PreferredLanguages" : ["English", "Persian"],
-        "DestinationState" : "Tehran",
-        "DestinationCity" : "Tehran",
-        "DestinationCountry" : "Iran",
-        "StartDate" : "2023-10-2",
-        "EndDate" : "2023-10-5",
-        "Description" : "This is my description"
-    },
-]
+import { useMyCard } from '../../hooks/useMyCard';
 
 
 
 const MyAnncSec = () => {
+    const [cardData, setCardData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await useMyCard();
+                console.log(response.data.Cards);
+                setCardData(response.data.Cards);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
     return(
         <div>
             <div className="flex flex-wrap justify-center items-center">

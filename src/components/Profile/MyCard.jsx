@@ -1,18 +1,22 @@
 import {React, useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe, faFlag, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-
 import ModalTimeLine from '../OfferPage/Modal_Offer';
-
 import mycard from "../../assets/myCard.jpg";
 
 const MyCard = ({data}) => {
 
     const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    console.log(data)
-  }, []);
+
+  useEffect (() => {
+    const fetch = async () => {
+        const res = await useMyCard();
+        console.log(res.data.Cards[0])
+        setData(res.data.Cards[0]);
+    }
+    fetch();
+} , []);
   
   return (
     <div className="max-w-md border border-gray-300 h-[22rem] w-[30rem] mx-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-[30rem] m-2">
