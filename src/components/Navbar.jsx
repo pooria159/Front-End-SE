@@ -13,6 +13,7 @@ import { red } from "@mui/material/colors";
 import getDecodedToken from "../hooks/useDecodedToken";
 const wsurl = import.meta.env.VITE_WEBSOCKET_NOTIFICATION_URL;
 import { useGetNotification } from "../hooks/useGetNotifications";
+import useAnncCard from "../hooks/useAncCard";
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -31,7 +32,7 @@ export default function Navbar() {
       navigate("/login");
     }
   };
-  const [hasNotification, setHasNotification] = useState(true);
+  const [hasNotification, setHasNotification] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
@@ -39,10 +40,22 @@ export default function Navbar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  useEffect(() => {
+  useState(() => {
     const id = getDecodedToken();
     // console.log("id issss");
     // console.log(id);
+    ///////
+    const token = localStorage.getItem('token');
+    console.log(token);
+
+    // const fetchData = async () => {
+    //   const data = await useAnncCard();
+    //   console.log(data);
+    // }
+    // fetchData();
+    
+    ///////
+    
     const socket = new WebSocket(wsurl + "/" + id.UserID);
     socket.onopen = (event) => {
       console.warn("WebSocket connection opened:", event);
@@ -64,16 +77,7 @@ export default function Navbar() {
         // setNotifications([...notifications, data.notification]);
       }
     };
-    // console.log("WebSocket URL:", socket);
-    // socket.onmessage = (event) => {
-    //   const data = JSON.parse(event.data);
-    //   if (data.type === "notification") {
-    //     setHasNotification(true);
-    //     setNotifications([...notifications, data.notification]);
-    //   }
-    // };
 
-    // Clean up the WebSocket connection when the component unmounts
     return () => {
       socket.close();
     };
