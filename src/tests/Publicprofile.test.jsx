@@ -1,15 +1,10 @@
-import { render, screen } from '@testing-library/react'
-import Component from '../components/PublicProfilePage/PublicProfile'
+import { render, screen } from "@testing-library/react";
+import PublicProfile from "../components/PublicProfilePage/PublicProfile";
+import { BrowserRouter } from 'react-router-dom';
 import { test } from 'vitest'
 
-test('renders correct name', async () => {
-  const data = {
-    FirstName: 'john',
-    LastName: 'Rahimi'
-  }
 
-  render(Component, { props: { data } })
+it("should render the component without crashing", () => {
+  render(<BrowserRouter><PublicProfile /></BrowserRouter>);
+});
 
-  const elements = screen.queryAllByText(`${data.FirstName} ${data.LastName}`)
-  expect(elements).toHaveLength(0)
-})

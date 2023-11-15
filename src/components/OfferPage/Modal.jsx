@@ -5,6 +5,7 @@ import Decline from "./Decline";
 
 const Modal = ({ isVisible, onClose, isAccept, index, removeCard }) => {
   const hasPrintedRef = useRef(false);
+  const [isVisiblecard, setIsVisiblecard] = useState(true);
 
   useEffect(() => {
     if (!hasPrintedRef.current) {
@@ -24,8 +25,9 @@ const Modal = ({ isVisible, onClose, isAccept, index, removeCard }) => {
       removeCard(index);
     }
   };
+
   const handleYesClick = () => {
-    setIsVisible(false);
+    setIsVisiblecard(false);
   };
 
   const handleNoClick = () => {
