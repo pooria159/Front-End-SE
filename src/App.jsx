@@ -3,7 +3,6 @@ import { Routes, Route, Navigate,useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import EProfilePage from './pages/EProfile';
 import Profile from './pages/Profile';
 import SignupPage from './pages/SignUp';
 import LoginPage from './pages/Login';
@@ -12,7 +11,6 @@ import ResetPasswordPage from './pages/ResetPassword';
 import VerificationPage from './pages/Verification';
 import Checkmail from './pages/Checkmail';
 import ProfilePage from './pages/Profile';
-import ProfileHostPage from './pages/Eprofile-Host';
 import CreateCardPage from './pages/CreateCard';
 import PublicProfile from './pages/PublicProfile';
 

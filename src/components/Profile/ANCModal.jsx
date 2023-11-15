@@ -3,7 +3,7 @@ import { MdClose } from "react-icons/md";
 
 import CreateCardForm from "../ CreateCardForm";
 
-const Modal = ({ isVisible, onClose }) => {
+const ANCModal = ({ isVisible, onClose }) => {
   if (!isVisible) return null;
 
   const handelClose = (e) => {
@@ -17,14 +17,14 @@ const Modal = ({ isVisible, onClose }) => {
       onClick={handelClose}
     >
       <div className="w-[35rem]  h-auto flex flex-col">
-        <div className="bg-pallate-primary p-5 rounded relative">
+        <div className="bg-gradient-to-r from-white/60 to-indigo-600 p-5 rounded relative">
           <button
             className="text-black text-xl absolute top-0 right-0 m-2 hover:bg-gray-50 p-0.5 rounded"
             onClick={() => onClose()}
           >
             <MdClose />
           </button>
-          <div className="bg-gradient-to-r from-white/60 to-indigo-600 p-5 rounded-lg">
+          <div className=" p-5 rounded-lg">
             <CreateCardForm />
           </div>
         </div>
@@ -33,4 +33,4 @@ const Modal = ({ isVisible, onClose }) => {
   );
 };
 
-export default Modal;
+export default ANCModal;

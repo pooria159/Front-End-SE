@@ -228,7 +228,7 @@ const CreateCardForm = () => {
 
   return (
     <div className="mt-5 m-0 w-5/6 selectedCity mx-auto">
-      <h2 className="m-0 mb-5 text-center text-[#26577C] text-2xl font-bold leading-9 tracking-tight ">
+      <h2 className="m-0 mb-5 text-center text-black text-2xl font-bold leading-9 tracking-tight ">
         Create your journey announcement
       </h2>
       <div className="m-0 space-y-2">
@@ -369,7 +369,7 @@ const CreateCardForm = () => {
               </label>
             </div>
             <input
-              className="block w-full rounded-md border-0 py-2  text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1  focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1  text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1  focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
               type="date"
               id="startDate"
               name="StartDate"
@@ -390,7 +390,7 @@ const CreateCardForm = () => {
               </label>
             </div>
             <input
-              className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
               type="date"
               id="endDate"
               name="EndDate"
