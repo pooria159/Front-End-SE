@@ -15,7 +15,6 @@ import ProfilePage from './pages/Profile';
 import ProfileHostPage from './pages/Eprofile-Host';
 import CreateCardPage from './pages/CreateCard';
 import PublicProfile from './pages/PublicProfile';
-import Errornotfound from './pages/notfound';
 
 import ChatRoomPage from './pages/ChatRoom';
 
@@ -48,7 +47,7 @@ const App = () => {
                <Route path="/checkmail" element={<Checkmail/>} />
                <Route path="/create-card" element={<CreateCardPage/>} />
                <Route path="/public/:username" element={<PublicProfile/>} />
-               <Route path='*' element={<Errornotfound/>}/>
+               {/* <Route path='*' element={<Errornotfound/>}/> */}
                <Route path="/chat" element={<ChatRoomPage/>}/>
             </Routes>
             
