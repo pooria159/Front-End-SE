@@ -16,6 +16,34 @@ const formatDate = (dateString) => {
   return `${year}-${month}-${day}`;
 };
 
+const languages = {
+  ar: { name: 'Arabic', localName: 'العربية'},
+  bn: { name: 'Bengali', localName: 'বাংলা'},
+  ch: { name: 'Chinese', localName: '中文'},
+  de: { name: 'German', localName: 'German'},
+  en: { name: 'English', localName: 'English'},
+  es: { name: 'Spanish', localName: 'Español' },
+  fa: { name: 'Persian', localName: 'پارسی' },
+  fr: { name: 'French', localName: 'Français' },
+  gr: { name: 'Greek', localName: 'ελληνική' },
+  gu: { name: 'Guarani', localName: "Avañe'ẽ"},
+  hi: { name: 'Hindi', localName: 'हिंदुस्तानी' },
+  it: { name: 'Italian', localName: 'Italiano' },
+  ko: { name: 'Korean', localName: '한국어'},
+  ms: { name: 'Malay', localName: 'Melayu' },
+  nl: { name: 'Dutch', localName: 'Nederlandse'},
+  pt: { name: 'Portuguese', localName: 'Português'},
+  ro: { name: 'Romanian', localName: 'Română' },
+  ru: { name: 'Russian', localName: 'русский' },
+  sq: { name: 'Albanian', localName: 'shqiptar' },
+  sr: { name: 'Serbo-Croatian', localName: 'Српско-хрватски' },
+  sv: { name: 'Swedish', localName: 'Swedish' },
+  sw: { name: 'Swahili', localName: 'Kiswahili' },
+  ta: { name: 'Tamil', localName: 'தமிழ்' },
+  tr: { name: 'Turkish', localName: 'Türk' },
+};
+
+
 const CreateCardForm = () => {
   const navigate = useNavigate();
 
@@ -163,18 +191,20 @@ const CreateCardForm = () => {
   };
   const onSelectLanguage1 = (languageCode) => {
     setselectedLanguage1(languageCode);
+    // console.log("lang issss :");
+    // console.log(languageCode);
     setFormData({
       ...formData,
       PreferredLanguages: [formData.PreferredLanguages[0], languageCode],
-      // PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
     });
   };
   
   const onSelectLanguage2 = (languageCode) => {
     setselectedLanguage2(languageCode);
+    // console.log("lang issss :");
+    // console.log(languageCode);
     setFormData({
       ...formData,
-      // PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
       PreferredLanguages: [languageCode, formData.PreferredLanguages[1]],
       
     });
@@ -376,7 +406,7 @@ const CreateCardForm = () => {
             <ReactLanguageSelect
               className="z-0"
               searchable={true}
-              onSelect={onSelectLanguage1}
+              onSelect={(language) => onSelectLanguage1(languages[language].name)}
               defaultLanguage={selectedLanguage1}
               
             />
@@ -388,7 +418,8 @@ const CreateCardForm = () => {
             <ReactLanguageSelect
               className="z-0"
               searchable={true}
-              onSelect={onSelectLanguage2}
+              // onSelect={onSelectLanguage2}
+              onSelect={(language) => onSelectLanguage2(languages[language].name)}
               defaultLanguage={selectedLanguage2}
               // disabled={isTravelerCountFocused} 
             />

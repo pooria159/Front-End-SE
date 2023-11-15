@@ -14,10 +14,14 @@ import Checkmail from './pages/Checkmail';
 import ProfilePage from './pages/Profile';
 import ProfileHostPage from './pages/Eprofile-Host';
 import CreateCardPage from './pages/CreateCard';
+<<<<<<< HEAD
 import OfferPage from './pages/Offer';
 import PublicProfile from './pages/PublicProfile';
 import Errornotfound from './pages/notfound';
 
+=======
+import ChatRoomPage from './pages/ChatRoom';
+>>>>>>> 71d9445c4392439c130169942dadec0142a91e1f
 
 
 import { ToastContainer} from 'react-toastify';
@@ -47,9 +51,13 @@ const App = () => {
                <Route path="/verify-email" element={<VerificationPage />} />
                <Route path="/checkmail" element={<Checkmail/>} />
                <Route path="/create-card" element={<CreateCardPage/>} />
+<<<<<<< HEAD
                <Route path="/offer" element={<OfferPage/>} />
                <Route path="/public/:username" element={<PublicProfile/>} />
                <Route path='*' element={<Errornotfound/>}/>
+=======
+               <Route path="/chat" element={<ChatRoomPage/>}/>
+>>>>>>> 71d9445c4392439c130169942dadec0142a91e1f
             </Routes>
             
          </div>
