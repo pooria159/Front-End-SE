@@ -191,16 +191,16 @@ const EProfileHostPage = () => {
             });
               
             } else{
-                toast.error("password are not correct!", {
+                toast.error("password is not correct!", {
                     position: toast.POSITION.TOP_LEFT,
                 });
             }
-          }  catch(error){
+        }catch(error){
             toast.error(error.response.data.message, {
               position: toast.POSITION.TOP_LEFT,
             });
             throw error;
-          }
+        }
 
     };
 

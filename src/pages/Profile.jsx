@@ -9,7 +9,7 @@ import ChangePassSec from '../components/Profile/ChangePassSec';
 import MyAnncSec from '../components/Profile/MyAnnouncementsSec';
 
 
-const sections = ['Info', 'Edit', 'Change Pass', 'Offers', 'My Announcements', 'Blog'];
+const sections = ['Info', 'Edit', 'Change Pass', 'My Announcements', 'Blog'];
 
 const ProfilePage = () => {
 
@@ -92,6 +92,14 @@ const ProfilePage = () => {
             {section}
           </button>
         ))}
+        </div>
+
+        <div className='w-full mt-16'>
+        <button
+          className="flex border-solid border-[1px] bg-white border-red-500 justify-center items-center block w-full text-left mb-2 p-2 rounded-lg "
+          >
+          New Announcement
+          </button>
         </div>
 
       </div>

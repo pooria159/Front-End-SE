@@ -152,13 +152,15 @@ const EditSec = ({ formData, updateFormData }) => {
     
         console.log(changes);
         try{
-            await useEditProfile(changes);
+            const response = await useEditProfile(changes);
+            toast.success("Your information has been changed successfully!")
             const newFromData = await fetch();
             updateFormData(newFromData.data);
         } catch(error){
+            toast.error(error);
             throw error;
         }
-        toast.success("Your information has been changed successfully!")
+        
         
     };
     
