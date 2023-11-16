@@ -2,6 +2,10 @@ import {React, useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe, faFlag, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
+import { toast } from 'react-toastify';
+
+import useCreateOffer from '../../hooks/useCreateOffer';
+
 import bakimg from "../../assets/baktash.jpg";
 
 const Chips = ({text}) => {
@@ -14,6 +18,22 @@ const Chips = ({text}) => {
 
 
 const Card = ({data}) => {
+
+  const fetch = async () => {
+    try{
+      const response = await useCreateOffer(data.CardId);
+      if (response.status >= 200 && response.status < 300) {
+        toast.success("Your offer has submited successfully!")
+      }
+    }catch(error){
+      toast.error(error.response.data.message);
+      throw(error);
+    }
+  }
+
+  const handleSubmitOffer = () => {
+    fetch();
+  }
 
   return (
     <div className="max-w-md border border-gray-300 h-1/2 w-1/2 mx-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-[30rem] m-2">
@@ -40,7 +60,7 @@ const Card = ({data}) => {
             <li className='text-sm'><FontAwesomeIcon icon={faCalendarAlt} /> End Date: {data.EndDate}</li>
           </ul>
           <p className="h-[3rem] mt-2 text-gray-500 text-sm border-t">{data.Description && data.Description.substring(0, 90) + (data.Description.length > 90 ? "..." : "")}</p>
-          <button className="mt-4 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>Make an Offer</button>
+          <button className="mt-4 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }} onClick={handleSubmitOffer}>Make an Offer</button>
         </div>
       </div>
     </div>
