@@ -5,8 +5,10 @@ import image from "../../assets/baktash.jpg";
 import Modal from "./Modal";
 // import {useOffer} from "../../hooks/useOffer";
 import {useMyCard} from "../../hooks/useMyCard";
+import { Link } from 'react-router-dom';
 
-const ModalTimeLine = ({ isVisible, onClose, offers, cardId }) => {
+
+const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
   console.log('the offers: ', offers)
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isAccept, setIsAccept] = useState(true);
@@ -56,7 +58,7 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId }) => {
           <div className="p-10 space-y-3">
             {offers.length > 0 ? (
               offers.map((card, index) => (
-                <ol key={index} className="hover:cursor-pointer">
+                <Link to={`/public/${index}`} className="hover:cursor-pointer">
                   <li>
                     <div className="items-center block p-3 bg-indigo-200 sm:flex rounded-lg hover:bg-indigo-400">
                       <img
@@ -105,7 +107,7 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId }) => {
                       </div>
                     </div>
                   </li>
-                </ol>
+                </Link>
               ))
             ) : (
               <div

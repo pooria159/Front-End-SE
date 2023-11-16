@@ -111,6 +111,7 @@ const MyCard = ({ data }) => {
             onClose={() => setShowModal(false)}
             offers={offersData && offersData}
             cardId={data.CardId}
+            hostId={data.HostId}
           />
         </div>
       </div>
