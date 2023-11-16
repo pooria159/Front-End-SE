@@ -78,7 +78,7 @@ const EditSec = ({ formData, updateFormData }) => {
           width: '10rem',
           marginLeft: '0.25rem',
         }),
-      };
+    };
 
     useEffect(() => {
         if(formData.Country !== "")
