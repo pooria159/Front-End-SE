@@ -30,7 +30,7 @@ const App = () => {
       <div className="flex flex-col min-h-screen">
          <div className="flex-grow">
 
-         {!['/login', '/signup'].includes(location.pathname) && <Navbar />}
+         {!['/login', '/signup','/checkmail', '/verify-email', '/forget-password'].includes(location.pathname) && <Navbar />}
             <Routes>
                <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
                {/* <Route path="/Eprofile" element={islogin ? <EProfilePage /> : <Navigate to="/login" />} /> */}
@@ -50,7 +50,7 @@ const App = () => {
             </Routes>
             
          </div>
-         {!['/login', '/signup'].includes(location.pathname) && <Footer />}
+         {!['/login', '/signup','/checkmail', '/verify-email', '/forget-password'].includes(location.pathname) && <Footer />}
       </div>
          <ToastContainer 
                   position="top-left"

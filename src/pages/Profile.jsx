@@ -3,8 +3,6 @@ import { toast } from 'react-toastify';
 import defaultProfilePic from "../assets/defaultUserPic.png";
 import { useProfile } from '../hooks/useProfile';
 
-import { readAndCompressImage } from 'browser-image-resizer';
-
 import ANCModal from '../components/Profile/ANCModal';
 
 // Sections:
@@ -50,6 +48,21 @@ const skeleton = () => {
   )
 }
 
+const convertFileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+          resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (err) => {
+          reject(err);
+      };
+  });
+};
+
 
 const ProfilePage = () => {
 
@@ -61,6 +74,7 @@ const ProfilePage = () => {
 
   const [activeSection, setActiveSection] = useState(sections[0]);
   const [image, setImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const fileInputRef = useRef();
 
@@ -69,7 +83,7 @@ const ProfilePage = () => {
         try{
           const response = await useProfile();
           setFormData(response.data);
-          setImage(response.data.image)
+          setPreviewImage(response.data.image)
           setIsLoading(false);
           console.log(response.data);
         }catch(error){
@@ -84,51 +98,49 @@ const ProfilePage = () => {
 
   // const handleImageUpload = (event) => {
   //   const file = event.target.files[0];
+  //   setImage(file); // Store the file object
+  
   //   const reader = new FileReader();
-
   //   reader.onloadend = () => {
-  //     setImage(reader.result);
+  //     setPreviewImage(reader.result); // Store the data URL for previewing the image
   //   };
-
   //   reader.readAsDataURL(file);
-
-  //   //Clear the file input value
-  //   event.target.value = null;
+  
+  //   event.target.value = null; // Clear the file input value
   // };
 
-  const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
-    const config = {
-      quality: 0.5,
-      maxWidth: 800,
-      maxHeight: 600,
-      autoRotate: true,
-      debug: true
-    };
-    try {
-      const compressedImage = await readAndCompressImage(file, config);
-      setImage(URL.createObjectURL(compressedImage));
-    } catch (error) {
-      console.log(error);
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    const size_mb = file.size / 1024 ** 2;
+    const size_kb = size_mb * 1000;
+    if (size_kb <= 500) {
+        const base64Image = await convertFileToBase64(file);
+        setPreviewImage(base64Image ? base64Image : "");
+    } else {
+        toast.warning("Image size can not be more than 500kb.");
     }
-  };
+    e.target.value = null; // Clear the file input value
+}
 
   const handleRemoveImage = () => {
     setImage("");
+    setPreviewImage("");
   }
 
   const handleSubmitImage = () => {
     const postImage = async () => {
-      if(image){
+      // console.log(previewImage)
+      if(previewImage){
         try{
-          const response = await useProfileImage({"image" : image})
+          let base64Image = previewImage.split(',')[1];
+          const response = await useProfileImage({"image" : previewImage})
           if (response.status >= 200 && response.status < 300) {
             toast.success("Profile picture changed successfully!");
           } else{
             toast.error("Something went wrong!");
           }
         }catch(error){
-          toast.error(error.response.data.message);
+          
           throw error;
         }
         
@@ -164,7 +176,7 @@ const ProfilePage = () => {
             <h2 className="text-xl font-bold mb-4">{formData.FirstName} {formData.LastName}</h2>
             <input ref={fileInputRef} id="imageUpload" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
             <label onClick={openExplorer} className="cursor-pointer flex flex-col justify-center items-center relative">
-                <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={image!=null && image!="" ? image : defaultProfilePic} onError={handleError} alt="Profile" />
+                <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} onError={handleError} alt="Profile" />
             </label>
             
             <div className='flex flex-col justify-center items-center w-full space-x-1 mb-1'>
