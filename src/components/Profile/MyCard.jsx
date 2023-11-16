@@ -40,7 +40,7 @@ const MyCard = ({ data }) => {
     let form = { AnnouncementId: data.CardId };
     try {
       const response = await useOffer(form);
-      setOffersData(response.data.offers);
+      setOffersData(response.data.offers ? response.data.offers : []);
       // console.log(response.data);
       return response;
     } catch (error) {
@@ -101,7 +101,7 @@ const MyCard = ({ data }) => {
               // fetchAllOffers(data.CardId).then((res) => {
               //   offersData && offersData.length > 0 && setShowModal(true);
               // });
-              offersData && offersData.length !== 0 && setShowModal(true);
+              offersData && setShowModal(true);
             }}
           >
             Offers
@@ -109,7 +109,7 @@ const MyCard = ({ data }) => {
           <ModalTimeLine
             isVisible={showModal}
             onClose={() => setShowModal(false)}
-            offers={offersData.length !== 0 && offersData}
+            offers={offersData && offersData}
             cardId={data.CardId}
           />
         </div>
