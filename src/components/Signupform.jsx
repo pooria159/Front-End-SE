@@ -91,7 +91,7 @@ const SignupForm =  () => {
       password: '',
       confirmPassword: '',
       country: '',
-      city: '',
+      state: '',
       birthdate: '',
       gender: 0
     });
@@ -272,8 +272,8 @@ const SignupForm =  () => {
               State
             </label>
             <Select
-              id="city"
-              name="city"
+              id="State"
+              name="State"
               options= {states && states.map(state => ({
                 value: state.state_name,
                 label: state.state_name,
@@ -281,7 +281,7 @@ const SignupForm =  () => {
               value={selectedState}
               onChange={(selectedState) => {
                 setSelectedState(selectedState)
-                setFormData({ ...formData, ["city"]:  selectedState.value});
+                setFormData({ ...formData, ["state"]:  selectedState.value});
               }}
               isSearchable
               isDisabled = {selectedCountry == ""}
