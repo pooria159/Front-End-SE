@@ -369,7 +369,7 @@ const CreateCardForm = () => {
               </label>
             </div>
             <input
-              className="block w-full rounded-md border-0 py-1  text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1  focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1  focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
               type="date"
               id="startDate"
               name="StartDate"
@@ -390,7 +390,7 @@ const CreateCardForm = () => {
               </label>
             </div>
             <input
-              className="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
               type="date"
               id="endDate"
               name="EndDate"

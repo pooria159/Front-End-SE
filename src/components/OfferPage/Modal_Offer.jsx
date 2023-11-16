@@ -1,36 +1,25 @@
 import { MdClose } from "react-icons/md";
 import React, { useState , useEffect} from "react";
+import useOffer from "../../hooks/useOffer";
 import image from "../../assets/baktash.jpg";
 import Modal from "./Modal";
 // import {useOffer} from "../../hooks/useOffer";
 import {useMyCard} from "../../hooks/useMyCard";
 
-const ModalTimeLine = ({ isVisible, onClose }) => {
+const ModalTimeLine = ({ isVisible, onClose, offers, cardId }) => {
+  console.log('the offers: ', offers)
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isAccept, setIsAccept] = useState(true);
-  const [setoffer, setOffer] = useState([]);
+  // const [offers, setOffers] = useState([]);
   const [cardDataoffer, setCardDataoffer] = useState(0);
-  const [cards, setCards] = useState([
-    {
-      name: "pooria",
-      role: "host",
-      idCard: "99521289",
-    },
-  ]);
+  // const [cards, setCards] = useState([
+  //   {
+  //     name: "pooria",
+  //     role: "host",
+  //     idCard: "99521289",
+  //   },
+  // ]);
 
-  // const addCard = () => {
-  //   setCards((prevCards) => {
-  //     return [
-  //       ...prevCards,
-  //       {
-  //         name: "New Name",
-  //         role: "New Role",
-  //         idCard: "New ID",
-  //         image: "New Image",
-  //       },
-  //     ];
-  //   });
-  // };
 
   const removeCard = (index) => {
     console.log("index: " + index);
@@ -47,50 +36,6 @@ const ModalTimeLine = ({ isVisible, onClose }) => {
 
   if (!isVisible) return null;
 
-
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await useMyCard();
-            console.log(response.data);
-            // setCardDataoffer(response.data.Cards.CardId);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    fetchData();
-}, []);
-
-
-
-
-  const submitButtonYes = async () => {
-    let form_data = {};
-    form_data = { ...form_data, AnnouncementId: id};
-
-    try{
-        const response = await useOffer(form_data);
-        console.log(response.status);
-        if (response.status >= 200 && response.status < 300) {
-          toast.success("The request was successfully accepted", {
-            position: toast.POSITION.TOP_LEFT,
-        });
-          
-        } else{
-            toast.error("The request was not accepted successfully", {
-                position: toast.POSITION.TOP_LEFT,
-            });
-        }
-        
-      }  catch(error){
-        toast.error(error.response.data.message, {
-          position: toast.POSITION.TOP_LEFT,
-        });
-        throw error;
-      }
-    
-};
 
 
   return (
@@ -109,8 +54,8 @@ const ModalTimeLine = ({ isVisible, onClose }) => {
             <MdClose />
           </button>
           <div className="p-10 space-y-3">
-            {cards.length > 0 ? (
-              cards.map((card, index) => (
+            {offers.length > 0 ? (
+              offers.map((card, index) => (
                 <ol key={index} className="hover:cursor-pointer">
                   <li>
                     <div className="items-center block p-3 bg-indigo-200 sm:flex rounded-lg hover:bg-indigo-400">

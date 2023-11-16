@@ -11,7 +11,6 @@ const MyAnncSec = () => {
         const fetchData = async () => {
             try {
                 const response = await useMyCard();
-                console.log(response.data);
                 setCardData(response.data.Cards);
             } catch (error) {
                 console.error('Error:', error);
