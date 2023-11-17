@@ -55,11 +55,11 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
           >
             <MdClose />
           </button>
-          <div className="p-10 space-y-3">
+          <div className="flex flex-col p-10 space-y-3">
             {offers.length > 0 ? (
               offers.map((card, index) => (
-                <Link to={`/public/${card.HostId}`} className="hover:cursor-pointer outline-0">
-                  <li>
+                <Link to={`/public/${card.HostUsername}`} className="hover:cursor-pointer">
+                    
                     <div className="items-center block p-3 bg-indigo-200 sm:flex rounded-lg hover:bg-indigo-400">
                       <img
                         className="w-12 h-12 mb-3 mr-3 rounded-full sm:mb-0"
@@ -106,7 +106,7 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                         />
                       </div>
                     </div>
-                  </li>
+                  
                 </Link>
               ))
             ) : (
