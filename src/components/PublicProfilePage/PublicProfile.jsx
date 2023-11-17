@@ -87,7 +87,7 @@ const PublicProfile = () => {
         <div className="w-full lg:w-2/5">
           <img
             src={data && data.image}
-            className="h-[400px] w-[280px] rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
+            className="h-2/3 w-3/4 rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
           ></img>
         </div>
       </div>
