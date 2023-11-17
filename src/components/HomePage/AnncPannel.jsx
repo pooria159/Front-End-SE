@@ -238,7 +238,7 @@ export default function AnncPanel() {
     control: (base, state) => ({
       ...base,
       backgroundColor: 'white',
-      borderRadius: '0.75rem',
+      borderRadius: '0.5rem',
       borderColor: '#9095a0',
       paddingLeft: '0.25rem',
       color: '#4a5568',
@@ -251,7 +251,7 @@ export default function AnncPanel() {
     control: (base, state) => ({
       ...base,
       backgroundColor: 'white',
-      borderRadius: '0.75rem',
+      borderRadius: '0.5rem',
       borderColor: '#9095a0',
       paddingLeft: '0.25rem',
       color: '#4a5568',

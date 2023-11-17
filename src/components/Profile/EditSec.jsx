@@ -3,7 +3,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 import React,{useRef, useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faVenusMars, faLanguage, faInfoCircle, faTags, faCoins, faCalendar, faPhone, faEnvelope, faCity, faFlag, faEarth } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faVenusMars, faLanguage, faInfoCircle, faTags, faCoins, faCalendar, faPhone, faEnvelope, faCity, faFlag, faEarth, faAddressBook, faSmoking, faChild, faDog, faBroom, faBed, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useCityCountry } from '../../hooks/useCityCountry';
 import useEditProfile from '../../hooks/useEditProfile';
 import { toast } from 'react-toastify';
@@ -54,12 +54,57 @@ const EditSec = ({ formData, updateFormData }) => {
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
     const phoneRef = useRef(null);
-    
+
+    const Gender = ["", "Male", "Female"];
+    const genderOptions = [
+        {'label' : 'Male', 'value' : 1},
+        {'label' : 'Female', 'value' : 2}
+    ]
+
+    const intrestsOptions = [
+        {'label' : "Computer", 'value' : "Computer"},
+        {'label' : "Nature", 'value' : "Nature"},
+        {'label' : "Movie", 'value' : "Movie"},
+        {'label' : "Game", 'value' : "Game"},
+        {'label' : "Sleep", 'value' : "Sleep"},
+    ]
+
+    const ynOptions = [
+        {'label' : 'Yes', 'value' : 'true'},
+        {'label' : 'No', 'value' : 'false'},
+    ]
+
+    const mapYNResult = {
+        "true" : "Yes",
+        "false" : "No"
+    }
+
+    const roomNumberOptions = [
+        {'label' : '1', 'value' : 1},
+        {'label' : '2', 'value' : 2},
+        {'label' : '3', 'value' : 3},
+        {'label' : '4', 'value' : 4},
+        {'label' : '5', 'value' : 5},
+        {'label' : '6', 'value' : 6},
+        {'label' : '7', 'value' : 7},
+        {'label' : '8', 'value' : 8},
+        {'label' : '9', 'value' : 9},
+    ]
     
     const [isLoading, setIsLoading] = useState(true);
     const [selectedCountry, setSelectedCountry] = useState({"value" : formData ? formData.Country : " ", "label" : formData ? formData.Country : " "});
     const [selectedState, setSelectedState] = useState({"value" : formData ? formData.State : " ", "label" : formData ? formData.State : " "});
     const [selectedCity, setSelectedCity] = useState({"value" : formData ? formData.City : " ", "label" : formData ? formData.City : " "});
+
+    const [selectedGender, setSelectedGender] = useState({"value" : formData ? formData.Gender : " ", "label" : formData ? Gender[formData.Gender] : " "})
+    const [selectedPhoneNumber, setselectedPhoneNumber] = useState((formData && formData.PhoneNumber) ? formData.PhoneNumber : "");
+    const [selectedAddress, setselectedAddress] = useState((formData && formData.Address) ? formData.Address : "");
+    const [selectedIntrests, setSelectedIntrests] = useState((formData && formData.Intrests) ? formData.Intrests : []);
+
+    const [selectedSmokingAllowed, setSelectedSmokingAllowed] = useState((formData && formData.IsSmokingAllowed) ? {"label" : mapYNResult[formData.IsSmokingAllowed],"value" : formData.IsSmokingAllowed} : {"label": "","value":""});
+    const [selectedPetFreindly, setSelectedPetFreindly] = useState((formData && formData.IsPetFriendly) ? {"label" : mapYNResult[formData.IsPetFriendly],"value" : formData.IsPetFriendly} : {"label": "","value":""});
+    const [selectedKidsFriendly, setSelectedKidsFriendly] = useState((formData && formData.IsKidFriendly) ? {"label" : mapYNResult[formData.IsKidFriendly],"value" : formData.IsKidFriendly} : {"label": "","value":""});
+    const [selectedRoomNumbers, setSelectedRoomNumbers] = useState((formData && formData.RoomNumber) ? {"label" : formData.RoomNumber,"value" : formData.RoomNumber} : {"label": "","value":""});
 
     const bioRef = useRef(null);
 
@@ -75,10 +120,32 @@ const EditSec = ({ formData, updateFormData }) => {
           borderColor: '#9095a0',
           paddingLeft: '0.25rem',
           color: '#4a5568',
-          width: '10rem',
+          width: '13rem',
+          height:'2.5rem',
           marginLeft: '0.25rem',
         }),
     };
+    const customStyles2 = {
+        control: (base, state) => ({
+          ...base,
+          backgroundColor: 'white',
+          borderRadius: '0.75rem',
+          borderColor: '#9095a0',
+          paddingLeft: '0.25rem',
+          color: 'blue',
+          width: '75%',
+          height:'2.5rem',
+          marginLeft: '0.25rem',
+        }),
+    };
+
+    const formatOptionLabel = ({label}) => (
+        <div className='flex space-x-1'>
+          <div>
+            {label} 
+          </div>
+        </div>
+    );
 
     useEffect(() => {
         if(formData.Country !== "")
@@ -111,18 +178,44 @@ const EditSec = ({ formData, updateFormData }) => {
     const handleCityChange = (selectedOption) => {
         setSelectedCity(selectedOption);
     };
+    const handleGenderChange = (selectedOption) => {
+        setSelectedGender(selectedOption);
+    };
+    const handleChangePhoneNumber = (e) => {
+        setselectedPhoneNumber(e.target.value);
+    };
+    const handleChangeAddress = (e) => {
+        setselectedAddress(e.target.value);
+    };
+    const handleIntrestsChange = (selectedOptions) => {
+        setSelectedIntrests(selectedOptions);
+    };
+    const handleIsSmokingChange = (selectedOptions) => {
+        setSelectedSmokingAllowed(selectedOptions);
+    };
+    const handlePetFriendlyChange = (selectedOptions) => {
+        setSelectedPetFreindly(selectedOptions);
+    };
+    const handleKidFriendlyChange = (selectedOptions) => {
+        setSelectedKidsFriendly(selectedOptions);
+    };
+    const handleRoomNumberChange = (selectedOptions) => {
+        setSelectedRoomNumbers(selectedOptions);
+    };
+
 
     const fetch = async () => {
         try{
             const response = await useProfile();
             setIsLoading(false);
+            return response;
         }catch(error){
             toast.error(error.response.data.message, {
                 position: toast.POSITION.TOP_LEFT,
             });
             throw error;
         }
-        return response;
+        
     }
 
     const handleSubmit = async (event) => {
@@ -135,7 +228,7 @@ const EditSec = ({ formData, updateFormData }) => {
             changes.UserName = usernameRef.current.value;
         }
     
-        if (bioRef.current.value !== formData.Bio) {
+        if (bioRef.current.value !== '') {
             changes.Bio = bioRef.current.value;
         }
         if (selectedCountry !== null && selectedCountry.value != formData.Country) {
@@ -144,20 +237,44 @@ const EditSec = ({ formData, updateFormData }) => {
         if (selectedState !== null && selectedState.value != formData.State) {
             changes.State = selectedState.value;
         }
-        if (selectedCity !== null && selectedCity.value != formData.City) {
+        if (selectedCity !== null) {
             changes.City = selectedCity.value;
         }
+        if (selectedGender !== null && selectedGender.value != formData.Gender) {
+            changes.Gender = selectedGender.value;
+        }
+        if (selectedPhoneNumber != "") {
+            changes.PhoneNumber = selectedPhoneNumber;
+        }
+        if (selectedKidsFriendly.value != "") {
+            changes.IsKidFriendly = selectedKidsFriendly.value;
+        }
+        if (selectedPetFreindly.value != "") {
+            changes.IsPetFriendly = selectedPetFreindly.value;
+        }
+        if (selectedSmokingAllowed.value != "") {
+            changes.IsSmokingAllowed = selectedSmokingAllowed.value;
+        }
+        if (selectedRoomNumbers.value != "") {
+            changes.RoomNumber = selectedRoomNumbers.value;
+        }
+        if (selectedAddress != "" && selectedAddress != formData.Address) {
+            changes.Address = selectedAddress;
+        }
+        // if (selectedIntrests != []) {
+        //     changes.Intrests = selectedIntrests;
+        // }
     
         // Add similar checks for the rest of the data
     
         console.log(changes);
         try{
             const response = await useEditProfile(changes);
-            toast.success("Your information has been changed successfully!")
             const newFromData = await fetch();
             updateFormData(newFromData.data);
+            toast.success("Your information has been changed successfully!")
         } catch(error){
-            toast.error(error);
+            toast.error(error.response.data.message);
             throw error;
         }
         
@@ -172,66 +289,175 @@ const EditSec = ({ formData, updateFormData }) => {
         <form className='flex flex-col  items-center space-y-5 w-full h-full' onSubmit={handleSubmit}>
             <div className="p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md flex flex-wrap">
                 <div className="w-full sm:w-1/2 flex flex-col">
-                    <div className="flex items-center text-gray-500 mb-4">
-                        <FontAwesomeIcon icon={faUser} className="mr-2" />
-                        <div className=''>
-                        Username: 
-                        <input type='text' className='rounded-xl w-1/2 ml-1 text-gray-700' defaultValue={formData.UserName} ref={usernameRef && usernameRef} />
+                    <div className="flex flex-col text-gray-500 mb-4">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faUser} className="mr-2" />
+                            Username: (Can't be changed)
                         </div>
+                        <input type='text' disabled className='rounded-xl w-3/4 text-gray-700' defaultValue={formData.UserName} ref={usernameRef && usernameRef} />
                     </div>
-                    <div className="flex items-center text-gray-500 mb-4">
-                        <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-                        <div className=''>
-                        Email: 
-                        <input type='text' className='rounded-xl ml-1 w-5/6 text-gray-700' defaultValue={formData.Email} />
+                    <div className="flex flex-col text-gray-500 mb-4">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+                            Email: (Can't be changed)
                         </div>
+                        <input type='text' disabled className='rounded-xl w-3/4 text-gray-700' defaultValue={formData.Email} /> 
                     </div>
-                    <div className="flex items-center text-gray-500 mb-4">
-                        <FontAwesomeIcon icon={faPhone} className="mr-2" />
-                        <div className=''>
-                        Phone Number: 
-                        <input type='text' className='rounded-xl w-1/2 ml-1 text-gray-700' defaultValue={"++989372531777"} />
+                    <div className="flex flex-col text-gray-500 mb-4">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faVenusMars} className="mr-2" />
+                            Gender: (Can't be changed )
                         </div>
+                        <Select 
+                            disabled
+                            isSearchable={false}
+                            className='w-1/2'
+                            styles={customStyles}
+                            options={genderOptions} 
+                            value={selectedGender}
+                            onChange={(selectedOption) => handleGenderChange(selectedOption)}
+                        />
                     </div>
                 {/* Add similar input fields for the rest of the data */}
                 </div>
-                <div className="w-full sm:w-1/2 flex flex-col">
-                    <div className="flex w-full items-center text-gray-500 mb-4">
-                        <FontAwesomeIcon icon={faEarth} className="mr-2" />
-                        <div className='mr-2'>
-                        Country: 
+                <div className="w-full sm:w-1/2 flex flex-col space-y-4">
+                    <div className="flex flex-col w-full text-gray-500">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faEarth} className="mr-2" />
+                            Country: 
                         </div>
                         <Select 
+                            className='w-1/2'
                             styles={customStyles}
                             options={countryOptions} 
                             value={selectedCountry}
                             onChange={(selectedOption) => handleCountryChange(selectedOption)}
                         />
                     </div>
-                    <div className="flex items-center text-gray-500 mb-4">
-                        <FontAwesomeIcon icon={faFlag} className="mr-2" />
-                        <div className=''>
-                        State: 
+                    <div className="flex flex-col text-gray-500">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faFlag} className="mr-2" />
+                            State: 
                         </div>
                         <Select 
+                            className='w-1/2'
                             styles={customStyles}
                             options={stateOptions}
                             value={selectedState} 
                             isDisabled = {!selectedCountry}
                             onChange={(selectedOption) => handleStateChange(selectedOption)}
+                            formatOptionLabel={formatOptionLabel}
                         />
                     </div>
-                    <div className="flex items-center text-gray-500 mb-4">
-                        <FontAwesomeIcon icon={faCity} className="mr-2" />
-                        <div className=''>
-                        City: 
+                    <div className="flex flex-col text-gray-500">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faCity} className="mr-2" />
+                            City: 
                         </div>
                         <Select 
+                            className='w-1/2'
                             styles={customStyles}
                             options={cityOptions}
                             value={selectedCity} 
                             isDisabled = {!selectedState}
                             onChange={(selectedOption) => handleCityChange(selectedOption)}
+                        />
+                    </div>
+                {/* Add similar input fields for the rest of the data */}
+                </div>
+                {/* Add a second column of input fields if needed */}
+            </div>
+            <div className='text-xl font-bold'>Host Section</div>
+            <div className="p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md flex flex-wrap">
+                <div className="w-full sm:w-1/2 flex flex-col">
+                    
+                    <div className="flex flex-col text-gray-500 mb-4">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faPhone} className="mr-2" />
+                            Phone Number: 
+                        </div>
+                        <input type='text' className='rounded-xl w-3/4 text-gray-700' defaultValue={selectedPhoneNumber} onChange={handleChangePhoneNumber}/>
+                    </div>
+                    <div className="flex flex-col text-gray-500 mb-4">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faAddressBook} className="mr-2" />
+                            Address: 
+                        </div>
+                        <input type='text' className='rounded-xl w-3/4 text-gray-700' defaultValue={selectedAddress} onChange={handleChangeAddress}/>
+                    </div>
+                    <div className="flex flex-col text-gray-500 mb-4">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faHeart} className="mr-2" />
+                            Intrests: 
+                        </div>
+                        <Select 
+                            isMulti
+                            isSearchable={false}
+                            className='w-full'
+                            styles={customStyles2}
+                            options={intrestsOptions} 
+                            value={selectedIntrests}
+                            onChange={(selectedOptions) => handleIntrestsChange(selectedOptions)}
+                        />
+                    </div>
+                    <div className="flex flex-col text-gray-500">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faBed} className="mr-2" />
+                            Room Numbers: 
+                        </div>
+                        <Select 
+                            className='w-1/2'
+                            isSearchable={false}
+                            styles={customStyles}
+                            options={roomNumberOptions}
+                            value={selectedRoomNumbers} 
+                            onChange={(selectedOption) => handleRoomNumberChange(selectedOption)}
+                        />
+                    </div>
+                {/* Add similar input fields for the rest of the data */}
+                </div>
+                <div className="w-full sm:w-1/2 flex flex-col space-y-5">
+                    <div className="flex flex-col w-full text-gray-500">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faDog} className="mr-2" />
+                            Pet Friendly: 
+                        </div>
+                        <Select 
+                            disabled
+                            isSearchable={false}
+                            className='w-1/2'
+                            styles={customStyles}
+                            options={ynOptions} 
+                            value={selectedPetFreindly}
+                            onChange={(selectedOption) => handlePetFriendlyChange(selectedOption)}
+                        />
+                    </div>
+                    <div className="flex flex-col text-gray-500">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faChild} className="mr-2" />
+                            Kids Friendly 
+                        </div>
+                        <Select 
+                            
+                            isSearchable={false}
+                            className='w-1/2'
+                            styles={customStyles}
+                            options={ynOptions} 
+                            value={selectedKidsFriendly}
+                            onChange={(selectedOption) => handleKidFriendlyChange(selectedOption)}
+                        />
+                    </div>
+                    <div className="flex flex-col text-gray-500">
+                        <div className='flex items-center'>
+                            <FontAwesomeIcon icon={faSmoking} className="mr-2" />
+                            Smoking Allowed: 
+                        </div>
+                        <Select 
+                            className='w-1/2'
+                            styles={customStyles}
+                            options={ynOptions}
+                            value={selectedSmokingAllowed} 
+                            onChange={(selectedOption) => handleIsSmokingChange(selectedOption)}
                         />
                     </div>
                 {/* Add similar input fields for the rest of the data */}

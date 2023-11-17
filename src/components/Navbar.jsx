@@ -2,9 +2,12 @@ import React from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { toast } from 'react-toastify';
 
+import { useProfile } from "../hooks/useProfile";
 import { useNavigate } from "react-router-dom";
 import Handlelogout from "./Handlelogout";
+
 
 import { useEffect, useState } from "react";
 import profImg from "../assets/profile.jpg";
@@ -14,6 +17,8 @@ import getDecodedToken from "../hooks/useDecodedToken";
 const wsurl = import.meta.env.VITE_WEBSOCKET_NOTIFICATION_URL;
 import { useGetNotification } from "../hooks/useGetNotifications";
 import useAnncCard from "../hooks/useAncCard";
+
+import defaultProfilePic from "../assets/defaultUserPic.png";
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -35,6 +40,9 @@ export default function Navbar() {
   const [hasNotification, setHasNotification] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
+
+  const [formData, setFormData] = useState(null);
+  const [previewImg, setPreviewImg] = useState(null);
 
   const toggleNotifDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -84,6 +92,24 @@ export default function Navbar() {
     setHasNotification(false);
   };
 
+  useEffect(() => {
+    const fetch = async () => {
+      try{
+        const response = await useProfile();
+        setFormData(response.data);
+        setPreviewImg(response.data.image)
+      }catch(error){
+        throw error;
+      }
+    }
+    fetch();
+  }, []);
+
+  const handleError = (e) => {
+    e.target.onerror = null;
+    e.target.src = defaultProfilePic;
+  }
+
   return (
     <Disclosure as="nav" className="z-50 sticky w-full bg-pallate-primary">
       {({ open }) => (
@@ -104,7 +130,7 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img className="h-8 w-auto" src={logo} alt="TrekDestiny" />
+                  <img className="p-2 h-8 w-auto" src={logo} alt="TrekDestiny" />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -165,8 +191,9 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src={profImg}
-                        alt=""
+                        src={previewImg!=null && previewImg!="" ? previewImg : defaultProfilePic} 
+                        onError={handleError} 
+                        alt="Profile"
                       />
                     </Menu.Button>
                   </div>

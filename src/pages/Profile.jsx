@@ -5,6 +5,8 @@ import { useProfile } from '../hooks/useProfile';
 
 import ANCModal from '../components/Profile/ANCModal';
 
+
+
 // Sections:
 import InfoSec from '../components/Profile/InfoSec';
 import EditSec from '../components/Profile/EditSec';
@@ -96,31 +98,31 @@ const ProfilePage = () => {
 
 
 
-  // const handleImageUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   setImage(file); // Store the file object
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setImage(file); // Store the file object
   
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     setPreviewImage(reader.result); // Store the data URL for previewing the image
-  //   };
-  //   reader.readAsDataURL(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result); // Store the data URL for previewing the image
+    };
+    reader.readAsDataURL(file);
   
-  //   event.target.value = null; // Clear the file input value
-  // };
+    event.target.value = null; // Clear the file input value
+  };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    const size_mb = file.size / 1024 ** 2;
-    const size_kb = size_mb * 1000;
-    if (size_kb <= 500) {
-        const base64Image = await convertFileToBase64(file);
-        setPreviewImage(base64Image ? base64Image : "");
-    } else {
-        toast.warning("Image size can not be more than 500kb.");
-    }
-    e.target.value = null; // Clear the file input value
-}
+//   const handleImageUpload = async (e) => {
+//     const file = e.target.files[0];
+//     const size_mb = file.size / 1024 ** 2;
+//     const size_kb = size_mb * 1000;
+//     if (size_kb <= 500) {
+//         const base64Image = await convertFileToBase64(file);
+//         setPreviewImage(base64Image ? base64Image : "");
+//     } else {
+//         toast.warning("Image size can not be more than 500kb.");
+//     }
+//     e.target.value = null; // Clear the file input value
+// }
 
   const handleRemoveImage = () => {
     setImage("");
@@ -130,10 +132,11 @@ const ProfilePage = () => {
   const handleSubmitImage = () => {
     const postImage = async () => {
       // console.log(previewImage)
+      const formData = new FormData();
+      formData.append('image', image);
       if(previewImage){
         try{
-          let base64Image = previewImage.split(',')[1];
-          const response = await useProfileImage({"image" : previewImage})
+          const response = await useProfileImage(formData)
           if (response.status >= 200 && response.status < 300) {
             toast.success("Profile picture changed successfully!");
           } else{
@@ -207,7 +210,7 @@ const ProfilePage = () => {
               className="flex border-solid border-[1px] bg-white border-red-500 justify-center items-center block w-full text-left mb-2 p-2 rounded-lg "
               onClick={() => {setISModalOpen(true)}}
               >
-              New Announcement
+                New Announcement
               </button>
             
             </div>
