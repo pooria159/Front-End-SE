@@ -27,8 +27,8 @@ const PublicProfile = () => {
 
   return (
     <div
-      className="font-sans antialiased text-gray-900  tracking-wider  overflow-hidden flex justify-center"
-      style={{ backgroundImage: `url(${Imageval})` }}
+      className="bg-gradient-to-r from-indigo-100 to-indigo-800 font-sans antialiased text-gray-900  tracking-wider  overflow-hidden flex justify-center h-screen"
+      
     >
       <div className="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-20 lg:my-0" >
         {" "}
