@@ -290,26 +290,26 @@ const EditSec = ({ formData, updateFormData }) => {
             <div className="p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md flex flex-wrap">
                 <div className="w-full sm:w-1/2 flex flex-col">
                     <div className="flex flex-col text-gray-500 mb-4">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faUser} className="mr-2" />
                             Username: (Can't be changed)
                         </div>
                         <input type='text' disabled className='rounded-xl w-3/4 text-gray-700' defaultValue={formData.UserName} ref={usernameRef && usernameRef} />
                     </div>
                     <div className="flex flex-col text-gray-500 mb-4">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
                             Email: (Can't be changed)
                         </div>
                         <input type='text' disabled className='rounded-xl w-3/4 text-gray-700' defaultValue={formData.Email} /> 
                     </div>
                     <div className="flex flex-col text-gray-500 mb-4">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faVenusMars} className="mr-2" />
                             Gender: (Can't be changed )
                         </div>
                         <Select 
-                            disabled
+                            isDisabled = {true}
                             isSearchable={false}
                             className='w-1/2'
                             styles={customStyles}
@@ -322,7 +322,7 @@ const EditSec = ({ formData, updateFormData }) => {
                 </div>
                 <div className="w-full sm:w-1/2 flex flex-col space-y-4">
                     <div className="flex flex-col w-full text-gray-500">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faEarth} className="mr-2" />
                             Country: 
                         </div>
@@ -335,7 +335,7 @@ const EditSec = ({ formData, updateFormData }) => {
                         />
                     </div>
                     <div className="flex flex-col text-gray-500">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faFlag} className="mr-2" />
                             State: 
                         </div>
@@ -350,7 +350,7 @@ const EditSec = ({ formData, updateFormData }) => {
                         />
                     </div>
                     <div className="flex flex-col text-gray-500">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faCity} className="mr-2" />
                             City: 
                         </div>
@@ -372,21 +372,21 @@ const EditSec = ({ formData, updateFormData }) => {
                 <div className="w-full sm:w-1/2 flex flex-col">
                     
                     <div className="flex flex-col text-gray-500 mb-4">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faPhone} className="mr-2" />
                             Phone Number: 
                         </div>
                         <input type='text' className='rounded-xl w-3/4 text-gray-700' defaultValue={selectedPhoneNumber} onChange={handleChangePhoneNumber}/>
                     </div>
                     <div className="flex flex-col text-gray-500 mb-4">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faAddressBook} className="mr-2" />
                             Address: 
                         </div>
                         <input type='text' className='rounded-xl w-3/4 text-gray-700' defaultValue={selectedAddress} onChange={handleChangeAddress}/>
                     </div>
                     <div className="flex flex-col text-gray-500 mb-4">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faHeart} className="mr-2" />
                             Intrests: 
                         </div>
@@ -401,7 +401,7 @@ const EditSec = ({ formData, updateFormData }) => {
                         />
                     </div>
                     <div className="flex flex-col text-gray-500">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faBed} className="mr-2" />
                             Room Numbers: 
                         </div>
@@ -418,7 +418,7 @@ const EditSec = ({ formData, updateFormData }) => {
                 </div>
                 <div className="w-full sm:w-1/2 flex flex-col space-y-5">
                     <div className="flex flex-col w-full text-gray-500">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faDog} className="mr-2" />
                             Pet Friendly: 
                         </div>
@@ -433,7 +433,7 @@ const EditSec = ({ formData, updateFormData }) => {
                         />
                     </div>
                     <div className="flex flex-col text-gray-500">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faChild} className="mr-2" />
                             Kids Friendly 
                         </div>
@@ -448,7 +448,7 @@ const EditSec = ({ formData, updateFormData }) => {
                         />
                     </div>
                     <div className="flex flex-col text-gray-500">
-                        <div className='flex items-center'>
+                        <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faSmoking} className="mr-2" />
                             Smoking Allowed: 
                         </div>
