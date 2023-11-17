@@ -35,14 +35,19 @@ const Card = ({data}) => {
     fetch();
   }
 
+  const handleError = (e) => {
+    e.target.onerror = null;
+    e.target.src = defaultProfilePic;
+  }
+
   return (
     <div className="max-w-md border border-gray-300 h-1/2 w-1/2 mx-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-[30rem] m-2">
       <div className="md:flex h-full">
         <div className="xl:block 2xl:block  md:flex-shrink-0 overflow-hidden">
-          <img className="h-full w-full object-cover md:w-48 transform transition duration-500 hover:scale-110" src={bakimg} alt="An image"/>
+          <img className="h-full w-full md:w-48 transform transition duration-500 hover:scale-110" src={data.Image} onError={handleError} alt="An image"/>
         </div>
         <div className="p-5">
-          <div className="uppercase tracking-wide text-md text-indigo-500 font-semibold">Baktash</div>
+          <div className="uppercase tracking-wide text-md text-indigo-500 font-semibold">{data.UserUsername && data.UserUsername}</div>
           <div className='uppercase  text-sm text-indigo-500 font-semibold'>{data.NumberOfTravelers} Travelers</div>
           <ul className="mt-3 text-gray-600 space-y-1">
             <li className='text-sm '><FontAwesomeIcon icon={faGlobe} /> Languages:</li>
