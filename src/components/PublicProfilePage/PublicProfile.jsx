@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Imageval from "../../assets/pic2.jpg";
 import test from "../../assets/prof.jpg";
 import { useProfile } from "../../hooks/useProfile";
+
+import { usePublicProfile } from "../../hooks/usePublicProfile";
+
 import {
   BsEnvelopeFill,
   BsPenFill,
@@ -10,23 +13,50 @@ import {
   BsCalendar,
 } from "react-icons/bs";
 import { MdLocationPin, MdOutlineVerified } from "react-icons/md";
+import ClipLoader from "react-spinners/ClipLoader";
+
+const Loading = () => {
+  return (
+    <div className="w-full h-full">
+      <div className="flex justify-center items-center mt-[15rem]">
+        <ClipLoader color="#2563EB" size={150} />
+      </div>
+    </div>
+  );
+};
 
 const PublicProfile = () => {
-  const params = useParams();
+  let { username } = useParams();
   const [data, setData] = React.useState(null);
   const Genderarr = ["", "Male", "Female", "Other"];
+  const [isLoading, setIsLoading] = useState(true);
 
+
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const res = await useProfile();
+  //     setData(res.data);
+  //   };
+  //   fetch();
+  // }, []);
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await useProfile();
-      setData(res.data);
-    };
+      try{
+        const response = await usePublicProfile(username);
+        setData(response.data);
+        console.log(response.data);
+        setIsLoading(false);
+      }catch(error){
+        throw error;
+      }
+    }
     fetch();
   }, []);
 
+
   return (
-    <div
+    isLoading ? <Loading/> : <div
       className="bg-gradient-to-r from-indigo-100 to-indigo-800 font-sans antialiased text-gray-900  tracking-wider  overflow-hidden flex justify-center h-screen"
       
     >
@@ -39,7 +69,7 @@ const PublicProfile = () => {
           <div className="p-4 md:p-6 text-center lg:text-left">
             <div
               className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
-              style={{ backgroundImage: `url(${data && data.image})` }}
+              style={{ backgroundImage: `url(${data && data.Image})` }}
             ></div>
             <h1 className="text-3xl font-bold pt-8 lg:pt-0">
               {data && data.FirstName} {data && data.LastName}
@@ -86,8 +116,8 @@ const PublicProfile = () => {
         </div>
         <div className="w-full lg:w-2/5">
           <img
-            src={data && data.image}
-            className="h-2/3 w-3/4 rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
+            src={data && data.Image}
+            className="h-1/2 w-3/4 rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
           ></img>
         </div>
       </div>

@@ -11,7 +11,7 @@ function ChatRoom() {
     // const id = getDecodedToken();
     /////needs to be changed
     const id1 = 3;
-    const id =2;
+    const id = 2;
     ///////
     let firstID, secondID;
 

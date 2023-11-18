@@ -14,13 +14,6 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
   const [isAccept, setIsAccept] = useState(true);
   // const [offers, setOffers] = useState([]);
   const [cardDataoffer, setCardDataoffer] = useState(0);
-  // const [cards, setCards] = useState([
-  //   {
-  //     name: "pooria",
-  //     role: "host",
-  //     idCard: "99521289",
-  //   },
-  // ]);
 
 
   const removeCard = (index) => {
