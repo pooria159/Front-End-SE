@@ -13,7 +13,7 @@ import Checkmail from './pages/Checkmail';
 import ProfilePage from './pages/Profile';
 import CreateCardPage from './pages/CreateCard';
 import PublicProfile from './pages/PublicProfile';
-
+import ChatUIPage from './pages/ChatPage'
 import ChatRoomPage from './pages/ChatRoom';
 
 
@@ -45,6 +45,7 @@ const App = () => {
                <Route path="/checkmail" element={<Checkmail/>} />
                <Route path="/create-card" element={<CreateCardPage/>} />
                <Route path="/public/:username" element={<PublicProfile/>} />
+               <Route path="/chatUI" element={<ChatUIPage/>} />
                {/* <Route path='*' element={<Errornotfound/>}/> */}
                <Route path="/chat" element={<ChatRoomPage/>}/>
             </Routes>
