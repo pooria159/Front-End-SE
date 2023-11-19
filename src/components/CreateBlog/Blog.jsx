@@ -45,13 +45,13 @@ const Blog = () => {
 
   return (
     <div>
-      <h2 className="m-0 mb-5 text-center text-black text-2xl leading-9 tracking-tight ">
+      <h2 className="m-0 text-center text-black text-2xl leading-9 tracking-tight ">
         Create your own blog post
       </h2>
       <form>
         <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-6">
-            <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="border-b border-gray-900/10 ">
+            <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
               <div className="col-span-full">
                 <div className="flex items-center">
                   <MdOutlineSubtitles className="text-2xl" />
@@ -84,7 +84,7 @@ const Blog = () => {
                     Cover photo
                   </label>
                 </div>
-                <div className="mt-1 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-8">
+                <div className="mt-1 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-6">
                   <div className="text-center">
                     <svg
                       className="mx-auto h-12 w-12 text-gray-300"
