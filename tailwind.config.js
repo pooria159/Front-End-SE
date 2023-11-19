@@ -13,6 +13,7 @@ export default {
         'Infobackground': 'url(./src/assets/login_background.jpg)',
         'loginimage': 'url(./src/assets/LoginPage2.jpg)',
         'signupimage': 'url(./src/assets/signupimage.jpg)',
+        'chatimage': 'url(./src/assets/chat.jpg)',
       },
       colors: {
         pallate: {

@@ -3,7 +3,9 @@ import ChatPage from "../components/ChatUI/ChatPage";
 
 const ChatUIpage = () => {
     return(
-        <ChatPage/>
+        <div>
+            <ChatPage/>
+        </div>
     );
 }
 
