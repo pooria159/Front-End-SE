@@ -1,6 +1,7 @@
 import {React, useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe, faFlag, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import defaultProfilePic from "../../assets/defaultUserPic.png";
 
 import { toast } from 'react-toastify';
 
