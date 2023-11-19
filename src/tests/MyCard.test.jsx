@@ -11,6 +11,7 @@ it('should render a card with the given data', () => {
       DestinationCountry: "United States",
       StartDate: "2022-08-01",
       EndDate: "2022-08-15",
+      UserUsername: "Baktash",
       Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nunc a aliquet tincidunt, nunc enim aliquam nunc, auctor aliquet nunc nunc auctor.",
     };
 
@@ -35,6 +36,7 @@ it('should display the preferred languages of the host', () => {
         DestinationCountry: "United States",
         StartDate: "2022-08-01",
         EndDate: "2022-08-15",
+        UserUsername: "Baktash",
         Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nunc a aliquet tincidunt, nunc enim aliquam nunc, auctor aliquet nunc nunc auctor.",
     };
 
