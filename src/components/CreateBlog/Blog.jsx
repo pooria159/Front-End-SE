@@ -2,13 +2,19 @@ import { React, useEffect, useState } from "react";
 import { MdOutlineSubtitles, MdAddPhotoAlternate } from "react-icons/md";
 import { GiJourney } from "react-icons/gi";
 import { Rating } from "flowbite-react";
-import image from "../../assets/baktash.jpg";
+import image_backi from "../../assets/baktash.jpg";
 
-const Blog = () => {
+const Blog = ({ onClose }) => {
+  const [TitelValue, setTitelValue] = useState("");
+  const [BodyValue, setBodyValue] = useState("");
+  const [image, setImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [StarValue, setStarValue] = useState(0);
+
   const Chips = ({ text }) => {
     return (
-      <div class="flex justify-center items-center m-1 font-medium py-2 px-3 bg-white rounded-lg text-indigo-600 border border-gray-900/25 ">
-        <div class="text-s font-semibold leading-none max-w-full flex-initial">
+      <div className="flex justify-center items-center m-1 font-medium py-2 px-3 bg-white rounded-lg text-indigo-600 border border-gray-900/25 ">
+        <div className="text-s font-semibold leading-none max-w-full flex-initial">
           {text}
         </div>
       </div>
@@ -32,15 +38,52 @@ const Blog = () => {
   const handle1star = () => {
     setStars([true, false, false, false, false]);
   };
-  const resetStar = () => {
-    let arr = [false, false, false, false, false];
-    for (let i = 0; i < 2.5; i++) {
-      arr[i] = true;
-    }
-    setStars(arr);
-  };
+
   const handleRatePost = (Rate) => {
     console.log(Rate);
+    setStarValue(Rate);
+  };
+
+  const submitButtonBlog = async () => {
+    let form_data = {};
+    form_data = { ...form_data, Title: TitelValue };
+    form_data = { ...form_data, Body: BodyValue };
+    form_data = { ...form_data, Star: StarValue };
+
+    // try{
+    //     const response = await useCreateBlog(form_data);
+    //     console.log(response.status);
+    //     if (response.status >= 200 && response.status < 300) {
+    //       toast.success("Your blog has been successfully created", {
+    //     });
+    //     }
+
+    //   }  catch(error){
+    //     toast.error(error.response.data.message, {
+    //     });
+    //     throw error;
+    //   }
+  };
+
+  const handleClicks = async () => {
+    submitButtonBlog();
+    onClose();
+  };
+  const handleCancel = () => {
+    onClose();
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setImage(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    event.target.value = null;
   };
 
   return (
@@ -103,6 +146,8 @@ const Blog = () => {
                         <input
                           id="file-upload"
                           name="file-upload"
+                          accept="image/*"
+                          onChange={handleImageUpload}
                           type="file"
                           className="sr-only"
                         />
@@ -121,7 +166,7 @@ const Blog = () => {
                   <div className="items-center block sm:flex">
                     <img
                       className="w-12 h-12 mb-3 mr-1 rounded-full sm:mb-0"
-                      src={image}
+                      src={image_backi}
                     />
                     <div className="flex-grow">
                       <div className="text-base font-normal text-gray-600">
@@ -135,35 +180,30 @@ const Blog = () => {
                                   className="cursor-pointer"
                                   filled={stars[0]}
                                   onMouseEnter={handle1star}
-                                  onMouseLeave={resetStar}
                                   onClick={() => handleRatePost(1)}
                                 />
                                 <Rating.Star
                                   className="cursor-pointer"
                                   filled={stars[1]}
                                   onMouseEnter={handle2star}
-                                  onMouseLeave={resetStar}
                                   onClick={() => handleRatePost(2)}
                                 />
                                 <Rating.Star
                                   className="cursor-pointer"
                                   filled={stars[2]}
                                   onMouseEnter={handle3star}
-                                  onMouseLeave={resetStar}
                                   onClick={() => handleRatePost(3)}
                                 />
                                 <Rating.Star
                                   className="cursor-pointer"
                                   filled={stars[3]}
                                   onMouseEnter={handle4star}
-                                  onMouseLeave={resetStar}
                                   onClick={() => handleRatePost(4)}
                                 />
                                 <Rating.Star
                                   className="cursor-pointer"
                                   filled={stars[4]}
                                   onMouseEnter={handle5star}
-                                  onMouseLeave={resetStar}
                                   onClick={() => handleRatePost(5)}
                                 />
                               </Rating>
@@ -193,6 +233,7 @@ const Blog = () => {
                     name="about"
                     rows="3"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    style={{ resize: "none", overflow: "auto" }}
                     placeholder="Write a few sentences about journey..."
                   ></textarea>
                 </div>
@@ -203,14 +244,16 @@ const Blog = () => {
 
         <div className="mt-6 flex items-center justify-center gap-x-6">
           <button
-            type="button"
+            type="cancel"
             className="w-1/3 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+            onClick={handleCancel}
           >
             Cancel
           </button>
           <button
             type="submit"
             className="w-1/3 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={handleClicks}
           >
             Create
           </button>
