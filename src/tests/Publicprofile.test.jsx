@@ -8,3 +8,4 @@ it("should render the component without crashing", () => {
   render(<BrowserRouter><PublicProfile /></BrowserRouter>);
 });
 
+
