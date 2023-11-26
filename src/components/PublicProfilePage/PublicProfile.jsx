@@ -71,7 +71,7 @@ const PublicProfile = () => {
               className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
               style={{ backgroundImage: `url(${data && data.Image})` }}
             ></div>
-            <h1 className="text-3xl font-bold pt-8 lg:pt-0">
+            <h1 className="text-3xl font-bold pt-8 lg:pt-0" placeholder="Pooria Rahimi">
               {data && data.FirstName} {data && data.LastName}
             </h1>
             <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-pallate-secondary opacity-25"></div>
@@ -106,7 +106,7 @@ const PublicProfile = () => {
               {data && data.JoiningDate}
             </p>
 
-            <p className="pt-8 text-base flex items-center justify-center lg:justify-start">
+            <p className="pt-8 text-base flex items-center justify-center lg:justify-start" placeholder="This is my bio.">
               <div className="h-4 text-pallate-secondary flex items-center mr-2">
                 <BsPenFill className="text-xl ml-1" />
               </div>
