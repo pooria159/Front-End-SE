@@ -59,7 +59,7 @@ const EProfileHostPage = () => {
             setFirstNameValue(res.data.FirstName);
             setLastNameValue(res.data.LastName);
             setBirthDateValue(res.data.BirthDate);
-            setJoinValue(res.data.Join);
+            setJoinValue(res.data.JoiningDate);
             setGenderValue(res.data.Gender);
             setBioValue(res.data.Bio);
             setCityValue(res.data.City);
@@ -191,16 +191,16 @@ const EProfileHostPage = () => {
             });
               
             } else{
-                toast.error("password are not correct!", {
+                toast.error("password is not correct!", {
                     position: toast.POSITION.TOP_LEFT,
                 });
             }
-          }  catch(error){
+        }catch(error){
             toast.error(error.response.data.message, {
               position: toast.POSITION.TOP_LEFT,
             });
             throw error;
-          }
+        }
 
     };
 
@@ -219,9 +219,7 @@ const EProfileHostPage = () => {
         if (data.City != selectcitys["value"]){
             form_data = { ...form_data, City: selectcitys["value"]};
         }
-        if (data.State != selectedStates["value"]){
-            form_data = { ...form_data, State: selectedStates["value"]};
-        }
+        form_data = { ...form_data, State: selectedStates["value"]};
         // if (data.img === null || data.img === ""){
         //     setImgValue(image);
         //     uploadIMG(imgValue);
@@ -284,7 +282,7 @@ const EProfileHostPage = () => {
           }), 
       };
 
-      const disstyle = {
+        const disstyle = {
         control: base => ({
           ...base,
           backgroundColor:"#B4B4B3",
@@ -311,7 +309,7 @@ const EProfileHostPage = () => {
             ...base,
             color: "#26577C",
           }), 
-      };
+        };
       
     return (
         <div>
@@ -497,8 +495,7 @@ const EProfileHostPage = () => {
                                             id="bd"
                                             isDisabled={true}
                                             value={JoinInDateValue}
-                                            placeholder="2023-11-01"
-                                            // placeholder = {data && data.Join}
+                                            placeholder = {data && data.JoiningDate}
                                             isSearchable
                                             styles={disstyle}
                                         />

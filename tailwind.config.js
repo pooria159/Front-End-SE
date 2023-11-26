@@ -10,15 +10,16 @@ export default {
     extend: {
       backgroundImage:{
         'loginbackground': 'url(./src/assets/login_background.jpg)',
+        'Infobackground': 'url(./src/assets/login_background.jpg)',
         'loginimage': 'url(./src/assets/LoginPage2.jpg)',
         'signupimage': 'url(./src/assets/signupimage.jpg)',
       },
       colors: {
         pallate: {
-          primary: '#EBE4D1',
-          secondary: '#B4B4B3',
-          Third: '#26577C',
-          fourth: '#E55604'
+          primary: '#222831',
+          secondary: '#393E46',
+          third: '#00ADB5',
+          fourth: '#EEEEEE'
         }
       },
       animation: {
