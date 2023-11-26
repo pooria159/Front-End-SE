@@ -13,7 +13,7 @@ describe('CreateCardForm component', () => {
 
 test('updates form data state on description change', () => {
     render(<BrowserRouter><CreateCardForm /></BrowserRouter>);
-q
+
     fireEvent.change(screen.getByLabelText(/Description/i), {
       target: { value: 'Test description' },
     });
