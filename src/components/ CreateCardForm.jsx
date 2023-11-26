@@ -6,8 +6,24 @@ import { useCityCountry } from "../hooks/useCityCountry";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import { useCreateCard } from "../hooks/useCreateCard";
+import { TbBuildingEstate } from "react-icons/tb";
+import { MdHome, MdDescription, MdCardTravel, MdCreate } from "react-icons/md";
+import { FaLanguage } from "react-icons/fa";
+import {
+  BsPencilSquare,
+  BsChatSquareTextFill,
+  BsFillPhoneVibrateFill,
+  BsPersonFill,
+  BsCameraFill,
+  BsXLg,
+  BsEnvelopeFill,
+  BsCheckLg,
+  BsPenFill,
+  BsGenderAmbiguous,
+  BsMapFill,
+  BsCalendar,
+} from "react-icons/bs";
 
-// Function to format the date
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -16,12 +32,64 @@ const formatDate = (dateString) => {
   return `${year}-${month}-${day}`;
 };
 
+const languages = {
+  ar: { name: 'Arabic', localName: 'العربية'},
+  bn: { name: 'Bengali', localName: 'বাংলা'},
+  ch: { name: 'Chinese', localName: '中文'},
+  de: { name: 'German', localName: 'German'},
+  en: { name: 'English', localName: 'English'},
+  es: { name: 'Spanish', localName: 'Español' },
+  fa: { name: 'Persian', localName: 'پارسی' },
+  fr: { name: 'French', localName: 'Français' },
+  gr: { name: 'Greek', localName: 'ελληνική' },
+  gu: { name: 'Guarani', localName: "Avañe'ẽ"},
+  hi: { name: 'Hindi', localName: 'हिंदुस्तानी' },
+  it: { name: 'Italian', localName: 'Italiano' },
+  ko: { name: 'Korean', localName: '한국어'},
+  ms: { name: 'Malay', localName: 'Melayu' },
+  nl: { name: 'Dutch', localName: 'Nederlandse'},
+  pt: { name: 'Portuguese', localName: 'Português'},
+  ro: { name: 'Romanian', localName: 'Română' },
+  ru: { name: 'Russian', localName: 'русский' },
+  sq: { name: 'Albanian', localName: 'shqiptar' },
+  sr: { name: 'Serbo-Croatian', localName: 'Српско-хрватски' },
+  sv: { name: 'Swedish', localName: 'Swedish' },
+  sw: { name: 'Swahili', localName: 'Kiswahili' },
+  ta: { name: 'Tamil', localName: 'தமிழ்' },
+  tr: { name: 'Turkish', localName: 'Türk' },
+};
+
+
 const CreateCardForm = () => {
+  const style = {
+    control: (base, state) => ({
+      ...base,
+      borderRadius: "6px",
+      border: "none",
+      outline: "0.1rem solid #26577C",
+      opacity: state.isDisabled ? 0.8 : 1,
+    }),
+    option: (base, state) => ({
+      ...base,
+    }),
+    input3: (base) => ({
+      ...base,
+      border: "none",
+    }),
+    valueContainer: (base) => ({
+      ...base,
+      fontSize: "14px",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#26577C",
+    }),
+  };
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     Description: "",
-    PreferredLanguages: ["en","en"],
+    PreferredLanguages: ["en", "en"],
     StartDate: "",
     EndDate: "",
     DestinationCountry: "",
@@ -30,7 +98,7 @@ const CreateCardForm = () => {
     NumberOfTravelers: 1,
   });
 
-  const numberItems = [1,2,3,4,5,6];
+  const numberItems = [1, 2, 3, 4, 5, 6];
 
   const [isLoading, setIsLoading] = useState(false);
   const [countries, setCountries] = useState(null);
@@ -43,7 +111,6 @@ const CreateCardForm = () => {
   const [selectedLanguage1, setselectedLanguage1] = useState("en");
   const [selectedLanguage2, setselectedLanguage2] = useState("en");
   const [isTravelerCountFocused, setIsTravelerCountFocused] = useState(false);
-
 
   useEffect(() => {
     const fetch = async () => {
@@ -63,10 +130,6 @@ const CreateCardForm = () => {
     fetch();
   }, [selectedCountry]);
 
-  // const handleTravelerCountFocus = () => {
-  //   setIsTravelerCountFocused(true);
-  // };
-
   useEffect(() => {
     setSelectedCity("");
     const fetch = async () => {
@@ -79,71 +142,56 @@ const CreateCardForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // If the input is a date input, format the value
     let formattedValue = e.target.type === "date" ? formatDate(value) : value;
     setFormData({ ...formData, [name]: formattedValue });
   };
   const handleTravelerCountChange = (tc) => {
-    // if (isTravelerCountFocused) {
-      setTravelerCount(tc);
-      setFormData({
-        ...formData,
-        ["NumberOfTravelers"]: tc.value,
-      });
-    // }
-    // setIsTravelerCountFocused(false);
+    setTravelerCount(tc);
+    setFormData({
+      ...formData,
+      ["NumberOfTravelers"]: tc.value,
+    });
   };
 
   const isFormValid = (formData) => {
     if (
-
-    !formData.StartDate ||
-    !formData.EndDate ||
-    !formData.DestinationCountry ||
-    !formData.DestinationState ||
-    !formData.DestinationCity ||
-    !formData.NumberOfTravelers
-    ) {
-    // Display an error message or handle the validation as needed
-    toast.error("Please fill in all required fields.", {
-    position: toast.POSITION.TOP_LEFT,
-    });
-    return false;
-    }
-  }
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const updatedFormData = { ...formData };
-    if (
-
       !formData.StartDate ||
       !formData.EndDate ||
       !formData.DestinationCountry ||
       !formData.DestinationState ||
       !formData.DestinationCity ||
       !formData.NumberOfTravelers
-      ) {
-      // Display an error message or handle the validation as needed
+    ) {
       toast.error("Please fill in all required fields.", {
-      position: toast.POSITION.TOP_LEFT,
+        position: toast.POSITION.TOP_LEFT,
       });
       return false;
-      }
-    // if (!isFormValid(formData)) {
-    //   // If the form is not valid, don't proceed with submission
-    //   return;
-    // }else{
-         try {
+    }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const updatedFormData = { ...formData };
+    if (
+      !formData.StartDate ||
+      !formData.EndDate ||
+      !formData.DestinationCountry ||
+      !formData.DestinationState ||
+      !formData.DestinationCity ||
+      !formData.NumberOfTravelers
+    ) {
+      toast.error("Please fill in all required fields.", {
+        position: toast.POSITION.TOP_LEFT,
+      });
+      return false;
+    }
+    try {
       const response = await useCreateCard(updatedFormData);
       if (response.status >= 200 && response.status < 300) {
-        // Successful response (status code 2xx)
-        // Redirect to /login
         toast.success("Card is created successfully !", {
           autoClose: 1000,
           position: toast.POSITION.TOP_LEFT,
         });
-        setTimeout(() => {
-        }, 1500);
+        setTimeout(() => {}, 1500);
       } else {
         toast.error(response.data["message"], {
           position: toast.POSITION.TOP_LEFT,
@@ -156,46 +204,45 @@ const CreateCardForm = () => {
       throw error;
     }
 
-    return; 
-    // }
-    // useCreateCard(updatedFormData);
-
+    return;
   };
   const onSelectLanguage1 = (languageCode) => {
     setselectedLanguage1(languageCode);
+    // console.log("lang issss :");
+    // console.log(languageCode);
     setFormData({
       ...formData,
       PreferredLanguages: [formData.PreferredLanguages[0], languageCode],
-      // PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
     });
   };
-  
+
   const onSelectLanguage2 = (languageCode) => {
     setselectedLanguage2(languageCode);
+    // console.log("lang issss :");
+    // console.log(languageCode);
     setFormData({
       ...formData,
-      // PreferredLanguages: [languageCode, ...formData.PreferredLanguages],
       PreferredLanguages: [languageCode, formData.PreferredLanguages[1]],
-      
     });
   };
-  
-
 
   return (
     <div className="mt-5 m-0 w-5/6 selectedCity mx-auto">
-      <h2 className="m-0 mb-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+      <h2 className="m-0 mb-5 text-center text-black text-2xl font-bold leading-9 tracking-tight ">
         Create your journey announcement
       </h2>
-      <div className="m-0 space-y-2" >
+      <div className="m-0 space-y-2">
         <div className="flex flex-wrap -mx-3 mb-4">
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-            <label
-              className="block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="country"
-            >
-              Country
-            </label>
+            <div className="flex items-center">
+              <BsMapFill className="mr-1" />
+              <label
+                className="block text-sm font-medium leading-6 text-gray-900"
+                htmlFor="country"
+              >
+                Country:
+              </label>
+            </div>
             <Select
               id="country"
               name="country"
@@ -217,15 +264,19 @@ const CreateCardForm = () => {
               isSearchable
               placeholder="Select"
               required
+              styles={style}
             />
           </div>
           <div className="w-full md:w-1/3 px-3">
-            <label
-              className="block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="state"
-            >
-              State
-            </label>
+            <div className="flex items-center">
+              <TbBuildingEstate className="mr-1 text-xl" />
+              <label
+                className="block text-sm font-medium leading-6 text-gray-900"
+                htmlFor="state"
+              >
+                State:
+              </label>
+            </div>
             <Select
               id="state"
               name="state"
@@ -248,15 +299,19 @@ const CreateCardForm = () => {
               isDisabled={selectedCountry == ""}
               placeholder="Select"
               required
+              styles={style}
             />
           </div>
           <div className="w-full md:w-1/3 px-3">
-            <label
-              className="block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="city"
-            >
-              City
-            </label>
+            <div className="flex items-center">
+              <MdHome className="mr-1 text-xl" />
+              <label
+                className="block text-sm font-medium leading-6 text-gray-900"
+                htmlFor="city"
+              >
+                City:
+              </label>
+            </div>
             <Select
               id="city"
               name="city"
@@ -279,37 +334,42 @@ const CreateCardForm = () => {
               isDisabled={selectedState == ""}
               placeholder="Select"
               required
+              styles={style}
             />
           </div>
         </div>
         <div className="w-full mb-8 ">
-          <label
-            className="block text-sm font-medium leading-6 text-gray-900"
-            htmlFor="description"
-          >
-            Description
-          </label>
+          <div className="flex items-center">
+            <MdDescription className="mr-1 text-xl" />
+            <label
+              className="block text-sm font-medium leading-6 text-gray-900"
+              htmlFor="description"
+            >
+              Description:
+            </label>
+          </div>
           <textarea
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full h-24 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
             id="description"
             name="Description"
             placeholder="Describe your traveling style, places you would like to go in that state, transportation, other traveller priorities,..."
-            // autoComplete="on"
             value={formData.Description}
             onChange={handleChange}
           ></textarea>
         </div>
         <div className="flex flex-wrap  -mx-3 mb-8">
-          {/* Calender */}
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-            <label
-              className="mt-4 block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="dob"
-            >
-              Start Date
-            </label>
+            <div className="flex items-center">
+              <BsCalendar className="mr-1 mt-2" />
+              <label
+                className="block mt-2 text-sm font-medium leading-6 text-gray-900"
+                htmlFor="dob"
+              >
+                Start Date:
+              </label>
+            </div>
             <input
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1  focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
               type="date"
               id="startDate"
               name="StartDate"
@@ -320,14 +380,17 @@ const CreateCardForm = () => {
             />
           </div>
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-            <label
-              className=" mt-4 block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="dob"
-            >
-              End Date
-            </label>
+            <div className="flex items-center">
+              <BsCalendar className="mr-1 mt-2" />
+              <label
+                className="block mt-2 text-sm font-medium leading-6 text-gray-900"
+                htmlFor="dob"
+              >
+                End Date:
+              </label>
+            </div>
             <input
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#26577C] placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#26577C] sm:text-sm sm:leading-6"
               type="date"
               id="endDate"
               name="EndDate"
@@ -338,14 +401,16 @@ const CreateCardForm = () => {
             />
           </div>
           <div className="w-full md:w-1/3 px-3 mb-2">
-            <label
-              className=" mt-4 block text-sm font-medium leading-6 text-gray-900"
-              htmlFor="travelersCount"
-            >
-              Travelers Count
-            </label>
+            <div className="flex items-center">
+              <MdCardTravel className="mr-1 mt-2 text-xl" />
+              <label
+                className="block mt-2 text-sm font-medium leading-6 text-gray-900"
+                htmlFor="travelersCount"
+              >
+                TravelersCount:
+              </label>
+            </div>
             <Select
-              className="w-2/3"
               id="travelersCount"
               name="travelersCount"
               options={numberItems.map((n) => ({
@@ -353,44 +418,44 @@ const CreateCardForm = () => {
                 label: n,
               }))}
               value={TravelerCount}
-              // onFocus={handleTravelerCountFocus}
               onChange={handleTravelerCountChange}
               isSearchable
               placeholder="Select"
               required
+              styles={style}
             />
           </div>
         </div>
 
-        <label
-          className="block text-md font-medium leading-6 text-gray-900"
-          htmlFor="dob"
-        >
-          Preferred Languages:
-        </label>
-        <div className=" w-full mx-auto flex flex-wrap -mx-3 mb-6">
+        <div className="flex items-center">
+          <FaLanguage className="mr-1 mt-2 text-2xl" />
+          <label
+            className="block mt-2 text-sm font-medium leading-6 text-gray-900"
+            htmlFor="dob"
+          >
+            Preferred Languages:
+          </label>
+        </div>
+        <div className=" w-full mx-auto flex flex-wrap mb-6">
           <div className="w-full md:w-1/2 mb-4">
-            {" "}
-            {/* This div takes up half the width */}
             <label>First:</label>
             <ReactLanguageSelect
               className="z-0"
               searchable={true}
-              onSelect={onSelectLanguage1}
+              onSelect={(language) => onSelectLanguage1(languages[language].name)}
               defaultLanguage={selectedLanguage1}
-              
             />
           </div>
+
           <div className="w-full md:w-1/2 mb-4">
             {" "}
-            {/* This div also takes up half the width */}
             <label>Second:</label>
             <ReactLanguageSelect
               className="z-0"
               searchable={true}
-              onSelect={onSelectLanguage2}
+              // onSelect={onSelectLanguage2}
+              onSelect={(language) => onSelectLanguage2(languages[language].name)}
               defaultLanguage={selectedLanguage2}
-              // disabled={isTravelerCountFocused} 
             />
           </div>
         </div>
@@ -400,10 +465,11 @@ const CreateCardForm = () => {
         <div>
           <button
             type="submit"
-            className="flex w-1/2 mx-auto justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={handleSubmit}
+            className="flex w-1/2 mx-auto justify-center rounded-md bg-slate-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={handleSubmit}
           >
-            Create!
+            <MdCreate className="mr-1 mt-1" />
+            Create
           </button>
         </div>
       </div>
