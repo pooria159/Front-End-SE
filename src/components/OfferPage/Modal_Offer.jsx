@@ -51,9 +51,9 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
           <div className="flex flex-col p-10 space-y-3">
             {offers.length > 0 ? (
               offers.map((card, index) => (
-                <Link to={`/public/${card.HostUsername}`} className="hover:cursor-pointer">
-                    
-                    <div className="items-center block p-3 bg-indigo-200 sm:flex rounded-lg hover:bg-indigo-400">
+              <div className="flex items-center block rounded-lg bg-indigo-200 ">
+                <Link to={`/public/${card.HostUsername}`} className="flex-grow hover:cursor-pointer">
+                    <div className="flex justify-center items-center p-3  sm:flex rounded-lg hover">
                       <img
                         className="w-12 h-12 mb-3 mr-3 rounded-full sm:mb-0"
                         src={card.Image}
@@ -69,38 +69,33 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                           </span>
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-2">
-                        <button
-                          onClick={() => {
-                            console.log("item's id:", index);
-                            setModalIsOpen(true);
-                            setIsAccept(true);
-                          }}
-                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
-                        >
-                          Accept
-                        </button>
-                        <button
-                          onClick={() => {
-                            setModalIsOpen(true);
-                            setIsAccept(false);
-                            submitButtonYes(true);
-                          }}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg "
-                        >
-                          Decline
-                        </button>
-                        <Modal
-                          isVisible={modalIsOpen}
-                          index={index}
-                          removeCard={() => removeCard(index)}
-                          onClose={() => setModalIsOpen(false)}
-                          isAccept={isAccept}
-                        />
-                      </div>
                     </div>
-                  
+                      
+                    
                 </Link>
+                <div className="flex flex-col sm:flex-row mr-10">
+                  <button
+                    onClick={() => {
+                      console.log("item's id:", index);
+                      setModalIsOpen(true);
+                      setIsAccept(true);
+                    }}
+                    className="bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-lg"
+                  >
+                    Start Chat
+                  </button>
+          
+                  <Modal
+                    isVisible={modalIsOpen}
+                    index={index}
+                    removeCard={() => removeCard(index)}
+                    onClose={() => setModalIsOpen(false)}
+                    isAccept={isAccept}
+                    CallBack = {setModalIsOpen}
+                  />
+                </div>
+              </div>
+                
               ))
             ) : (
               <div
