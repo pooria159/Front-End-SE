@@ -43,11 +43,11 @@ const fetchCityCountry = async (type, relevent = "") => {
 
 const sortOptions = [
   { label: 'number of travelers', value: "numberoftravelers.asc", icon: FaAngleUp },
-  { label: 'number of travelers', value: "numberoftravelers.des", icon: FaAngleDown },
+  { label: 'number of travelers', value: "numberoftravelers.desc", icon: FaAngleDown },
   { label: 'start date', value: "startdate.asc", icon: FaAngleUp },
-  { label: 'start date', value: "startdate.des", icon: FaAngleDown },
+  { label: 'start date', value: "startdate.desc", icon: FaAngleDown },
   { label: 'end date', value: "enddate.asc", icon: FaAngleUp },
-  { label: 'end date', value: "enddate.des", icon: FaAngleDown },
+  { label: 'end date', value: "enddate.desc", icon: FaAngleDown },
 ];
 
 const formatOptionLabel = ({ label, icon: Icon }) => (
