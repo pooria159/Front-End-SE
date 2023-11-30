@@ -13,6 +13,7 @@ import Checkmail from './pages/Checkmail';
 import ProfilePage from './pages/Profile';
 import CreateCardPage from './pages/CreateCard';
 import PublicProfile from './pages/PublicProfile';
+import PrivateProfile from './pages/PrivateProfile';
 
 import ChatRoomPage from './pages/ChatRoom';
 
@@ -33,10 +34,7 @@ const App = () => {
          {!['/login', '/signup','/checkmail', '/verify-email', '/forget-password'].includes(location.pathname) && <Navbar />}
             <Routes>
                <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
-               {/* <Route path="/Eprofile" element={islogin ? <EProfilePage /> : <Navigate to="/login" />} /> */}
                <Route path="/profile" element= {<ProfilePage/>}/>
-               {/* {islogin ? <ProfilePage /> : <Navigate to="/login" />} */}
-               {/* <Route path="/Eprofile-Host" element={islogin ? <ProfileHostPage /> : <Navigate to="/login" />} /> */}
                <Route path="/login" element={<LoginPage />} />
                <Route path="/signup" element={<SignupPage />} />
                <Route path="/forget-password" element={<ForgetPasswordPage />} />
@@ -45,6 +43,7 @@ const App = () => {
                <Route path="/checkmail" element={<Checkmail/>} />
                <Route path="/create-card" element={<CreateCardPage/>} />
                <Route path="/public/:username" element={<PublicProfile/>} />
+               <Route path="/private/:username" element={<PrivateProfile/>} />
                {/* <Route path='*' element={<Errornotfound/>}/> */}
                <Route path="/chat" element={<ChatRoomPage/>}/>
             </Routes>
