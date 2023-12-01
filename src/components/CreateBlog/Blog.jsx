@@ -54,7 +54,6 @@ const Blog = ({onClose, Data}) => {
   };
 
   const submitButtonBlog = async (e) => {
-    e.preventDefault();
     // let form_data = {};
     // form_data = { ...form_data, Title: TitleValue };
     // form_data = { ...form_data, Body: BodyValue };
