@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdClose, MdOutlineWarningAmber } from "react-icons/md";
 
+
 const Modal = ({ isVisible, onClose, isAccept, index, removeCard, CallBack }) => {
   const hasPrintedRef = useRef(false);
   const [isVisiblecard, setIsVisiblecard] = useState(true);
