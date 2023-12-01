@@ -45,7 +45,7 @@ const App = () => {
                <Route path="/create-card" element={<CreateCardPage/>} />
                <Route path="/public/:username" element={<PublicProfile/>} />
                <Route path="/private/:username" element={<PrivateProfile/>} />
-               {/* <Route path='*' element={<Errornotfound/>}/> */}
+               <Route path='*' element={<Errornotfound/>}/>
                <Route path="/chat" element={<ChatRoomPage/>}/>
             </Routes>
             

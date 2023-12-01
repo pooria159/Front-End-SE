@@ -123,9 +123,10 @@ const MyCard = ({ data }) => {
               Create Blog
             </button>{" "}
                   <BlogModal
-        isVisible={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
-      />
+                    isVisible={modalIsOpen}
+                    onClose={() => setModalIsOpen(false)}
+                    Data = {data}
+                  />
           </div>
           <ModalTimeLine
             isVisible={showModal}

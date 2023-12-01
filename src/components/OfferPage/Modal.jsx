@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdClose, MdOutlineWarningAmber } from "react-icons/md";
-import Accept from "./Accept";
-import Decline from "./Decline";
+
 
 const Modal = ({ isVisible, onClose, isAccept, index, removeCard, CallBack }) => {
   const hasPrintedRef = useRef(false);

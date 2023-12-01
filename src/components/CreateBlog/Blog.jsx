@@ -4,9 +4,11 @@ import { GiJourney } from "react-icons/gi";
 import { Rating } from "flowbite-react";
 import image_backi from "../../assets/baktash.jpg";
 import useCreateBlog from "../../hooks/useCreateBlog";
+import {toast} from  "react-toastify";
 
-const Blog = ({ onClose }) => {
-  const [TitelValue, setTitelValue] = useState("");
+const Blog = ({onClose, Data}) => {
+  
+  const [TitleValue, setTitleValue] = useState("");
   const [BodyValue, setBodyValue] = useState("");
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
@@ -21,6 +23,12 @@ const Blog = ({ onClose }) => {
       </div>
     );
   };
+
+  useEffect(() => {
+    console.log("ehem")
+    console.log(Data)
+  
+  }, []);
 
   const [stars, setStars] = useState([false, false, false, false, false]);
 
@@ -45,14 +53,21 @@ const Blog = ({ onClose }) => {
     setStarValue(Rate);
   };
 
-  const submitButtonBlog = async () => {
-    let form_data = {};
-    form_data = { ...form_data, Title: TitelValue };
-    form_data = { ...form_data, Body: BodyValue };
-    form_data = { ...form_data, Star: StarValue };
-
+  const submitButtonBlog = async (e) => {
+    e.preventDefault();
+    // let form_data = {};
+    // form_data = { ...form_data, Title: TitleValue };
+    // form_data = { ...form_data, Body: BodyValue };
+    // form_data = { ...form_data, Star: StarValue };
+    const formData = new FormData();
+    formData.append('ImageData', image);
+    formData.append('PostTitle', TitleValue);
+    formData.append('HostRating', StarValue);
+    formData.append('AnnouncementId', Data.CardId);
+    formData.append('PostBody', BodyValue);
+    console.log(formData)
     try{
-        const response = await useCreateBlog(form_data);
+        const response = await useCreateBlog(formData);
         console.log(response.status);
         if (response.status >= 200 && response.status < 300) {
           toast.success("Your blog has been successfully created", {

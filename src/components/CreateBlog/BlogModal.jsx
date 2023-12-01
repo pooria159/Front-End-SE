@@ -2,7 +2,7 @@ import React from "react";
 import { MdClose } from "react-icons/md";
 import Blog from "./Blog";
 
-const BlogModal = ({ isVisible, onClose }) => {
+const BlogModal = ({ isVisible, onClose, Data }) => {
   if (!isVisible) return null;
 
 
@@ -20,7 +20,7 @@ const BlogModal = ({ isVisible, onClose }) => {
             <MdClose />
           </button>
           <div className="p-5 rounded-lg">
-            <Blog onClose={() => onClose()}/>
+            <Blog onClose={() => onClose()} Data={Data}/>
           </div>
         </div>
       </div>
