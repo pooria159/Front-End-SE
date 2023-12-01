@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Myblog from "./Myblog";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useMyBlog } from '../../hooks/useMyBlog';
+
 
 const Loading = () => {
   return (
@@ -14,19 +16,19 @@ const MyblogSec = () => {
   const [cardData, setCardData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //         try {
-  //             const response = await useMyBlog();
-  //             setCardData(response.data.Cards);
-  //             setIsLoading(false);
-  //         } catch (error) {
-  //             console.error('Error:', error);
-  //         }
-  //     };
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await useMyBlog();
+              setCardData(response.data.posts);
+              setIsLoading(false);
+          } catch (error) {
+              console.error('Error:', error);
+          }
+      };
 
-  //     fetchData();
-  // }, []);
+      fetchData();
+  }, []);
 
   return (
     <div className="flex flex-col items-center">

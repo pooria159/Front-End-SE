@@ -16,6 +16,7 @@ import PublicProfile from './pages/PublicProfile';
 import CreateBlogPage from './pages/CreateBlog';
 import ChatRoomPage from './pages/ChatRoom';
 import Test from '../src/components/CreateBlog/Myblog';
+import Errornotfound from './pages/notfound';
 
 
 import { ToastContainer} from 'react-toastify';
@@ -48,7 +49,7 @@ const App = () => {
                <Route path="/public/:username" element={<PublicProfile/>} />
                <Route path="/blog" element={<CreateBlogPage/>} />
                <Route path="/test" element={<Test/>} />
-               {/* <Route path='*' element={<Errornotfound/>}/> */}
+               <Route path='*' element={<Errornotfound/>}/>
                <Route path="/chat" element={<ChatRoomPage/>}/>
             </Routes>
             

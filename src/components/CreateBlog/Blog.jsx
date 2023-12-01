@@ -3,6 +3,7 @@ import { MdOutlineSubtitles, MdAddPhotoAlternate } from "react-icons/md";
 import { GiJourney } from "react-icons/gi";
 import { Rating } from "flowbite-react";
 import image_backi from "../../assets/baktash.jpg";
+import useCreateBlog from "../../hooks/useCreateBlog";
 
 const Blog = ({ onClose }) => {
   const [TitelValue, setTitelValue] = useState("");
@@ -50,19 +51,19 @@ const Blog = ({ onClose }) => {
     form_data = { ...form_data, Body: BodyValue };
     form_data = { ...form_data, Star: StarValue };
 
-    // try{
-    //     const response = await useCreateBlog(form_data);
-    //     console.log(response.status);
-    //     if (response.status >= 200 && response.status < 300) {
-    //       toast.success("Your blog has been successfully created", {
-    //     });
-    //     }
+    try{
+        const response = await useCreateBlog(form_data);
+        console.log(response.status);
+        if (response.status >= 200 && response.status < 300) {
+          toast.success("Your blog has been successfully created", {
+        });
+        }
 
-    //   }  catch(error){
-    //     toast.error(error.response.data.message, {
-    //     });
-    //     throw error;
-    //   }
+      }  catch(error){
+        toast.error(error.response.data.message, {
+        });
+        throw error;
+      }
   };
 
   const handleClicks = async () => {
@@ -96,6 +97,7 @@ const Blog = ({ onClose }) => {
           <div className="border-b border-gray-900/10 ">
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
               <div className="col-span-full">
+
                 <div className="flex items-center">
                   <MdOutlineSubtitles className="text-2xl" />
                   <label
