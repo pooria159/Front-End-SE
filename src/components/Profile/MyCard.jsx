@@ -95,11 +95,7 @@ const MyCard = ({ data }) => {
                 (data.Description.length > 90 ? "..." : "")}
           </p>
           <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
+            
           >
             <button
               className="mt-4 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
@@ -113,7 +109,7 @@ const MyCard = ({ data }) => {
             </button>
 
             <button
-              className="mt-4 bg-gray-500 text-white active:bg-gray-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+              className="mt-4 bg-gray-500 text-white active:bg-gray-600 font-bold uppercase text-xs px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
               type="button"
               style={{ transition: "all .15s ease", flex: 1 }}
               onClick={() => {
