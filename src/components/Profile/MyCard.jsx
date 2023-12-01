@@ -94,9 +94,7 @@ const MyCard = ({ data }) => {
               data.Description.substring(0, 90) +
                 (data.Description.length > 90 ? "..." : "")}
           </p>
-          <div
-            
-          >
+          <div>
             <button
               className="mt-4 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
               type="button"
@@ -107,21 +105,20 @@ const MyCard = ({ data }) => {
             >
               Offers
             </button>
-
             <button
               className="mt-4 bg-gray-500 text-white active:bg-gray-600 font-bold uppercase text-xs px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
               type="button"
               style={{ transition: "all .15s ease", flex: 1 }}
               onClick={() => {
-                setModalIsOpen(true);              
+                setModalIsOpen(true);
               }}
             >
               Create Blog
             </button>{" "}
-                  <BlogModal
-        isVisible={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
-      />
+            <BlogModal
+              isVisible={modalIsOpen}
+              onClose={() => setModalIsOpen(false)}
+            />
           </div>
           <ModalTimeLine
             isVisible={showModal}
