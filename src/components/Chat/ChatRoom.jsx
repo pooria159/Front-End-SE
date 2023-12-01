@@ -5,6 +5,9 @@ import { useGetChatMessageCount } from "../../hooks/useGetChatMessageCount";
 import image1 from "../../assets/baktash.jpg";
 import pic from "../../assets/chat.jpg";
 
+
+
+
 const wsurl = import.meta.env.VITE_WEBSOCKET_CHAT_URL;
 
 function ChatRoom() {
@@ -207,7 +210,7 @@ function ChatRoom() {
                 </div>
               </div>
               <img
-                src={msg.username === myUsername ? myImageUrl : othersImageUrl}
+                src={msg.username === myUsername ? pic : image1}
                 alt="Profile"
                 className={`w-6 h-6 rounded-full order-${msg.username === myUsername ? 2 : 1}`}
               />
@@ -267,7 +270,6 @@ function ChatRoom() {
     </div>
   </div>
 </div>
-
     </div>
     </div>
   );
