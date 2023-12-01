@@ -50,36 +50,24 @@ export default function Navbar() {
 
   useState(() => {
     const id = getDecodedToken();
-
-    const token = localStorage.getItem('token');
-    console.log(token);
-
-    
-    const socket = new WebSocket(wsurl + "/" + id.UserID);
-    socket.onopen = (event) => {
-      console.warn("WebSocket connection opened:", event);
-    };
-
-    socket.onclose = (event) => {
-      console.error("WebSocket connection closed:", event);
-    };
-
-    socket.onerror = (event) => {
-      console.error("WebSocket error:", event);
-    };
-
-    socket.onmessage = (event) => {
-      console.log("WebSocket message received:", event.data);
-      const data = JSON.parse(event.data);
-      if (data.signal === 1) {
-        setHasNotification(true);
-        // setNotifications([...notifications, data.notification]);
-      }
-    };
-
-    return () => {
-      socket.close();
-    };
+  
+    if (id) {
+      const token = localStorage.getItem('token');
+      console.log(token);
+  
+      const socket = new WebSocket(wsurl + "/" + id.UserID);
+      socket.onopen = (event) => {
+        console.warn("WebSocket connection opened:", event);
+      };
+  
+      socket.onclose = (event) => {
+        console.error("WebSocket connection closed:", event);
+      };
+  
+      socket.onerror = (event) => {
+        console.error("WebSocket error:", event);
+      };
+    }
   });
 
   const setNotificationList = async() =>{

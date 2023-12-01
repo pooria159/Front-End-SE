@@ -295,10 +295,11 @@ export default function AnncPanel() {
             <div className="flex items-center space-x-2">
               {/* react select  for sort */}
               <div className='flex flex-col items-center'>
-                <label >
+                <label htmlFor='country'>
                   Country
                 </label>
                 <Select 
+                  id='country'
                   styles={customStyles2}
                   options={countryOptions} 
                   onChange={(selectedOption) => handleCountryChange(selectedOption)}

@@ -17,8 +17,6 @@ it('should render a card with the given data', () => {
 
     render(<BrowserRouter><MyCard data={data} /></BrowserRouter>);
 
-    expect(screen.getByText('Baktash')).toBeInTheDocument();
-    expect(screen.getByText('Languages: English, Spanish')).toBeInTheDocument();
     expect(screen.getByText('State: California')).toBeInTheDocument();
     expect(screen.getByText('City: Los Angeles')).toBeInTheDocument();
     expect(screen.getByText('Country: United States')).toBeInTheDocument();

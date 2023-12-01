@@ -292,23 +292,26 @@ const EditSec = ({ formData, updateFormData }) => {
                     <div className="flex flex-col text-gray-500 mb-4">
                         <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faUser} className="mr-2" />
-                            Username: (Can't be changed)
+                            
+                            <label htmlFor="username">Username: (Can't be changed)</label>
                         </div>
-                        <input type='text' disabled className='rounded-xl w-3/4 text-gray-700' defaultValue={formData.UserName} ref={usernameRef && usernameRef} />
+                        <input id='username' type='text' disabled className='rounded-xl w-3/4 text-gray-700' defaultValue={formData.UserName} ref={usernameRef && usernameRef} />
                     </div>
                     <div className="flex flex-col text-gray-500 mb-4">
                         <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-                            Email: (Can't be changed)
+                            <label htmlFor="email">Email: (Can't be changed)</label>
                         </div>
-                        <input type='text' disabled className='rounded-xl w-3/4 text-gray-700' defaultValue={formData.Email} /> 
+                        <input id='email' type='text' disabled className='rounded-xl w-3/4 text-gray-700' defaultValue={formData.Email} /> 
                     </div>
                     <div className="flex flex-col text-gray-500 mb-4">
                         <div className='flex items-center ml-2'>
                             <FontAwesomeIcon icon={faVenusMars} className="mr-2" />
-                            Gender: (Can't be changed )
+                            
+                            <label htmlFor="gender">Gender: (Can't be changed)</label>
                         </div>
                         <Select 
+                            id='gender'
                             isDisabled = {true}
                             isSearchable={false}
                             className='w-1/2'
