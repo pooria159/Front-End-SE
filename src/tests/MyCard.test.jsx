@@ -17,14 +17,12 @@ import { render, fireEvent, waitFor, getByRole,screen, getAllByText, getByDispla
 
 //     render(<BrowserRouter><MyCard data={data} /></BrowserRouter>);
 
-//     expect(screen.getByText('Baktash')).toBeInTheDocument();
-//     expect(screen.getByText('Languages: English, Spanish')).toBeInTheDocument();
-//     expect(screen.getByText('State: California')).toBeInTheDocument();
-//     expect(screen.getByText('City: Los Angeles')).toBeInTheDocument();
-//     expect(screen.getByText('Country: United States')).toBeInTheDocument();
-//     expect(screen.getByText('Start Date: 2022-08-01')).toBeInTheDocument();
-//     expect(screen.getByText('End Date: 2022-08-15')).toBeInTheDocument();
-//   });
+    expect(screen.getByText('State: California')).toBeInTheDocument();
+    expect(screen.getByText('City: Los Angeles')).toBeInTheDocument();
+    expect(screen.getByText('Country: United States')).toBeInTheDocument();
+    expect(screen.getByText('Start Date: 2022-08-01')).toBeInTheDocument();
+    expect(screen.getByText('End Date: 2022-08-15')).toBeInTheDocument();
+  });
 
 
 // Displays the preferred languages of the host

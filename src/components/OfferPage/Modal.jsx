@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdClose, MdOutlineWarningAmber } from "react-icons/md";
-import Accept from "./Accept";
-import Decline from "./Decline";
 
-const Modal = ({ isVisible, onClose, isAccept, index, removeCard }) => {
+
+const Modal = ({ isVisible, onClose, isAccept, index, removeCard, CallBack }) => {
   const hasPrintedRef = useRef(false);
   const [isVisiblecard, setIsVisiblecard] = useState(true);
 
@@ -31,7 +30,7 @@ const Modal = ({ isVisible, onClose, isAccept, index, removeCard }) => {
   };
 
   const handleNoClick = () => {
-    // Close the modal
+    CallBack(false);
   };
 
   return (
@@ -60,7 +59,7 @@ const Modal = ({ isVisible, onClose, isAccept, index, removeCard }) => {
                 <span style={{ marginLeft: "10px" }}>Warning</span>
               </h5>
               <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-                Are you sure you want to give this user hosting access?
+                Are you sure you want start chat with this user?
               </p>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <button

@@ -89,7 +89,7 @@ const CreateCardForm = () => {
 
   const [formData, setFormData] = useState({
     Description: "",
-    PreferredLanguages: ["en", "en"],
+    PreferredLanguages: ["English", "English"],
     StartDate: "",
     EndDate: "",
     DestinationCountry: "",
@@ -108,8 +108,8 @@ const CreateCardForm = () => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [TravelerCount, setTravelerCount] = useState("");
-  const [selectedLanguage1, setselectedLanguage1] = useState("en");
-  const [selectedLanguage2, setselectedLanguage2] = useState("en");
+  const [selectedLanguage1, setselectedLanguage1] = useState("English");
+  const [selectedLanguage2, setselectedLanguage2] = useState("English");
   const [isTravelerCountFocused, setIsTravelerCountFocused] = useState(false);
 
   useEffect(() => {
