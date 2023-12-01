@@ -13,9 +13,7 @@ import Checkmail from './pages/Checkmail';
 import ProfilePage from './pages/Profile';
 import CreateCardPage from './pages/CreateCard';
 import PublicProfile from './pages/PublicProfile';
-import CreateBlogPage from './pages/CreateBlog';
 import ChatRoomPage from './pages/ChatRoom';
-import Test from '../src/components/CreateBlog/Myblog';
 import Errornotfound from './pages/notfound';
 
 
@@ -47,8 +45,6 @@ const App = () => {
                <Route path="/checkmail" element={<Checkmail/>} />
                <Route path="/create-card" element={<CreateCardPage/>} />
                <Route path="/public/:username" element={<PublicProfile/>} />
-               <Route path="/blog" element={<CreateBlogPage/>} />
-               <Route path="/test" element={<Test/>} />
                <Route path='*' element={<Errornotfound/>}/>
                <Route path="/chat" element={<ChatRoomPage/>}/>
             </Routes>
