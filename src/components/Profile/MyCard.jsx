@@ -101,31 +101,36 @@ const MyCard = ({ data }) => {
               alignItems: "center",
             }}
           >
-            <button
-              className="mt-4 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-              type="button"
-              style={{ transition: "all .15s ease", flex: 1 }}
-              onClick={() => {
-                offersData && setShowModal(true);
-              }}
-            >
-              Offers
-            </button>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <button
+                className="mt-4 bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                type="button"
+                style={{ transition: "all .15s ease", flex: 1 }}
+                onClick={() => {
+                  offersData && setShowModal(true);
+                }}
+              >
+                Offers
+              </button>
 
-            <button
-              className="mt-4 bg-gray-500 text-white active:bg-gray-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-              type="button"
-              style={{ transition: "all .15s ease", flex: 1 }}
-              onClick={() => {
-                setModalIsOpen(true);              
-              }}
-            >
-              Create Blog
-            </button>{" "}
-                  <BlogModal
-        isVisible={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
-      />
+              <div style={{ flex: 1 }}></div>
+
+              <button
+                className="mt-4 bg-gray-500 text-white active:bg-gray-600 font-bold uppercase text-[0.75rem] px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                type="button"
+                style={{ transition: "all .15s ease", flex: 1 }}
+                onClick={() => {
+                  setModalIsOpen(true);
+                }}
+              >
+                Create Blog
+              </button>
+            </div>
+
+            <BlogModal
+              isVisible={modalIsOpen}
+              onClose={() => setModalIsOpen(false)}
+            />
           </div>
           <ModalTimeLine
             isVisible={showModal}
