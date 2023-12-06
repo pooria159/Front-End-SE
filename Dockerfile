@@ -1,9 +1,24 @@
+# Stage1 : Build the React application 
 FROM node:21-alpine3.17
+
 WORKDIR /app
-COPY package.json .
-RUN npm install -g npm@latest
-# RUN npm install vite --legacy-peer-deps
-RUN npm install --legacy-peer-deps
+
 COPY . .
+
+RUN npm install 
+
+
+# Stage2 : Serve the React application using Nginx
+FROM nginx:1.16.0-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
 EXPOSE 3000
-CMD ["npm","run","dev"]
+
+
+# Start NGINX when the container runs
+CMD ["nginx", "-g", "daemon off;"]
