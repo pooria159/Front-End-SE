@@ -1,7 +1,7 @@
 import axios from 'axios';
-
+import config from './config';
 // Assuming you have the base URL in .env or .env.local
-const BASE_URL = import.meta.env.VITE_GET_CHAT_MESSAGE_COUNT_URL;
+const BASE_URL = config.GET_CHAT_MESSAGE_COUNT_URL;
 
 export const useGetChatMessageCount = async (id1, id2) => {
   try {
