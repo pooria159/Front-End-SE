@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ReactLanguageSelect from "react-languages-select";
-import "react-languages-select/css/react-languages-select.css";
 import { toast } from "react-toastify";
 import { useCityCountry } from "../hooks/useCityCountry";
 import Select from "react-select";
@@ -33,33 +31,31 @@ const formatDate = (dateString) => {
 };
 
 const languages = {
-  ar: { name: 'Arabic', localName: 'العربية'},
-  bn: { name: 'Bengali', localName: 'বাংলা'},
-  ch: { name: 'Chinese', localName: '中文'},
-  de: { name: 'German', localName: 'German'},
-  en: { name: 'English', localName: 'English'},
-  es: { name: 'Spanish', localName: 'Español' },
-  fa: { name: 'Persian', localName: 'پارسی' },
-  fr: { name: 'French', localName: 'Français' },
-  gr: { name: 'Greek', localName: 'ελληνική' },
-  gu: { name: 'Guarani', localName: "Avañe'ẽ"},
-  hi: { name: 'Hindi', localName: 'हिंदुस्तानी' },
-  it: { name: 'Italian', localName: 'Italiano' },
-  ko: { name: 'Korean', localName: '한국어'},
-  ms: { name: 'Malay', localName: 'Melayu' },
-  nl: { name: 'Dutch', localName: 'Nederlandse'},
-  pt: { name: 'Portuguese', localName: 'Português'},
-  ro: { name: 'Romanian', localName: 'Română' },
-  ru: { name: 'Russian', localName: 'русский' },
-  sq: { name: 'Albanian', localName: 'shqiptar' },
-  sr: { name: 'Serbo-Croatian', localName: 'Српско-хрватски' },
-  sv: { name: 'Swedish', localName: 'Swedish' },
-  sw: { name: 'Swahili', localName: 'Kiswahili' },
-  ta: { name: 'Tamil', localName: 'தமிழ்' },
-  tr: { name: 'Turkish', localName: 'Türk' },
+    Arabic: 'العربية',
+    Bengali: 'বাংলা',
+    Chinese: '中文',
+    German: 'German',
+    English: 'English',
+    Spanish: 'Español',
+    Persian: 'پارسی',
+    French: 'Français',
+    Greek: 'ελληνική',
+    Guarani: "Avañe'ẽ",
+    Hindi: 'हिंदुस्तानी',
+    Italian: 'Italiano',
+    Korean: '한국어',
+    Malay: 'Melayu',
+    Dutch: 'Nederlandse',
+    Portuguese: 'Português',
+    Romanian: 'Română',
+    Russian: 'русский',
+    Albanian: 'shqiptar',
+    SerboCroatian: 'Српско-хрватски',
+    Swedish: 'Swedish',
+    Swahili: 'Kiswahili',
+    Tamil: 'தமிழ்',
+    Turkish: 'Türk'
 };
-
-
 const CreateCardForm = () => {
   const style = {
     control: (base, state) => ({
@@ -212,7 +208,7 @@ const CreateCardForm = () => {
     // console.log(languageCode);
     setFormData({
       ...formData,
-      PreferredLanguages: [formData.PreferredLanguages[0], languageCode],
+      PreferredLanguages: [languageCode,formData.PreferredLanguages[1]],
     });
   };
 
@@ -222,7 +218,7 @@ const CreateCardForm = () => {
     // console.log(languageCode);
     setFormData({
       ...formData,
-      PreferredLanguages: [languageCode, formData.PreferredLanguages[1]],
+      PreferredLanguages: [formData.PreferredLanguages[0],languageCode],
     });
   };
 
@@ -436,26 +432,31 @@ const CreateCardForm = () => {
             Preferred Languages:
           </label>
         </div>
-        <div className=" w-full mx-auto flex flex-wrap mb-6">
-          <div className="w-full md:w-1/2 mb-4">
+        <div className=" w-full flex space-x-20 mb-6">
+          <div className="w-full md:w-5/12 ml-5 mb-4">
             <label>First:</label>
-            <ReactLanguageSelect
-              className="z-0"
-              searchable={true}
-              onSelect={(language) => onSelectLanguage1(languages[language].name)}
-              defaultLanguage={selectedLanguage1}
+            <Select
+              options={Object.keys(languages).map((code) => ({
+                value: code,
+                label: languages[code],
+              }))}
+              value={{ label: languages[selectedLanguage1], value: selectedLanguage1 }}
+              onChange={(selectedOption) => onSelectLanguage1(selectedOption.value)}
+              isSearchable
+              styles={style}
             />
           </div>
-
-          <div className="w-full md:w-1/2 mb-4">
-            {" "}
+          <div className="w-full md:w-5/12 mr-5 mb-4">
             <label>Second:</label>
-            <ReactLanguageSelect
-              className="z-0"
-              searchable={true}
-              // onSelect={onSelectLanguage2}
-              onSelect={(language) => onSelectLanguage2(languages[language].name)}
-              defaultLanguage={selectedLanguage2}
+            <Select
+              options={Object.keys(languages).map((code) => ({
+                value: code,
+                label: languages[code],
+              }))}
+              value={{ label: languages[selectedLanguage2], value: selectedLanguage2 }}
+              onChange={(selectedOption) => onSelectLanguage2(selectedOption.value)}
+              isSearchable
+              styles={style}
             />
           </div>
         </div>
