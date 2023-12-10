@@ -1,7 +1,7 @@
 import axios from 'axios';
 import api from './api';
-
-const url = import.meta.env.VITE_API_URL;
+import config from './config';
+const url = config.API_URL;
 
 export const useCreateCard = async (formData) => {
     try{    

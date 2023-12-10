@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useProfile } from "../hooks/useProfile";
 import { useNavigate } from "react-router-dom";
 import Handlelogout from "./Handlelogout";
+import config from "../hooks/config";
 
 
 import { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ import profImg from "../assets/profile.jpg";
 import logo from "../assets/logo/logo.png";
 import { red } from "@mui/material/colors";
 import getDecodedToken from "../hooks/useDecodedToken";
-const wsurl = import.meta.env.VITE_WEBSOCKET_NOTIFICATION_URL;
+const wsurl = config.WEBSOCKET_NOTIFICATION_URL;
 import { useGetNotification } from "../hooks/useGetNotifications";
 import useAnncCard from "../hooks/useAncCard";
 

@@ -1,10 +1,10 @@
 import {useState} from 'react'; 
 import axios from 'axios';
+import config from './config';
 
-
-const url = import.meta.env.VITE_API_URL_CITY_COUNTRY;
-const accesstoken = import.meta.env.VITE_CITY_COUNTRY_TOKEN;
-const email = import.meta.env.VITE_CITY_COUNTRY_EMAIL;
+const url = config.API_URL_CITY_COUNTRY;
+const accesstoken = config.CITY_COUNTRY_TOKEN;
+const email = config.CITY_COUNTRY_EMAIL;
 
 
 

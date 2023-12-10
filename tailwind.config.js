@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -9,11 +10,9 @@ export default {
   theme: {
     extend: {
       backgroundImage:{
-        'loginbackground': 'url(./src/assets/login_background.jpg)',
-        'Infobackground': 'url(./src/assets/login_background.jpg)',
-        'loginimage': 'url(./src/assets/LoginPage2.jpg)',
-        'signupimage': 'url(./src/assets/signupimage.jpg)',
-        'chatimage': 'url(./src/assets/chat.jpg)',
+        'loginimage': 'url(/src/assets/loginimage.jpg)',
+        'signupimage': 'url(/src/assets/signupimage.jpg)',
+        'chatimage': 'url(/src/assets/chat.jpg)',
       },
       colors: {
         pallate: {

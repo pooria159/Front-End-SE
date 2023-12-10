@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-catch */
 import axios from 'axios';
-const url = import.meta.env.VITE_GET_NOTIFICATION_URL;
+import config from './config';
+const url = config.GET_NOTIFICATION_URL;
 
 
 

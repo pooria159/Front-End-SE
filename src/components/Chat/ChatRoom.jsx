@@ -4,11 +4,11 @@ import { useGetChatHistory } from "../../hooks/useGetChatHistory";
 import { useGetChatMessageCount } from "../../hooks/useGetChatMessageCount";
 import image1 from "../../assets/baktash.jpg";
 import pic from "../../assets/chat.jpg";
+import config from "../../hooks/config";
 
 
 
-
-const wsurl = import.meta.env.VITE_WEBSOCKET_CHAT_URL;
+const wsurl = config.WEBSOCKET_CHAT_URL;
 
 function ChatRoom() {
   const [message, setMessage] = useState("");
