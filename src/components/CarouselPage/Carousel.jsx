@@ -1,13 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
+// import useCarousel from "../../hooks/useCarousel";
 import test1 from "/test1.jpg";
 import test2 from "/test2.jpg";
 import test3 from "/test3.jpg";
 
-let slides = [test1, test2, test3];
 
 export default function CarouselDefault() {
   let [current, setCurrent] = useState(0);
+  // const [imagedata, Setimagedata] = useState([]);
+
+  // useEffect(() => {
+  //     const fetchData = async () => {
+  //         try {
+  //             const response = await useCarousel();
+  //             Setimagedata(response);
+  //         } catch (error) {
+  //             console.error('Error:', error);
+  //         }
+  //     };
+
+  //     fetchData();
+  // }, []);
+
+  let slides = [test1, test2, test3];
+
 
   let previousSlide = () => {
     if (current === 0) setCurrent(slides.length - 1);
@@ -21,7 +38,7 @@ export default function CarouselDefault() {
 
   return (
     <div className="flex justify-center items-center w-full h-full">
-      <div className="w-1/2 h-1/2 mt-14 rounded-2xl">
+      <div className="w-[98%] h-full rounded-2xl">
         <div className="overflow-hidden relative rounded-2xl">
           <div
             className={`flex transition ease-out duration-40`}
@@ -30,7 +47,7 @@ export default function CarouselDefault() {
             }}
           >
             {slides.map((s) => {
-              return <img src={s} />;
+              return <img role="img" src={s} />;
             })}
           </div>
           <div className="absolute top-0 h-full w-full justify-between  items-center flex text-stone-300 px-10 text-4xl">

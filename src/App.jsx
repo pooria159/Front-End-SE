@@ -15,7 +15,6 @@ import CreateCardPage from './pages/CreateCard';
 import PublicProfile from './pages/PublicProfile';
 import ChatUIPage from './pages/ChatPage'
 import PrivateProfile from './pages/PrivateProfile';
-import CarouselDefault from './pages/CarouselPage';
 import ChatRoomPage from './pages/ChatRoom';
 import Errornotfound from './pages/notfound';
 
@@ -49,7 +48,6 @@ const App = () => {
                <Route path="/private/:username" element={<PrivateProfile/>} />
                <Route path='*' element={<Errornotfound/>}/>
                <Route path="/chat" element={<ChatRoomPage/>}/>
-               <Route path="/ch" element={<CarouselDefault/>}/>
             </Routes>
             
          </div>

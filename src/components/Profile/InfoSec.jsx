@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faVenusMars, faLanguage, faInfoCircle, faTags, faChild, faCalendar, faPhone, faAddressCard, faDog, faSmoking, faBed, faEarth, faFlag, faCity } from '@fortawesome/free-solid-svg-icons';
 import { Chip } from '@material-tailwind/react';
 import ClipLoader from "react-spinners/ClipLoader";
+import CarouselDefault from '../CarouselPage/Carousel';
 
 const Genders = [" ", "Man" , "Woman", "Other"]
 const Intrests = ['Coding', 'Traveling', 'Photography', 'Reading']
@@ -195,6 +196,7 @@ const InfoSec = ({ formData }) => {
               </div>
             </div>
           </div>
+            <CarouselDefault/>
         </div>
       </div>
 
