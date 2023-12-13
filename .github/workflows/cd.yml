@@ -1,4 +1,4 @@
-name: CD
+name: Deploy Pipeline
 on:
   push:
     branches: [ develop ]
@@ -16,6 +16,6 @@ jobs:
         script: |
             cd /root/git/TrekDestinyFrontend
             docker compose down 
-            git pull origin develop
+            git pull origin dev
             docker compose up --build -d 
             docker image prune -f
