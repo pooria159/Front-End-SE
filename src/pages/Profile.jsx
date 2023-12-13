@@ -12,10 +12,11 @@ import InfoSec from '../components/Profile/InfoSec';
 import EditSec from '../components/Profile/EditSec';
 import ChangePassSec from '../components/Profile/ChangePassSec';
 import MyAnncSec from '../components/Profile/MyAnnouncementsSec';
+import ChatList from '../components/Profile/ChatListSec';
 
 import useProfileImage from '../hooks/useProfileImage';
 
-const sections = ['Info', 'Edit', 'Change Pass', 'My Announcements', 'Blog'];
+const sections = ['Info', 'Edit', 'Change Pass', 'My Announcements', 'Blog', 'My Chat List'];
 
 const skeleton = () => {
   return(
@@ -226,6 +227,7 @@ const ProfilePage = () => {
           {activeSection === 'Edit' && <EditSec formData = {formData} updateFormData={updateFormData}/>}
           {activeSection === 'Change Pass' && <ChangePassSec/> }
           {activeSection === 'My Announcements' && <MyAnncSec/> }
+          {activeSection === 'My Chat List' && <ChatList/> }
         </div>
 
       </div>
