@@ -6,13 +6,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Deploy TrekDestiny using  ssh
+    - name: Deploy TrekDestiny using ssh
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
-        port: 22
+        port: 9011
         script: |
             cd /root/git/TrekDestinyFrontend
             docker compose down 
