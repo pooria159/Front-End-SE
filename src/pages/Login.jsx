@@ -7,7 +7,7 @@ const LoginPage = () => {
       
       <div className="flex flex-col items-center justify-center min-h-screen ">
         <h2 className="mb-10 text-center text-5xl font-bold leading-9 tracking-tight text-gray-900">
-              TrekDestin
+              TrekDestiny
           </h2>
         <div className="flex items-center justify-center  h-[30rem] lg:w-4/6 md:w-full rounded-3xl">
 
