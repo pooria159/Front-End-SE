@@ -17,6 +17,7 @@ import ChatUIPage from './pages/ChatPage'
 import PrivateProfile from './pages/PrivateProfile';
 import ChatRoomPage from './pages/ChatRoom';
 import Errornotfound from './pages/notfound';
+import Mio from './components/Profile/Uploadimg';
 
 
 import { ToastContainer} from 'react-toastify';
@@ -48,6 +49,7 @@ const App = () => {
                <Route path="/private/:username" element={<PrivateProfile/>} />
                <Route path='*' element={<Errornotfound/>}/>
                <Route path="/chat" element={<ChatRoomPage/>}/>
+               <Route path='/mio' element={<Mio/>} />
             </Routes>
             
          </div>

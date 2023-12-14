@@ -4,7 +4,7 @@ import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 import test1 from "/test1.jpg";
 import test2 from "/test2.jpg";
 import test3 from "/test3.jpg";
-
+import nophoto from "../../assets/nophoto.jpg";
 
 export default function CarouselDefault() {
   let [current, setCurrent] = useState(0);
@@ -23,8 +23,7 @@ export default function CarouselDefault() {
   //     fetchData();
   // }, []);
 
-  let slides = [test1, test2, test3];
-
+  let slides = [test3,test2,test1];
 
   let previousSlide = () => {
     if (current === 0) setCurrent(slides.length - 1);
@@ -38,42 +37,54 @@ export default function CarouselDefault() {
 
   return (
     <div className="flex justify-center items-center w-full h-full">
-      <div className="w-[98%] h-full rounded-2xl">
+      <div className="w-full h-full rounded-2xl">
         <div className="overflow-hidden relative rounded-2xl">
-          <div
-            className={`flex transition ease-out duration-40`}
-            style={{
-              transform: `translateX(-${current * 100}%)`,
-            }}
-          >
-            {slides.map((s) => {
-              return <img role="img" src={s} />;
-            })}
-          </div>
-          <div className="absolute top-0 h-full w-full justify-between  items-center flex text-stone-300 px-10 text-4xl">
-            <button onClick={previousSlide} className="hover:text-stone-50">
-              <FaArrowCircleLeft />
-            </button>
-            <button onClick={nextSlide} className="hover:text-stone-50">
-              <FaArrowCircleRight />
-            </button>
-          </div>
+          {slides.length === 0 ? (
+            <div className="flex justify-center items-center w-full h-1/2">
+              <img
+                src={nophoto}
+                className="w-full h-1/2 object-cover"
+                style={{ height: "65vh" }}
+              />
+            </div>
+          ) : (
+            <>
+              <div
+                className={`flex transition ease-out duration-40`}
+                style={{
+                  transform: `translateX(-${current * 100}%)`,
+                }}
+              >
+                {slides.map((s) => {
+                  return <img role="img" src={s} />;
+                })}
+              </div>
+              <div className="absolute top-0 h-full w-full justify-between  items-center flex text-stone-300 px-10 text-4xl">
+                <button onClick={previousSlide} className="hover:text-stone-50">
+                  <FaArrowCircleLeft />
+                </button>
+                <button onClick={nextSlide} className="hover:text-stone-50">
+                  <FaArrowCircleRight />
+                </button>
+              </div>
 
-          <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full ">
-            {slides.map((s, i) => {
-              return (
-                <div
-                  onClick={() => {
-                    setCurrent(i);
-                  }}
-                  key={"circle" + i}
-                  className={`rounded-full w-5 h-5 cursor-pointer ${
-                    i == current ? "bg-stone-500" : "bg-stone-50"
-                  }`}
-                ></div>
-              );
-            })}
-          </div>
+              <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full ">
+                {slides.map((s, i) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        setCurrent(i);
+                      }}
+                      key={"circle" + i}
+                      className={`rounded-full w-5 h-5 cursor-pointer ${
+                        i == current ? "bg-stone-500" : "bg-stone-50"
+                      }`}
+                    ></div>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
