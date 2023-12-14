@@ -33,10 +33,10 @@ const App = () => {
       <div className="flex flex-col min-h-screen">
          <div className="flex-grow">
 
-         {!['/login', '/signup','/checkmail', '/verify-email', '/forget-password'].includes(location.pathname) && <Navbar />}
+         {['/profile', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Navbar />}
             <Routes>
                <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
-               <Route path="/profile" element= {<ProfilePage/>}/>
+               <Route path="/profile" element= {islogin ? <ProfilePage/> : <Navigate to="/login" />}/>
                <Route path="/login" element={<LoginPage />} />
                <Route path="/signup" element={<SignupPage />} />
                <Route path="/forget-password" element={<ForgetPasswordPage />} />
@@ -44,15 +44,15 @@ const App = () => {
                <Route path="/verify-email" element={<VerificationPage />} />
                <Route path="/checkmail" element={<Checkmail/>} />
                <Route path="/create-card" element={<CreateCardPage/>} />
-               <Route path="/public/:username" element={<PublicProfile/>} />
+               <Route path="/public/:username" element={islogin ? <PublicProfile/> : <Navigate to="/login" />} />
                <Route path="/chatUI" element={<ChatUIPage/>} />
-               <Route path="/private/:username" element={<PrivateProfile/>} />
+               <Route path="/private/:username" element={islogin ? <PrivateProfile/> : <Navigate to="/login" />} />
                <Route path='*' element={<Errornotfound/>}/>
                <Route path="/chat" element={<ChatRoomPage/>}/>
             </Routes>
             
          </div>
-         {!['/login', '/signup','/checkmail', '/verify-email', '/forget-password'].includes(location.pathname) && <Footer />}
+         {['/profile', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Footer />}
       </div>
          <ToastContainer 
                   position="top-left"

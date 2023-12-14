@@ -12,16 +12,29 @@ import mycard from "../../assets/myCard.jpg";
 import { toast } from "react-toastify";
 import BlogModal from "../CreateBlog/BlogModal";
 import useOffer from "../../hooks/useOffer";
-import Icon from "react-crud-icons";
+import { useDeleteMyCard } from "../../hooks/useDeleteMyCard";
+import card from "@material-tailwind/react/theme/components/card";
 
 
-
-const MyCard = ({ data }) => {
+const MyCard = ({ data, fetchData }) => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [offersData, setOffersData] = useState(null);
+  
+  const fetchDelete = async (cardId) => {
+    const response = await useDeleteMyCard(cardId);
+    if (response.status >= 200 && response.status < 300) {
+      toast.success("The announcement has deleted successfully!");
+    } else {
+      toast.error(response.data["message"]);
+    }
+    await fetchData();
+  }
 
+  const handleDelete = () => {
+    fetchDelete(data.CardId);
+  }
 
   const DeleteModal = () => {
     return(
@@ -48,10 +61,7 @@ const MyCard = ({ data }) => {
                         <button 
                             type="button" 
                             className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                            onClick={() => {
-                                // Add your delete function here
-                                setShowModal(false);
-                            }}
+                            onClick={handleDelete}
                         >
                             Delete
                         </button>
