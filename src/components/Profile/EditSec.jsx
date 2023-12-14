@@ -1,6 +1,6 @@
 import Select from "react-select";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import Uploadimg from "./Upload";
 import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -482,7 +482,7 @@ const EditSec = ({ formData, updateFormData }) => {
               }
             />
           </div>
-          <div className="flex flex-col text-gray-500">
+          <div className="flex flex-col text-gray-500 mb-4 mt-1.5">
             <div className="flex items-center ml-2">
               <FontAwesomeIcon icon={faBed} className="mr-2" />
               Room Numbers:
@@ -551,32 +551,8 @@ const EditSec = ({ formData, updateFormData }) => {
           </div>
           {/* Add similar input fields for the rest of the data */}
         </div>
+        <Uploadimg />
         {/* Add a second column of input fields if needed */}
-
-        <section className="overflow-auto p-6 w-full h-full flex flex-col">
-          <header className="border-dashed border-2 border-gray-400 py-8 flex flex-col justify-center items-center rounded-2xl">
-            <p className="mb-2 font-semibold text-gray-900 flex flex-wrap justify-center">
-              <span>Drag and drop your</span>&nbsp;
-              <span>files anywhere or</span>
-            </p>
-            <input
-              id="hidden-input"
-              type="file"
-              multiple=""
-              className="hidden"
-            />
-            <button
-              id="button"
-              className="mt-1 px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none rounded-md"
-            >
-              Upload a file
-            </button>
-          </header>
-          <h1 className="pt-3 pb-10 font-semibold sm:text-lg text-gray-900">
-            To Upload
-          </h1>
-
-        </section>
       </div>
       <div className="flex flex-col space-y-8 p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md justify-content items-center">
         <div className="text-xl font-bold">Bio</div>

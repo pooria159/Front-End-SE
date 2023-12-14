@@ -23,7 +23,7 @@ export default function CarouselDefault() {
   //     fetchData();
   // }, []);
 
-  let slides = [test3,test2,test1];
+  let slides = [test1,test2,test3];
 
   let previousSlide = () => {
     if (current === 0) setCurrent(slides.length - 1);
