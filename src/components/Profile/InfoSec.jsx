@@ -196,7 +196,7 @@ const InfoSec = ({ formData }) => {
               </div>
             </div>
           </div>
-            <CarouselDefault/>
+            <CarouselDefault formData = {formData}/>
         </div>
       </div>
 

@@ -25,14 +25,14 @@ const BlogCard = ({data}) => {
     fetchAllBlog(data.HostId);
   }, []);
   return (
-    <div className="p-10 grid grid-cols-1 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-5">
-      <div className="w-full lg:max-w-full lg:flex">
+    <div className=" p-10 grid grid-cols-1 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-5">
+      <div className="w-full h-full lg:max-w-full lg:flex">
         <div
           className="h-80 lg:h-96  lg:w-96 md:h-96 flex-none bg-cover lg:rounded-r-none rounded-t-xl lg:rounded-xl text-center"
           style={{ backgroundImage: `url(${data.PostImage})` }}
         ></div>
         <div className="border-r border-b border-l bg-indigo-50 border-gray-400 lg:border-l-0 lg:border-t  lg:border-gray-400 rounded-b-xl lg:rounded-b-none lg:rounded-r-xl p-4 flex flex-col justify-between leading-normal">
-          <div className="mb-8">
+          <div className="w-full">
             <p className="text-lg  text-gray-600 flex items-center ">
               Rate:
               {Array.from({ length: data.HostRating }).map((_, index) => (
@@ -42,9 +42,10 @@ const BlogCard = ({data}) => {
             <div className="text-gray-900 font-bold text-xl mb-2">
               {data.PostTitle}
             </div>
-            <p className="flex flex-wrap  text-gray-700 text-base justify-center items-center">
-              {data.PostBody}
-            </p>
+            <p className="text-gray-700 text-base justify-center items-center whitespace-normal">
+            {data.PostBody.substring(0, 40) + (data.PostBody.length > 40 ? "..." : "")}
+          </p>
+
           </div>
           <div className="flex space-x-20 sm:space-x-36">
             <div className="flex items-center">

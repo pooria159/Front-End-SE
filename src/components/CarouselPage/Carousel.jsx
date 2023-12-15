@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
-// import useCarousel from "../../hooks/useCarousel";
+// import {useCarousel} from "../../hooks/useCarousel";
 import test1 from "/test1.jpg";
 import test2 from "/test2.jpg";
 import test3 from "/test3.jpg";
 import nophoto from "../../assets/nophoto.jpg";
 
-export default function CarouselDefault() {
+
+export default function CarouselDefault({formData}) {
   let [current, setCurrent] = useState(0);
-  const [imagedata, Setimagedata] = useState([]);
 
-  useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const response = await useCarousel();
-              console.log(response);
-              Setimagedata(response);
-          } catch (error) {
-              console.error('Error:', error);
-          }
-      };
+  // useEffect(() => {
+  //     const fetchData = async () => {
+  //         try {
+  //             const response = await useCarousel();
+  //             console.log("ehem");
+  //             console.log(response);
+  //             Setimagedata(response);
+  //         } catch (error) {
+  //             console.error('Error:', error);
+  //         }
+  //     };
 
-      fetchData();
-  }, []);
+  //     fetchData();
+  // }, []);
 
-  let slides = [test1,test2,test3];
+  let slides = formData.HostHouseImages;
 
   let previousSlide = () => {
     if (current === 0) setCurrent(slides.length - 1);
@@ -44,7 +45,7 @@ export default function CarouselDefault() {
             <div className="flex justify-center items-center w-full h-1/2">
               <img
                 src={nophoto}
-                className="w-full h-1/2 object-cover"
+                className="w-1/2 h-1/2 object-cover"
                 style={{ height: "65vh" }}
               />
             </div>
