@@ -70,13 +70,11 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                         </div>
                       </div>
                     </div>
-                      
-                    
                 </Link>
                 <div className="flex flex-col sm:flex-row mr-10">
                   <button
                     onClick={() => {
-                      console.log("item's id:", index);
+                      console.log("item's id:", card);
                       setModalIsOpen(true);
                       setIsAccept(true);
                     }}
@@ -87,11 +85,14 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
           
                   <Modal
                     isVisible={modalIsOpen}
+                    hostId={card.HostId}
+                    cardId={cardId}
                     index={index}
                     removeCard={() => removeCard(index)}
                     onClose={() => setModalIsOpen(false)}
                     isAccept={isAccept}
                     CallBack = {setModalIsOpen}
+                    
                   />
                 </div>
               </div>

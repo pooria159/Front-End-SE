@@ -1,14 +1,18 @@
 import React from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { toast } from 'react-toastify';
+import {
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
+import { toast } from "react-toastify";
 
 import { useProfile } from "../hooks/useProfile";
 import { useNavigate } from "react-router-dom";
 import Handlelogout from "./Handlelogout";
 import config from "../hooks/config";
-
 
 import { useEffect, useState } from "react";
 import profImg from "../assets/profile.jpg";
@@ -16,7 +20,9 @@ import logo from "../assets/logo/logo.png";
 import { red } from "@mui/material/colors";
 import getDecodedToken from "../hooks/useDecodedToken";
 const wsurl = config.WEBSOCKET_NOTIFICATION_URL;
-import { useGetNotification } from "../hooks/useGetNotifications";
+// import { useGetNotification } from "../hooks/useGetNotifications";
+import { useGetNotification } from "../hooks/useNotifications";
+import { useDeleteNotification } from "../hooks/useNotifications";
 import useAnncCard from "../hooks/useAncCard";
 
 import defaultProfilePic from "../assets/defaultUserPic.png";
@@ -51,53 +57,88 @@ export default function Navbar() {
 
   useState(() => {
     const id = getDecodedToken();
-  
+
     if (id) {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       console.log(token);
-  
+
       const socket = new WebSocket(wsurl + "/" + id.UserID);
       socket.onopen = (event) => {
         console.warn("WebSocket connection opened:", event);
       };
-  
+
       socket.onclose = (event) => {
         console.error("WebSocket connection closed:", event);
       };
-  
+
       socket.onerror = (event) => {
         console.error("WebSocket error:", event);
+      };
+      socket.onmessage = (event) => {
+        console.log("WebSocket message received:", event.data);
+        const data = JSON.parse(event.data);
+        if (data.signal === 1) {
+          setHasNotification(true);
+          // setNotifications([...notifications, data.notification]);
+        }
+      };
+
+      return () => {
+        socket.close();
       };
     }
   });
 
-  const setNotificationList = async() =>{
-    console.log("get notif is called");
-    if(hasNotification){
+  const setNotificationList = async () => {
+    // console.log("get notif is called ww");
+    try {
+      // if (hasNotification) {
       const data = await useGetNotification();
       setNotifications(data.data);
+      // }
+      // console.log("get notif is called");
+      setHasNotification(false);
+    } catch (error) {
+      console.error("Error getting notifications:", error);
+      // Handle the error, you can also show a toast or some UI indication
     }
-    console.log("get notif is called");
-    setHasNotification(false);
+  };
+
+  const handleDeleteNotification = async (notificationId) => {
+    try {
+      console.log("notif id is ",notificationId);
+      const response = await useDeleteNotification(notificationId);
+      // Handle success, e.g., remove the deleted notification from the state
+      console.log("Notification deleted:", response);
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter(
+          (notification) => notification.id !== notificationId
+        )
+      );
+    } catch (error) {
+      // Handle error
+      console.error("Error deleting notification:", error);
+      // toast.error('Error deleting notification');
+    }
   };
 
   useEffect(() => {
     const fetch = async () => {
-      try{
+      try {
         const response = await useProfile();
         setFormData(response.data);
-        setPreviewImg(response.data.image)
-      }catch(error){
+        setPreviewImg(response.data.image);
+      } catch (error) {
         throw error;
       }
-    }
+    };
     fetch();
   }, []);
 
   const handleError = (e) => {
     e.target.onerror = null;
     e.target.src = defaultProfilePic;
-  }
+  };
 
   return (
     <Disclosure as="nav" className="z-50 sticky w-full bg-pallate-primary">
@@ -143,12 +184,16 @@ export default function Navbar() {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Menu as="div" className="relative">
-                  <Menu.Button className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none "
-                  onClick={setNotificationList}
+                  <Menu.Button
+                    className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none "
+                    onClick={setNotificationList}
                   >
                     {hasNotification && (
-                      <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full" 
-                      />
+                      // <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full animate-ping opacity-75" />
+                      <span class="absolute w-4 h-4 flex right-0">
+                        <span className="absolute w-3 h-3 bg-red-500 rounded-full animate-ping opacity-75" />
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                      </span>
                     )}
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
@@ -157,15 +202,30 @@ export default function Navbar() {
                   <Menu.Items className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded shadow-lg focus:outline-none">
                     {notifications.length === 0 ? (
                       <Menu.Item>
-                        <span className="block px-4 py-2 text-sm text-gray-700">
-                          No new notifications.
+                        <span className="block px-4 py-2 text-sm text-gray-700 border-t bg-blue-100 ">
+                          <p> No new notifications.</p>
+                          {/* <EyeSlashIcon className="h-5" aria-hidden="true" /> */}
                         </span>
+                        {/* <span className="block px-4 py-2 text-sm text-gray-700">
+                        
+                        </span> */}
                       </Menu.Item>
                     ) : (
-                      notifications.map((notification, index) => (
-                        <Menu.Item key={index}>
-                          <span className="block px-4 py-2 text-sm text-gray-700 border-t">
-                            {notification.message}
+                      notifications.map((notification) => (
+                        <Menu.Item key={notification.id}>
+                          <span className="block px-4 py-2 text-sm text-gray-700 border-t bg-blue-100 relative">
+                            <p>{notification.message}</p>
+                            <button
+                              onClick={() =>
+                                handleDeleteNotification(notification.id)
+                              }
+                              className="absolute top-1 right-2"
+                            >
+                              <EyeSlashIcon
+                                className="h-5 text-blue-500"
+                                aria-hidden="true"
+                              />
+                            </button>
                           </span>
                         </Menu.Item>
                       ))
@@ -180,8 +240,12 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src={previewImg!=null && previewImg!="" ? previewImg : defaultProfilePic} 
-                        onError={handleError} 
+                        src={
+                          previewImg != null && previewImg != ""
+                            ? previewImg
+                            : defaultProfilePic
+                        }
+                        onError={handleError}
                         alt="Profile"
                       />
                     </Menu.Button>
@@ -200,7 +264,10 @@ export default function Navbar() {
                         {({ active }) => (
                           <a
                             href="/profile"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
                           >
                             Your Profile
                           </a>
