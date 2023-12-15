@@ -10,7 +10,7 @@ const Uploadimg = () => {
   const handleFile = (e) => {
     setMessage("");
     let file = e.target.files;
-    if (file.length > 3) {
+    if (files.length + file.length > 3) {
         setMessage("You cannot upload more than three photos");
         console.log(message);
         return;
@@ -25,12 +25,12 @@ const Uploadimg = () => {
             console.log(message);
         }
     }
-};
-
+  };
 
   const removeImage = (i) => {
     setFile(files.filter((x) => x.name !== i));
   };
+
 
   return (
     <>
