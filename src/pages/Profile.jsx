@@ -16,7 +16,7 @@ import ChatList from '../components/Profile/ChatListSec';
 
 import useProfileImage from '../hooks/useProfileImage';
 
-const sections = ['Info', 'Edit', 'Change Pass', 'My Announcements', 'Blog', 'My Chat List'];
+const sections = ['Info', 'Edit', 'Change Pass', 'My Announcements', 'Blog', 'My Chats'];
 
 const skeleton = () => {
   return(
@@ -227,7 +227,7 @@ const ProfilePage = () => {
           {activeSection === 'Edit' && <EditSec formData = {formData} updateFormData={updateFormData}/>}
           {activeSection === 'Change Pass' && <ChangePassSec/> }
           {activeSection === 'My Announcements' && <MyAnncSec/> }
-          {activeSection === 'My Chat List' && <ChatList/> }
+          {activeSection === 'My Chats' && <ChatList/> }
         </div>
 
       </div>

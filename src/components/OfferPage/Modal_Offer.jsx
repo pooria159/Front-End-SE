@@ -87,11 +87,13 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
           
                   <Modal
                     isVisible={modalIsOpen}
+                    hostId={card.HostId}
                     index={index}
                     removeCard={() => removeCard(index)}
                     onClose={() => setModalIsOpen(false)}
                     isAccept={isAccept}
                     CallBack = {setModalIsOpen}
+                    
                   />
                 </div>
               </div>

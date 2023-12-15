@@ -42,7 +42,7 @@ const MyCard = ({ data }) => {
     try {
       const response = await useOffer(form);
       setOffersData(response.data.offers ? response.data.offers : []);
-      // console.log(response.data);
+      console.log(response.data);
       return response;
     } catch (error) {
       console.log("running into errors: ", error);

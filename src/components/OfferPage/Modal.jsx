@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdClose, MdOutlineWarningAmber } from "react-icons/md";
+import { usePostChatList } from "../../hooks/chatApis/usePostChatList";
+import { toast } from "react-toastify";
 
-
-const Modal = ({ isVisible, onClose, isAccept, index, removeCard, CallBack }) => {
+const Modal = ({
+  isVisible,
+  hostId,
+  onClose,
+  isAccept,
+  index,
+  removeCard,
+  CallBack,
+}) => {
   const hasPrintedRef = useRef(false);
   const [isVisiblecard, setIsVisiblecard] = useState(true);
 
@@ -25,8 +34,24 @@ const Modal = ({ isVisible, onClose, isAccept, index, removeCard, CallBack }) =>
     }
   };
 
-  const handleYesClick = () => {
-    setIsVisiblecard(false);
+  const handleYesClick = async() => {
+    console.log(hostId);
+
+    const response = await usePostChatList(hostId);
+    if (response.data.message == "success") {
+      toast.success("New Chat was added to your chats!", {
+        autoClose: 2000, // Close the toast after 3 seconds
+        position: toast.POSITION.TOP_LEFT,
+      });
+      setIsVisiblecard(false);
+      CallBack(false);
+    } else {
+      toast.error("Could not start a new chat.", {
+        position: toast.POSITION.TOP_LEFT,
+      });
+    }
+
+
   };
 
   const handleNoClick = () => {
@@ -90,7 +115,7 @@ const Modal = ({ isVisible, onClose, isAccept, index, removeCard, CallBack }) =>
               <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">
                 Are you sure you don't want to give this user a host account?
               </p>
-              <div style={{display: "flex", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <button
                   type="button"
                   className="inline-block rounded w-24 bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"

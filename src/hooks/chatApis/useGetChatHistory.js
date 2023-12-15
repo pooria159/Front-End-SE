@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from './config';
+import config from '../config';
 // Assuming you have the base URL in .env or .env.local
 const BASE_URL = config.GET_CHAT_HISTORY_URL;
 
