@@ -65,9 +65,10 @@ export const useGetNotification = async () => {
 
 export const useDeleteNotification = async (notifID) => {
   const requestBody = {
-    id: notifID,
+    id: notifID
   };
   try {
+    console.log("before delete");
     // Update the API request to use the DELETE method and send the id in the request body
     console.log(requestBody);
     const response = await apiNotification.delete('', requestBody);

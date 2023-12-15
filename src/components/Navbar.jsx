@@ -90,13 +90,13 @@ export default function Navbar() {
   });
 
   const setNotificationList = async () => {
-    console.log("get notif is called ww");
+    // console.log("get notif is called ww");
     try {
       // if (hasNotification) {
       const data = await useGetNotification();
       setNotifications(data.data);
       // }
-      console.log("get notif is called");
+      // console.log("get notif is called");
       setHasNotification(false);
     } catch (error) {
       console.error("Error getting notifications:", error);
@@ -106,6 +106,7 @@ export default function Navbar() {
 
   const handleDeleteNotification = async (notificationId) => {
     try {
+      console.log("notif id is ",notificationId);
       const response = await useDeleteNotification(notificationId);
       // Handle success, e.g., remove the deleted notification from the state
       console.log("Notification deleted:", response);
@@ -210,18 +211,7 @@ export default function Navbar() {
                         </span> */}
                       </Menu.Item>
                     ) : (
-                      // notifications.map((notification, index) => (
-                      //   <Menu.Item key={index}>
-                      //     <span className="block px-4 py-2 text-sm text-gray-700 border-t">
-                      //       <p> {notification.message}</p>
-                      //       <button>
-                      //         <EyeSlashIcon className="h-5" aria-hidden="true" />
-                      //       </button>
-                      //     </span>
-                      //   </Menu.Item>
-                      // ))
                       notifications.map((notification) => (
-
                         <Menu.Item key={notification.id}>
                           <span className="block px-4 py-2 text-sm text-gray-700 border-t bg-blue-100 relative">
                             <p>{notification.message}</p>
