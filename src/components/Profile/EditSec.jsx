@@ -118,6 +118,8 @@ const EditSec = ({ formData, updateFormData }) => {
     value: formData ? formData.Country : " ",
     label: formData ? formData.Country : " ",
   });
+  const [hostHouseImages, setHostHouseImages] = useState([]);
+
   const [selectedState, setSelectedState] = useState({
     value: formData ? formData.State : " ",
     label: formData ? formData.State : " ",
@@ -333,6 +335,10 @@ const EditSec = ({ formData, updateFormData }) => {
       toast.error(error.response.data.message);
       throw error;
     }
+
+    // You should Use hostHouseImages
+    
+
   };
 
   return isLoading ? (
@@ -551,7 +557,7 @@ const EditSec = ({ formData, updateFormData }) => {
           </div>
           {/* Add similar input fields for the rest of the data */}
         </div>
-        <Uploadimg />
+        <Uploadimg setHostHouseImages = {setHostHouseImages}/>
         {/* Add a second column of input fields if needed */}
       </div>
       <div className="flex flex-col space-y-8 p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md justify-content items-center">
