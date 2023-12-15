@@ -2,14 +2,15 @@ import React, { useEffect, useState, useRef } from "react";
 import getDecodedToken from "../../hooks/useDecodedToken";
 import { useGetChatHistory } from "../../hooks/chatApis/useGetChatHistory";
 import { useGetChatMessageCount } from "../../hooks/chatApis/useGetChatMessageCount";
+import { useAcceptOffer } from "../../hooks/chatApis/useAcceptOffer";
+import { useRejectOffer } from "../../hooks/chatApis/useRejectOffer";
 import image1 from "../../assets/baktash.jpg";
 import pic from "../../assets/chat.jpg";
 import config from "../../hooks/config";
-import backPic from "../../assets/backIcon.png";
 
 const wsurl = config.WEBSOCKET_CHAT_URL;
 
-function ChatRoom({ hostId ,hostImage}) {
+function ChatRoom({ chatData }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [ws, setWs] = useState(null);
@@ -18,11 +19,12 @@ function ChatRoom({ hostId ,hostImage}) {
   const myUsername = myToken.UserName;
   let currentpage = 1;
   let messageCount = 0;
-  const id1 = hostId;
+  const { HostID, announcementID, ContactImage, isHost, contactUsername } = chatData;
+  const id1 = HostID;
   const id2 = myID;
-  const myImageUrl =
-    "https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144";
-  const contactImageUrl =hostImage;
+  // const myImageUrl =
+  //   "https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144";
+  const contactImageUrl = ContactImage;
   let firstID, secondID;
   const [shouldScroll, setShouldScroll] = useState(true);
 
@@ -39,13 +41,18 @@ function ChatRoom({ hostId ,hostImage}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const countResponse = await useGetChatMessageCount(firstID, secondID);
+        const countResponse = await useGetChatMessageCount(
+          firstID,
+          secondID,
+          chatData.announcementID
+        );
         messageCount = countResponse.data.count;
         console.log("messages count is ", messageCount);
 
         const historyResponse = await useGetChatHistory(
           firstID,
           secondID,
+          chatData.announcementID,
           messageCount,
           currentpage
         );
@@ -64,7 +71,9 @@ function ChatRoom({ hostId ,hostImage}) {
 
     fetchData();
 
-    const socket = new WebSocket(wsurl + "/" + firstID + "/" + secondID);
+    const socket = new WebSocket(
+      wsurl + "/" + firstID + "/" + secondID + "/" + chatData.announcementID
+    );
     setWs(socket);
 
     return () => {
@@ -72,7 +81,7 @@ function ChatRoom({ hostId ,hostImage}) {
         ws.close();
       }
     };
-  }, []);
+  }, [firstID, secondID]);
 
   useEffect(() => {
     if (ws) {
@@ -105,6 +114,7 @@ function ChatRoom({ hostId ,hostImage}) {
       const historyResponse = await useGetChatHistory(
         firstID,
         secondID,
+        chatData.announcementID,
         messageCount,
         currentpage
       );
@@ -115,7 +125,7 @@ function ChatRoom({ hostId ,hostImage}) {
 
       // Set the scroll position back to the previous value + 880 pixels
       if (messageListRef.current) {
-        messageListRef.current.scrollTop = firstScroll + 800;
+        messageListRef.current.scrollTop = firstScroll + 400;
       }
     } catch (error) {
       console.error("Error fetching more messages:", error);
@@ -154,11 +164,11 @@ function ChatRoom({ hostId ,hostImage}) {
       }
     };
   }, [messageListRef]);
+
   return (
     <div className="w-1/2 h-[80vh] flex flex-col ">
       <div className="flex items-center justify-between py-3 border-b-2 bg-gray-400 rounded-md border-gray-200 w-full ">
         <div className="flex items-center space-x-4">
-
           <div className="relative ml-4 flex items-center space-x-4">
             <div className="relative">
               <img
@@ -169,14 +179,16 @@ function ChatRoom({ hostId ,hostImage}) {
             </div>
             <div className="flex flex-col leading-tight">
               <div className="text-2xl mt-1 flex items-center">
-                <span className="text-gray-700 mr-3">Baktash Ansari</span>
+                <span className="text-gray-700 mr-3">{contactUsername}</span>
               </div>
-              <span className="text-lg text-gray-600">journey Host</span>
+              <span className="text-lg text-gray-600">
+                {isHost === "no" ? "journey Host" : "journey Guest"}
+              </span>
             </div>
           </div>
         </div>
       </div>
-  
+      {isHost === "no" && (
       <div className="flex items-center justify-center bg-gray-300 w-full">
         <button className="w-2/5 h-8 m-2 md:h-10 p-1 rounded-md text-sm md:text-lg text-green-500 border-double border-2 border-green-500 hover:text-green-300 hover:border-green-300">
           Accept Request
@@ -184,8 +196,8 @@ function ChatRoom({ hostId ,hostImage}) {
         <button className="w-2/5 p-1 rounded-md h-8 md:h-10 text-sm md:text-lg text-red-500 border-double border-2 border-red-500 hover:text-red-400 hover:border-red-400">
           Reject Request
         </button>
-      </div>
-  
+      </div>)}
+
       <div
         id="messages"
         className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch bg-gray-100 p-4 rounded-lg shadow-lg w-full h-full bg-gray-100"
@@ -215,20 +227,23 @@ function ChatRoom({ hostId ,hostImage}) {
                           : "rounded-bl-none bg-gray-300 text-gray-600"
                       }`}
                     >
-                      <p class="text-sm">{msg.username}</p>
+                      {msg.username !== myUsername ? (
+                        <p class="text-sm">{msg.username}</p>
+                      ) : (
+                        <p></p>
+                      )}
                       <p class="text-base">{msg.message}</p>
-
                       <p class="text-xs">({msg.time})</p>
                     </span>
                   </div>
                 </div>
-                <img
-                  src={msg.username === myUsername ? pic : image1}
-                  alt="Profile"
-                  className={`w-6 h-6 rounded-full order-${
-                    msg.username === myUsername ? 2 : 1
-                  }`}
-                />
+                {msg.username !== myUsername && (
+                  <img
+                    src={contactImageUrl}
+                    alt="Profile"
+                    className="w-6 h-6 rounded-full order-1"
+                  />
+                )}
               </div>
             </div>
           ))}

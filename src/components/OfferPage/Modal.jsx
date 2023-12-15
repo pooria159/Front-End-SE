@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const Modal = ({
   isVisible,
   hostId,
+  cardId,
   onClose,
   isAccept,
   index,
@@ -37,7 +38,7 @@ const Modal = ({
   const handleYesClick = async() => {
     console.log(hostId);
 
-    const response = await usePostChatList(hostId);
+    const response = await usePostChatList(hostId,cardId);
     if (response.data.message == "success") {
       toast.success("New Chat was added to your chats!", {
         autoClose: 2000, // Close the toast after 3 seconds

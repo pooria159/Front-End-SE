@@ -1,9 +1,10 @@
 import api from '../api';
 
-export const usePostChatList = async (hostId) => {
+export const usePostChatList = async (hostId,cardId) => {
   try {
     const requestBody = {
       hostid: hostId,
+      announcementid:cardId
     };
 
     const response = await api.post('/chat-list', requestBody);

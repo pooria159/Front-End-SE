@@ -1,9 +1,13 @@
 import React from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon,EyeSlashIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
-
 
 import { useProfile } from "../hooks/useProfile";
 import { useNavigate } from "react-router-dom";
@@ -70,48 +74,52 @@ export default function Navbar() {
       socket.onerror = (event) => {
         console.error("WebSocket error:", event);
       };
+      socket.onmessage = (event) => {
+        console.log("WebSocket message received:", event.data);
+        const data = JSON.parse(event.data);
+        if (data.signal === 1) {
+          setHasNotification(true);
+          // setNotifications([...notifications, data.notification]);
+        }
+      };
+
+      return () => {
+        socket.close();
+      };
     }
   });
 
-  // const setNotificationList = async () => {
-  //   console.log("get notif is called");
-  //   if (hasNotification) {
-  //     const data = await useGetNotification();
-  //     setNotifications(data.data);
-  //   }
-  //   console.log("get notif is called");
-  //   setHasNotification(false);
-  // };
   const setNotificationList = async () => {
     console.log("get notif is called ww");
     try {
-        // if (hasNotification) {
-            const data = await useGetNotification();
-            setNotifications(data.data);
-        // }
-        console.log("get notif is called");
-        setHasNotification(false);
+      // if (hasNotification) {
+      const data = await useGetNotification();
+      setNotifications(data.data);
+      // }
+      console.log("get notif is called");
+      setHasNotification(false);
     } catch (error) {
-        console.error("Error getting notifications:", error);
-        // Handle the error, you can also show a toast or some UI indication
+      console.error("Error getting notifications:", error);
+      // Handle the error, you can also show a toast or some UI indication
     }
-};
+  };
 
   const handleDeleteNotification = async (notificationId) => {
     try {
       const response = await useDeleteNotification(notificationId);
       // Handle success, e.g., remove the deleted notification from the state
-      console.log('Notification deleted:', response);
+      console.log("Notification deleted:", response);
       setNotifications((prevNotifications) =>
-        prevNotifications.filter((notification) => notification.id !== notificationId)
+        prevNotifications.filter(
+          (notification) => notification.id !== notificationId
+        )
       );
     } catch (error) {
       // Handle error
-      console.error('Error deleting notification:', error);
+      console.error("Error deleting notification:", error);
       // toast.error('Error deleting notification');
     }
   };
-  
 
   useEffect(() => {
     const fetch = async () => {
@@ -182,10 +190,9 @@ export default function Navbar() {
                     {hasNotification && (
                       // <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full animate-ping opacity-75" />
                       <span class="absolute w-4 h-4 flex right-0">
-                      <span className="absolute w-3 h-3 bg-red-500 rounded-full animate-ping opacity-75"/>
-                      <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                        <span className="absolute w-3 h-3 bg-red-500 rounded-full animate-ping opacity-75" />
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                       </span>
-
                     )}
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
@@ -195,9 +202,9 @@ export default function Navbar() {
                     {notifications.length === 0 ? (
                       <Menu.Item>
                         <span className="block px-4 py-2 text-sm text-gray-700 border-t bg-blue-100 ">
-                            <p > No new notifications.</p>
-                            {/* <EyeSlashIcon className="h-5" aria-hidden="true" /> */}
-                          </span>
+                          <p> No new notifications.</p>
+                          {/* <EyeSlashIcon className="h-5" aria-hidden="true" /> */}
+                        </span>
                         {/* <span className="block px-4 py-2 text-sm text-gray-700">
                         
                         </span> */}
@@ -214,16 +221,24 @@ export default function Navbar() {
                       //   </Menu.Item>
                       // ))
                       notifications.map((notification) => (
+
                         <Menu.Item key={notification.id}>
-                          <span className="block px-4 py-2 text-sm text-gray-700 border-t">
+                          <span className="block px-4 py-2 text-sm text-gray-700 border-t bg-blue-100 relative">
                             <p>{notification.message}</p>
-                            <button onClick={() => handleDeleteNotification(notification.id)}>
-                              <EyeSlashIcon className="h-5" aria-hidden="true" />
+                            <button
+                              onClick={() =>
+                                handleDeleteNotification(notification.id)
+                              }
+                              className="absolute top-1 right-2"
+                            >
+                              <EyeSlashIcon
+                                className="h-5 text-blue-500"
+                                aria-hidden="true"
+                              />
                             </button>
                           </span>
                         </Menu.Item>
                       ))
-                      
                     )}
                   </Menu.Items>
                 </Menu>

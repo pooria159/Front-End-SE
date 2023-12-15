@@ -52,6 +52,7 @@ const MyCard = ({ data }) => {
 
   useEffect(() => {
     fetchAllOffers(data.CardId);
+    console.log("announcements:",data);
   }, []);
 
   return (
