@@ -1,6 +1,5 @@
 import api from '../api'
 
-
 export const useAcceptOffer = async (hostId,announcementID) => {
     const requestBody = {
         HostId: hostId,
@@ -15,6 +14,4 @@ export const useAcceptOffer = async (hostId,announcementID) => {
     catch(error){
         throw error;
     }
-
-
 }

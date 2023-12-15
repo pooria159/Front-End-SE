@@ -7,6 +7,8 @@ import { useRejectOffer } from "../../hooks/chatApis/useRejectOffer";
 import image1 from "../../assets/baktash.jpg";
 import pic from "../../assets/chat.jpg";
 import config from "../../hooks/config";
+import { toast } from 'react-toastify';
+
 
 const wsurl = config.WEBSOCKET_CHAT_URL;
 
@@ -27,6 +29,7 @@ function ChatRoom({ chatData }) {
   const contactImageUrl = ContactImage;
   let firstID, secondID;
   const [shouldScroll, setShouldScroll] = useState(true);
+  const[AcceptOrReject,setAcceptOrReject]=useState(false);
 
   if (id1 > id2) {
     firstID = id2;
@@ -125,7 +128,7 @@ function ChatRoom({ chatData }) {
 
       // Set the scroll position back to the previous value + 880 pixels
       if (messageListRef.current) {
-        messageListRef.current.scrollTop = firstScroll + 400;
+        messageListRef.current.scrollTop = firstScroll + 300;
       }
     } catch (error) {
       console.error("Error fetching more messages:", error);
@@ -165,6 +168,43 @@ function ChatRoom({ chatData }) {
     };
   }, [messageListRef]);
 
+  const acceptOffer = async () => {
+    try {
+      const response = await useAcceptOffer(chatData.HostID, chatData.announcementID);
+      console.log("Offer accepted:", response);
+      if(response.status==200){
+        toast.success('Accepted Request!', {
+        autoClose: 2000, // Close the toast after 3 seconds
+        position: toast.POSITION.TOP_LEFT,
+      });
+      }
+      
+    } catch (error) {
+      toast.error("Could not accept the request.", {
+        position: toast.POSITION.TOP_LEFT,
+    });
+      console.error("Error accepting offer:", error);
+    }
+  };
+
+  const rejectOffer = async () => {
+    try {
+      const response = await useRejectOffer(chatData.HostID, chatData.announcementID);
+      console.log("Offer rejected:", response);
+      if(response.status==200){
+        toast.success('Rejected Request!', {
+        autoClose: 2000, // Close the toast after 3 seconds
+        position: toast.POSITION.TOP_LEFT,
+      });
+      }
+    } catch (error) {
+      toast.error("Could not reject the request.", {
+        position: toast.POSITION.TOP_LEFT,
+    });
+      console.error("Error rejecting offer:", error);
+    }
+  };
+
   return (
     <div className="w-1/2 h-[80vh] flex flex-col ">
       <div className="flex items-center justify-between py-3 border-b-2 bg-gray-400 rounded-md border-gray-200 w-full ">
@@ -190,10 +230,14 @@ function ChatRoom({ chatData }) {
       </div>
       {isHost === "no" && (
       <div className="flex items-center justify-center bg-gray-300 w-full">
-        <button className="w-2/5 h-8 m-2 md:h-10 p-1 rounded-md text-sm md:text-lg text-green-500 border-double border-2 border-green-500 hover:text-green-300 hover:border-green-300">
+        <button className="w-2/5 h-8 m-2 md:h-10 p-1 rounded-md text-sm md:text-lg text-green-500 border-double border-2 border-green-500 hover:text-green-300 hover:border-green-300"
+        onClick={acceptOffer}
+        >
           Accept Request
         </button>
-        <button className="w-2/5 p-1 rounded-md h-8 md:h-10 text-sm md:text-lg text-red-500 border-double border-2 border-red-500 hover:text-red-400 hover:border-red-400">
+        <button className="w-2/5 p-1 rounded-md h-8 md:h-10 text-sm md:text-lg text-red-500 border-double border-2 border-red-500 hover:text-red-400 hover:border-red-400"
+        onClick={rejectOffer}
+        >
           Reject Request
         </button>
       </div>)}
@@ -223,7 +267,7 @@ function ChatRoom({ chatData }) {
                     <span
                       className={`px-4 py-2 rounded-lg inline-block ${
                         msg.username === myUsername
-                          ? "rounded-br-none bg-blue-600 text-white"
+                          ? "rounded-br-none bg-indigo-500 text-white"
                           : "rounded-bl-none bg-gray-300 text-gray-600"
                       }`}
                     >
