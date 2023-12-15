@@ -4,7 +4,7 @@ import { FaTimes } from "react-icons/fa";
 import { toast } from 'react-toastify';
 
 
-const Uploadimg = () => {
+const Uploadimg = ({setHostHouseImages}) => {
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState("");
   const handleFile = (e) => {
@@ -20,6 +20,7 @@ const Uploadimg = () => {
         const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
         if (validImageTypes.includes(fileType)) {
             setFile([...files, file[i]]);
+            setHostHouseImages([...files, file[i]]);
         } else {
             setMessage("Only pictures are acceptable");
             console.log(message);
@@ -29,6 +30,7 @@ const Uploadimg = () => {
 
   const removeImage = (i) => {
     setFile(files.filter((x) => x.name !== i));
+    setHostHouseImages(files.filter((x) => x.name !== i));
   };
 
 
