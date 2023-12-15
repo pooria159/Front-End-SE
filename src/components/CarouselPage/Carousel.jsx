@@ -8,20 +8,21 @@ import nophoto from "../../assets/nophoto.jpg";
 
 export default function CarouselDefault() {
   let [current, setCurrent] = useState(0);
-  // const [imagedata, Setimagedata] = useState([]);
+  const [imagedata, Setimagedata] = useState([]);
 
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //         try {
-  //             const response = await useCarousel();
-  //             Setimagedata(response);
-  //         } catch (error) {
-  //             console.error('Error:', error);
-  //         }
-  //     };
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await useCarousel();
+              console.log(response);
+              Setimagedata(response);
+          } catch (error) {
+              console.error('Error:', error);
+          }
+      };
 
-  //     fetchData();
-  // }, []);
+      fetchData();
+  }, []);
 
   let slides = [test1,test2,test3];
 

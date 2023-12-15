@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import defaultProfilePic from "../assets/defaultUserPic.png";
 import { useProfile } from '../hooks/useProfile';
-
+import MyblogSec from "../components/CreateBlog/MyBlogSec";
 import ANCModal from '../components/Profile/ANCModal';
 
 
@@ -227,6 +227,8 @@ const ProfilePage = () => {
           {activeSection === 'Edit' && <EditSec formData = {formData} updateFormData={updateFormData}/>}
           {activeSection === 'Change Pass' && <ChangePassSec/> }
           {activeSection === 'My Announcements' && <MyAnncSec/> }
+          {activeSection === 'Blog' && <MyblogSec/> }
+
         </div>
 
       </div>

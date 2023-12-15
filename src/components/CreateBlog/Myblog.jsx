@@ -35,15 +35,15 @@ const BlogCard = ({data}) => {
           <div className="mb-8">
             <p className="text-lg  text-gray-600 flex items-center ">
               Rate:
-              {Array.from({ length: HostRating }).map((_, index) => (
+              {Array.from({ length: data.HostRating }).map((_, index) => (
                 <FaStar className="ml-1 text-yellow-300 text-xl" key={index} />
               ))}
             </p>
             <div className="text-gray-900 font-bold text-xl mb-2">
               {data.PostTitle}
             </div>
-            <p className="text-gray-700 text-base">
-              {PostBody}
+            <p className="flex flex-wrap  text-gray-700 text-base justify-center items-center">
+              {data.PostBody}
             </p>
           </div>
           <div className="flex space-x-20 sm:space-x-36">

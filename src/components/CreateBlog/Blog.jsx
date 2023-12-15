@@ -58,6 +58,7 @@ const Blog = ({ onClose, Data }) => {
     formData.append("HostRating", StarValue);
     formData.append("AnnouncementId", Data.CardId);
     formData.append("PostBody", BodyValue);
+    console.log("Fuckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
     console.log(formData);
     try {
       const response = await useCreateBlog(formData);
@@ -82,7 +83,8 @@ const Blog = ({ onClose, Data }) => {
   const handleImageUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
-      setImage(URL.createObjectURL(img));
+      setImage(img);
+      setPreviewImage(URL.createObjectURL(img));
     }
   };
 
@@ -110,7 +112,11 @@ const Blog = ({ onClose, Data }) => {
                   <input
                     type="text"
                     name="title"
+                    value = {TitleValue}
                     id="title"
+                    onChange={(e)=>{
+                      setTitleValue(e.target.value);
+                    }}
                     autocomplete="title"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
@@ -159,7 +165,7 @@ const Blog = ({ onClose, Data }) => {
                     </p>
                     {image && (
                       <div>
-                        <img className="w-96 h-96 rounded-xl" src={image} alt="Preview" />
+                        <img className="w-96 h-96 rounded-xl" src={previewImage} alt="Preview" />
                       </div>
                     )}
                   </div>
@@ -236,6 +242,10 @@ const Blog = ({ onClose, Data }) => {
                   <textarea
                     id="about"
                     name="about"
+                    value = {BodyValue}
+                    onChange={(e)=>{
+                      setBodyValue(e.target.value);
+                    }}
                     rows="3"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     style={{ resize: "none", overflow: "auto" }}
