@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { useCityCountry } from "../hooks/useCityCountry";
+import { useCityCountry } from "../../hooks/useCityCountry";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
-import { useCreateCard } from "../hooks/useCreateCard";
+import { useEditCard } from "../../hooks/useEditCard";
 import { TbBuildingEstate } from "react-icons/tb";
 import { MdHome, MdDescription, MdCardTravel, MdCreate } from "react-icons/md";
 import { FaLanguage } from "react-icons/fa";
@@ -56,7 +56,8 @@ const languages = {
     Tamil: 'தமிழ்',
     Turkish: 'Türk'
 };
-const CreateCardForm = ({onClose}) => {
+const EditCardFrom = ({fetchData, data, onClose}) => {
+    console.log(data)
   const style = {
     control: (base, state) => ({
       ...base,
@@ -84,14 +85,15 @@ const CreateCardForm = ({onClose}) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    Description: "",
-    PreferredLanguages: ["English", "English"],
-    StartDate: "",
-    EndDate: "",
-    DestinationCountry: "",
-    DestinationState: "",
-    DestinationCity: "",
-    NumberOfTravelers: 1,
+    CardId: data.CardId,
+    Description: data.Description,
+    PreferredLanguages: [data.PreferredLanguages[0], data.PreferredLanguages[1]],
+    StartDate: data.StartDate,
+    EndDate: data.EndDate,
+    DestinationCountry: data.DestinationCountry,
+    DestinationState: data.DestinationState,
+    DestinationCity: data.DestinationCity,
+    NumberOfTravelers: data.NumberOfTravelers,
   });
 
   const numberItems = [1, 2, 3, 4, 5, 6];
@@ -100,12 +102,21 @@ const CreateCardForm = ({onClose}) => {
   const [countries, setCountries] = useState(null);
   const [states, setStates] = useState(null);
   const [cities, setCities] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedState, setSelectedState] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
-  const [TravelerCount, setTravelerCount] = useState("");
-  const [selectedLanguage1, setselectedLanguage1] = useState("English");
-  const [selectedLanguage2, setselectedLanguage2] = useState("English");
+  const [selectedCountry, setSelectedCountry] = useState({
+    value: data ? data.DestinationCountry : " ",
+    label: data ? data.DestinationCountry : " ",
+  });
+  const [selectedState, setSelectedState] = useState({
+    value: data ? data.DestinationState : " ",
+    label: data ? data.DestinationState : " ",
+  });
+  const [selectedCity, setSelectedCity] = useState({
+    value: data ? data.DestinationCity : " ",
+    label: data ? data.DestinationCity : " ",
+  });
+  const [TravelerCount, setTravelerCount] = useState({"value" : data.NumberOfTravelers, "label" : data.NumberOfTravelers});
+  const [selectedLanguage1, setselectedLanguage1] = useState(data.PreferredLanguages[0]);
+  const [selectedLanguage2, setselectedLanguage2] = useState(data.PreferredLanguages[1]);
   const [isTravelerCountFocused, setIsTravelerCountFocused] = useState(false);
 
   useEffect(() => {
@@ -117,7 +128,7 @@ const CreateCardForm = ({onClose}) => {
   }, []);
 
   useEffect(() => {
-    setSelectedState("");
+    // setSelectedState("");
     const fetch = async () => {
       console.log(selectedCountry);
       const response = await useCityCountry("state", selectedCountry.value);
@@ -127,7 +138,7 @@ const CreateCardForm = ({onClose}) => {
   }, [selectedCountry]);
 
   useEffect(() => {
-    setSelectedCity("");
+    // setSelectedCity("");
     const fetch = async () => {
       console.log(selectedState);
       const response = await useCityCountry("city", selectedState.value);
@@ -165,6 +176,7 @@ const CreateCardForm = ({onClose}) => {
     }
   };
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     const updatedFormData = { ...formData };
     if (
@@ -181,9 +193,9 @@ const CreateCardForm = ({onClose}) => {
       return false;
     }
     try {
-      const response = await useCreateCard(updatedFormData);
+      const response = await useEditCard(updatedFormData);
       if (response.status >= 200 && response.status < 300) {
-        toast.success("Card is created successfully !", {
+        toast.success("Card is edited successfully !", {
           autoClose: 1000,
           position: toast.POSITION.TOP_LEFT,
         });
@@ -193,13 +205,15 @@ const CreateCardForm = ({onClose}) => {
           position: toast.POSITION.TOP_LEFT,
         });
       }
-      onClose();
+      
     } catch (error) {
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_LEFT,
       });
       throw error;
     }
+    onClose();
+    await fetchData();
 
     return;
   };
@@ -226,7 +240,7 @@ const CreateCardForm = ({onClose}) => {
   return (
     <div className="mt-5 m-0 w-5/6 selectedCity mx-auto">
       <h2 className="m-0 mb-5 text-center text-black text-2xl font-bold leading-9 tracking-tight ">
-        Create your journey announcement
+        Edit your journey announcement
       </h2>
       <div className="m-0 space-y-2">
         <div className="flex flex-wrap -mx-3 mb-4">
@@ -471,7 +485,7 @@ const CreateCardForm = ({onClose}) => {
             onClick={handleSubmit}
           >
             <MdCreate className="mr-1 mt-1" />
-            Create
+            Edit
           </button>
         </div>
       </div>
@@ -479,4 +493,4 @@ const CreateCardForm = ({onClose}) => {
   );
 };
 
-export default CreateCardForm;
+export default EditCardFrom;

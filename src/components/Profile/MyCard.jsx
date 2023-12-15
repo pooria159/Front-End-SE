@@ -14,13 +14,15 @@ import BlogModal from "../CreateBlog/BlogModal";
 import useOffer from "../../hooks/useOffer";
 import { useDeleteMyCard } from "../../hooks/useDeleteMyCard";
 import card from "@material-tailwind/react/theme/components/card";
-
+import ANCEditModal from "./ANCEditModal";
 
 const MyCard = ({ data, fetchData }) => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [offersData, setOffersData] = useState(null);
+
+  const [isEditAnncModalOpen, setISEditAnncModalOpen] = useState(false);
   
   const fetchDelete = async (cardId) => {
     const response = await useDeleteMyCard(cardId);
@@ -80,7 +82,7 @@ const MyCard = ({ data, fetchData }) => {
   }
   const Edit_Icon = () => {
     return(
-      <div className="text-gray-500 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-200 hover:cursor-pointer" >
+      <div className="text-gray-500 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-200 hover:cursor-pointer" onClick={() => {setISEditAnncModalOpen(true)}} >
         <FontAwesomeIcon icon={faEdit} />
       </div>
     )
@@ -115,6 +117,7 @@ const MyCard = ({ data, fetchData }) => {
     <div className="max-w-md border border-gray-300 h-[22rem] w-[30rem] mx-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-[30rem] m-2">
       <div className="md:flex h-full">
         {showDeleteModal && <DeleteModal/>}
+        <ANCEditModal fetchData = {fetchData} data = {data} isVisible={isEditAnncModalOpen} onClose={() => {setISEditAnncModalOpen(false)}}/>
         <div className="xl:block 2xl:block  md:flex-shrink-0 overflow-hidden">
           <img
             className="h-full w-full object-cover md:w-48 transform transition duration-500 hover:scale-110"
