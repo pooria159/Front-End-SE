@@ -74,6 +74,7 @@ const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [isModalOpen, setISModalOpen] = useState(false);
+  
 
   const [activeSection, setActiveSection] = useState(sections[0]);
   const [image, setImage] = useState(null);

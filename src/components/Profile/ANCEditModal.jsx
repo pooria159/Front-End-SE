@@ -1,14 +1,15 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
 
-import CreateCardForm from "../ CreateCardForm";
+import EditCardFrom from "./EditCardForm";
 
-const ANCModal = ({ isVisible, onClose }) => {
+const ANCEditModal = ({ fetchData, data, isVisible, onClose }) => {
   if (!isVisible) return null;
 
   const handelClose = (e) => {
     if (e.target.id === "wrapper") onClose();
   };
+
 
   return (
     
@@ -26,7 +27,7 @@ const ANCModal = ({ isVisible, onClose }) => {
             <MdClose />
           </button>
           <div className=" p-5 rounded-lg">
-            <CreateCardForm onClose = {onClose}/>
+            <EditCardFrom fetchData = {fetchData} data = {data} onClose = {onClose}/>
           </div>
         </div>
       </div>
@@ -34,4 +35,4 @@ const ANCModal = ({ isVisible, onClose }) => {
   );
 };
 
-export default ANCModal;
+export default ANCEditModal;

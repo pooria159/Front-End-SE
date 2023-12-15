@@ -1,11 +1,12 @@
-import { render, screen } from "@testing-library/react";
 import PublicProfile from "../components/PublicProfilePage/PublicProfile";
 import { BrowserRouter } from 'react-router-dom';
-import { test } from 'vitest'
+import { render, fireEvent, waitFor, getByRole,screen, getAllByText, getByDisplayValue} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vitest } from 'vitest';
 
 
-it("should render the component without crashing", () => {
+
+test("should render the component without crashing", () => {
   render(<BrowserRouter><PublicProfile /></BrowserRouter>);
 });
-
 
