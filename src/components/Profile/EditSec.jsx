@@ -28,6 +28,7 @@ import { useCityCountry } from "../../hooks/useCityCountry";
 import useEditProfile from "../../hooks/useEditProfile";
 import { toast } from "react-toastify";
 import { useProfile } from "../../hooks/useProfile";
+import useUploadimg  from "../../hooks/useUploadimg";
 
 const Genders = [" ", "Man", "Woman", "Other"];
 const Intrests = ["Coding", "Traveling", "Photography", "Reading"];
@@ -326,6 +327,23 @@ const EditSec = ({ formData, updateFormData }) => {
     // Add similar checks for the rest of the data
 
     console.log(changes);
+
+    const formDataforimage = new FormData();
+    console.log(hostHouseImages.length);
+    if(hostHouseImages.length==1){
+      formDataforimage.append('image-1', hostHouseImages[0]);
+    }
+    else if(hostHouseImages.length==2){
+      formDataforimage.append('image-1', hostHouseImages[0]);
+      formDataforimage.append('image-2', hostHouseImages[1]);
+    }
+    else if(hostHouseImages.length==3){
+      formDataforimage.append('image-1', hostHouseImages[0]);
+      formDataforimage.append('image-2', hostHouseImages[1]);
+      formDataforimage.append('image-3', hostHouseImages[2]);
+    }
+    console.log("mio :" + formDataforimage);
+
     try {
       const response = await useEditProfile(changes);
       const newFromData = await fetch();
@@ -336,6 +354,14 @@ const EditSec = ({ formData, updateFormData }) => {
       throw error;
     }
 
+    try {
+      const response = await useUploadimg(formDataforimage);
+      const newFromData = await fetch();
+      updateFormData(newFromData.data);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      throw error;
+    }
     // You should Use hostHouseImages
     
 

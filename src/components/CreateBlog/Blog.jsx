@@ -4,10 +4,9 @@ import { GiJourney } from "react-icons/gi";
 import { Rating } from "flowbite-react";
 import image_backi from "../../assets/baktash.jpg";
 import useCreateBlog from "../../hooks/useCreateBlog";
-import {toast} from  "react-toastify";
+import { toast } from "react-toastify";
 
-const Blog = ({onClose, Data}) => {
-  
+const Blog = ({ onClose, Data }) => {
   const [TitleValue, setTitleValue] = useState("");
   const [BodyValue, setBodyValue] = useState("");
   const [image, setImage] = useState(null);
@@ -25,9 +24,8 @@ const Blog = ({onClose, Data}) => {
   };
 
   useEffect(() => {
-    console.log("ehem")
-    console.log(Data)
-  
+    console.log("ehem");
+    console.log(Data);
   }, []);
 
   const [stars, setStars] = useState([false, false, false, false, false]);
@@ -54,30 +52,23 @@ const Blog = ({onClose, Data}) => {
   };
 
   const submitButtonBlog = async (e) => {
-    // let form_data = {};
-    // form_data = { ...form_data, Title: TitleValue };
-    // form_data = { ...form_data, Body: BodyValue };
-    // form_data = { ...form_data, Star: StarValue };
     const formData = new FormData();
-    formData.append('ImageData', image);
-    formData.append('PostTitle', TitleValue);
-    formData.append('HostRating', StarValue);
-    formData.append('AnnouncementId', Data.CardId);
-    formData.append('PostBody', BodyValue);
-    console.log(formData)
-    try{
-        const response = await useCreateBlog(formData);
-        console.log(response.status);
-        if (response.status >= 200 && response.status < 300) {
-          toast.success("Your blog has been successfully created", {
-        });
-        }
-
-      }  catch(error){
-        toast.error(error.response.data.message, {
-        });
-        throw error;
+    formData.append("ImageData", image);
+    formData.append("PostTitle", TitleValue);
+    formData.append("HostRating", StarValue);
+    formData.append("AnnouncementId", Data.CardId);
+    formData.append("PostBody", BodyValue);
+    console.log(formData);
+    try {
+      const response = await useCreateBlog(formData);
+      console.log(response.status);
+      if (response.status >= 200 && response.status < 300) {
+        toast.success("Your blog has been successfully created", {});
       }
+    } catch (error) {
+      toast.error(error.response.data.message, {});
+      throw error;
+    }
   };
 
   const handleClicks = async () => {
@@ -89,16 +80,10 @@ const Blog = ({onClose, Data}) => {
   };
 
   const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setImage(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewImage(reader.result);
-    };
-    reader.readAsDataURL(file);
-
-    event.target.value = null;
+    if (event.target.files && event.target.files[0]) {
+      let img = event.target.files[0];
+      setImage(URL.createObjectURL(img));
+    }
   };
 
   return (
@@ -111,7 +96,6 @@ const Blog = ({onClose, Data}) => {
           <div className="border-b border-gray-900/10 ">
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
               <div className="col-span-full">
-
                 <div className="flex items-center">
                   <MdOutlineSubtitles className="text-2xl" />
                   <label
@@ -173,6 +157,11 @@ const Blog = ({onClose, Data}) => {
                     <p className="text-xs leading-5 text-gray-600">
                       PNG, JPG, GIF up to 10MB
                     </p>
+                    {image && (
+                      <div>
+                        <img className="w-96 h-96 rounded-xl" src={image} alt="Preview" />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
