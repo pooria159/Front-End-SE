@@ -10,6 +10,7 @@ const BlogCard = ({data}) => {
 
   const fetchAllBlog = async (Id) => {
     console.log("fetching blog card for id: ", Id);
+
     let form = { HostId : data.HostId };
     try {
       const response = await usepostblog(form);
@@ -21,17 +22,21 @@ const BlogCard = ({data}) => {
     }
   };
 
+
+
+
+
   useEffect(() => {
     fetchAllBlog(data.HostId);
   }, []);
   return (
-    <div className=" p-10 grid grid-cols-1 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-5">
+    <div className="p-4 grid grid-cols-1 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1">
       <div className="w-full h-full lg:max-w-full lg:flex">
         <div
           className="h-80 lg:h-96  lg:w-96 md:h-96 flex-none bg-cover lg:rounded-r-none rounded-t-xl lg:rounded-xl text-center"
           style={{ backgroundImage: `url(${data.PostImage})` }}
         ></div>
-        <div className="border-r border-b border-l bg-indigo-50 border-gray-400 lg:border-l-0 lg:border-t  lg:border-gray-400 rounded-b-xl lg:rounded-b-none lg:rounded-r-xl p-4 flex flex-col justify-between leading-normal">
+        <div className="border-r xl:w-[1000px] lg:w-[500px] sm:w-96 border-b border-l bg-indigo-50 border-gray-400 lg:border-l-0 lg:border-t  lg:border-gray-400 rounded-b-xl lg:rounded-b-none lg:rounded-r-xl p-4 flex flex-col justify-between leading-normal">
           <div className="w-full">
             <p className="text-lg  text-gray-600 flex items-center ">
               Rate:
@@ -42,15 +47,16 @@ const BlogCard = ({data}) => {
             <div className="text-gray-900 font-bold text-xl mb-2">
               {data.PostTitle}
             </div>
-            <p className="text-gray-700 text-base justify-center items-center whitespace-normal">
-            {data.PostBody.substring(0, 40) + (data.PostBody.length > 40 ? "..." : "")}
+            <p className="text-gray-700 text-base justify-center items-center whitespace-normal my-5 ">
+
+            {data.PostBody}
           </p>
 
           </div>
-          <div className="flex space-x-20 sm:space-x-36">
+          <div className="flex space-x-2 sm:space-x-10">
             <div className="flex items-center">
               <img
-                className="w-10 h-10 rounded-full mr-4"
+                className="w-10 h-10 rounded-full mr-1"
                 src={data.HostImage}
                 alt="Avatar of Writer"
               />
@@ -61,7 +67,7 @@ const BlogCard = ({data}) => {
             </div>
             <div className="flex items-center">
               <img
-                className="w-10 h-10 rounded-full mr-4"
+                className="w-10 h-10 rounded-full mr-1"
                 src={data.GuestImage}
                 alt="Avatar of Host"
               />
