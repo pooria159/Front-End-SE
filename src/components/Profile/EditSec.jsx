@@ -329,20 +329,10 @@ const EditSec = ({ formData, updateFormData }) => {
     console.log(changes);
 
     const formDataforimage = new FormData();
-    console.log(hostHouseImages.length);
-    if(hostHouseImages.length==1){
-      formDataforimage.append('image-1', hostHouseImages[0]);
+    for (let i = 0; i < hostHouseImages.length; i++) {
+      formDataforimage.append('image-' + (i + 1), hostHouseImages[i]);
     }
-    else if(hostHouseImages.length==2){
-      formDataforimage.append('image-1', hostHouseImages[0]);
-      formDataforimage.append('image-2', hostHouseImages[1]);
-    }
-    else if(hostHouseImages.length==3){
-      formDataforimage.append('image-1', hostHouseImages[0]);
-      formDataforimage.append('image-2', hostHouseImages[1]);
-      formDataforimage.append('image-3', hostHouseImages[2]);
-    }
-    console.log("mio :" + formDataforimage);
+    
 
     try {
       const response = await useEditProfile(changes);
@@ -362,7 +352,6 @@ const EditSec = ({ formData, updateFormData }) => {
       toast.error(error.response.data.message);
       throw error;
     }
-    // You should Use hostHouseImages
     
 
   };
