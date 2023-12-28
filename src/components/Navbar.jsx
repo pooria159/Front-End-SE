@@ -27,6 +27,9 @@ import useAnncCard from "../hooks/useAncCard";
 
 import defaultProfilePic from "../assets/defaultUserPic.png";
 
+// MUI
+import { Avatar } from '@mui/material';
+
 const navigation = [
   { name: "Home", href: "/", current: false },
   { name: "About", href: "/", current: false },
@@ -238,7 +241,7 @@ export default function Navbar() {
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
-                      <img
+                      {/* <img
                         className="h-8 w-8 rounded-full"
                         src={
                           previewImg != null && previewImg != ""
@@ -247,6 +250,12 @@ export default function Navbar() {
                         }
                         onError={handleError}
                         alt="Profile"
+                      /> */}
+                      <Avatar alt="Profile Pic" src={
+                                                      previewImg != null && previewImg != ""
+                                                        ? previewImg
+                                                        : defaultProfilePic
+                                                    } 
                       />
                     </Menu.Button>
                   </div>
