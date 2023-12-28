@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-catch */
 import axios from "axios";
 import config from "./config";
 const url = config.NOTIFICATION_URL;
@@ -25,8 +24,6 @@ apiNotification.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // If the error status is 401 and there is no originalRequest._retry flag,
-    // it means the token has expired and we need to refresh it
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
@@ -36,10 +33,8 @@ apiNotification.interceptors.response.use(
           RefreshToken: refreshToken,
         });
         const token = response.data;
-        console.log(token);
+        // console.log(token);
         localStorage.setItem("token", token.AccessToken);
-
-        // Retry the original request with the new token
         originalRequest.headers.Authorization = `Jwt ${token}`;
         return axios(originalRequest);
       } catch (error) {
@@ -54,9 +49,9 @@ apiNotification.interceptors.response.use(
 
 export const useGetNotification = async () => {
   try {
-    console.log("before get req");
+    // console.log("before get req");
     const response = await apiNotification.get("");
-    console.log("notif get response:",response);
+    // console.log("notif get response:",response);
     return response;
   } catch (error) {
     throw error;
@@ -68,10 +63,11 @@ export const useDeleteNotification = async (notifID) => {
     id: notifID
   };
   try {
-    console.log("before delete");
-    // Update the API request to use the DELETE method and send the id in the request body
-    console.log(requestBody);
-    const response = await apiNotification.delete('', requestBody);
+    // console.log("before delete");
+    // console.log("notif_id is ");
+    // console.log(notifID);
+    // console.log(requestBody);
+    const response = await apiNotification.delete('', { data: requestBody });
     return response;
   } catch (error) {
     throw error;
