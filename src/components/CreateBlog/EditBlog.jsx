@@ -5,8 +5,10 @@ import { Rating } from "flowbite-react";
 import image_backi from "../../assets/baktash.jpg";
 import useCreateBlog from "../../hooks/useCreateBlog";
 import { toast } from "react-toastify";
+// import { useEditBlog } from "../../hooks/useEditBlog";
 
-const Blog = ({ onClose, Data }) => {
+
+const EditBlog = ({ onClose, Data , fetchData, data }) => {
   const [TitleValue, setTitleValue] = useState("");
   const [BodyValue, setBodyValue] = useState("");
   const [image, setImage] = useState(null);
@@ -23,8 +25,64 @@ const Blog = ({ onClose, Data }) => {
     );
   };
 
+// insert formdata into
+
+// const [formData, setFormData] = useState({
+// });
+
+
+
+// const isFormValid = (formData) => {
+//   if (
+//     !formData.Title ||
+//     !formData.PostBody
+//   ) {
+//     toast.error("Please fill in all required fields.", {
+//       position: toast.POSITION.TOP_LEFT,
+//     });
+//     return false;
+//   }
+// };
+
+// const handleEdit = async (e) => {
+//   e.preventDefault();
+//   const updatedFormData = { ...formData };
+//   if (
+//     !formData.Title ||
+//     !formData.PostBody
+//   ){
+//     toast.error("Please fill in all required fields.", {
+//       position: toast.POSITION.TOP_LEFT,
+//     });
+//     return false;
+//   }
+//   try {
+//     const response = await useEditBlog(updatedFormData);
+//     if (response.status >= 200 && response.status < 300) {
+//       toast.success("Blog is edited successfully !", {
+//         autoClose: 1000,
+//         position: toast.POSITION.TOP_LEFT,
+//       });
+//       setTimeout(() => {}, 1500);
+//     } else {
+//       toast.error(response.data["message"], {
+//         position: toast.POSITION.TOP_LEFT,
+//       });
+//     }
+    
+//   } catch (error) {
+//     toast.error(error.response.data.message, {
+//       position: toast.POSITION.TOP_LEFT,
+//     });
+//     throw error;
+//   }
+//   onClose();
+//   await fetchData();
+
+//   return;
+// };
+
   useEffect(() => {
-    console.log("ehem");
     console.log(Data);
   }, []);
 
@@ -89,7 +147,7 @@ const Blog = ({ onClose, Data }) => {
   return (
     <div>
       <h2 className="m-0 text-center text-black text-2xl leading-9 tracking-tight ">
-        Create your own blog post
+        Edit your own blog post
       </h2>
       <form>
         <div className="space-y-12">
@@ -268,7 +326,7 @@ const Blog = ({ onClose, Data }) => {
             className="w-1/3 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={handleClicks}
           >
-            Create
+            Edit
           </button>
         </div>
       </form>
@@ -276,4 +334,4 @@ const Blog = ({ onClose, Data }) => {
   );
 };
 
-export default Blog;
+export default EditBlog;
