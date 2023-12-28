@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 const Uploadimg = ({setHostHouseImages}) => {
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState("");
+
+
   const handleFile = (e) => {
     setMessage("");
     let file = e.target.files;
@@ -17,7 +19,7 @@ const Uploadimg = ({setHostHouseImages}) => {
     }
     for (let i = 0; i < file.length; i++) {
         const fileType = file[i]["type"];
-        const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+        const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
         if (validImageTypes.includes(fileType)) {
             setFile([...files, file[i]]);
             setHostHouseImages([...files, file[i]]);
