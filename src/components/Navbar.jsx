@@ -19,11 +19,8 @@ import profImg from "../assets/profile.jpg";
 import logo from "../assets/logo/logo.png";
 import { red } from "@mui/material/colors";
 import getDecodedToken from "../hooks/useDecodedToken";
-const wsurl = config.WEBSOCKET_NOTIFICATION_URL;
-// import { useGetNotification } from "../hooks/useGetNotifications";
-import { useGetNotification } from "../hooks/useNotifications";
-import { useDeleteNotification } from "../hooks/useNotifications";
 import useAnncCard from "../hooks/useAncCard";
+import NotificationComponent from "./Notification";
 
 import defaultProfilePic from "../assets/defaultUserPic.png";
 
@@ -44,65 +41,9 @@ export default function Navbar() {
       navigate("/login");
     }
   };
-  const [hasNotification, setHasNotification] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]);
 
   const [formData, setFormData] = useState(null);
   const [previewImg, setPreviewImg] = useState(null);
-
-  const toggleNotifDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  useState(() => {
-    const id = getDecodedToken();
-
-    if (id) {
-      const token = localStorage.getItem("token");
-      console.log(token);
-
-      const socket = new WebSocket(wsurl + "/" + id.UserID);
-      socket.onopen = (event) => {
-        console.warn("WebSocket connection opened:", event);
-      };
-
-      socket.onclose = (event) => {
-        console.error("WebSocket connection closed:", event);
-      };
-
-      socket.onerror = (event) => {
-        console.error("WebSocket error:", event);
-      };
-      socket.onmessage = (event) => {
-        console.log("WebSocket message received:", event.data);
-        const data = JSON.parse(event.data);
-        if (data.signal === 1) {
-          setHasNotification(true);
-          // setNotifications([...notifications, data.notification]);
-        }
-      };
-
-      return () => {
-        socket.close();
-      };
-    }
-  });
-
-  const setNotificationList = async () => {
-    // console.log("get notif is called ww");
-    try {
-      // if (hasNotification) {
-      const data = await useGetNotification();
-      setNotifications(data.data);
-      // }
-      // console.log("get notif is called");
-      setHasNotification(false);
-    } catch (error) {
-      console.error("Error getting notifications:", error);
-      // Handle the error, you can also show a toast or some UI indication
-    }
-  };
 
   const handleDeleteNotification = async (notificationId) => {
     try {
@@ -183,56 +124,7 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Menu as="div" className="relative">
-                  <Menu.Button
-                    className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none "
-                    onClick={setNotificationList}
-                  >
-                    {hasNotification && (
-                      // <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full animate-ping opacity-75" />
-                      <span class="absolute w-4 h-4 flex right-0">
-                        <span className="absolute w-3 h-3 bg-red-500 rounded-full animate-ping opacity-75" />
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                      </span>
-                    )}
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </Menu.Button>
-                  <Menu.Items className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded shadow-lg focus:outline-none">
-                    {notifications.length === 0 ? (
-                      <Menu.Item>
-                        <span className="block px-4 py-2 text-sm text-gray-700 border-t bg-blue-100 ">
-                          <p> No new notifications.</p>
-                          {/* <EyeSlashIcon className="h-5" aria-hidden="true" /> */}
-                        </span>
-                        {/* <span className="block px-4 py-2 text-sm text-gray-700">
-                        
-                        </span> */}
-                      </Menu.Item>
-                    ) : (
-                      notifications.map((notification) => (
-                        <Menu.Item key={notification.id}>
-                          <span className="block px-4 py-2 text-sm text-gray-700 border-t bg-blue-100 relative">
-                            <p>{notification.message}</p>
-                            <button
-                              onClick={() =>
-                                handleDeleteNotification(notification.id)
-                              }
-                              className="absolute top-1 right-2"
-                            >
-                              <EyeSlashIcon
-                                className="h-5 text-blue-500"
-                                aria-hidden="true"
-                              />
-                            </button>
-                          </span>
-                        </Menu.Item>
-                      ))
-                    )}
-                  </Menu.Items>
-                </Menu>
-                {/* Profile dropdown */}
+              <NotificationComponent/>
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
