@@ -139,7 +139,7 @@ const NotificationComponent = () => {
                 "&": {
                   backgroundColor: "#e3f2fd", // Your desired background color
                   fontSize: "0.8rem",
-                  minWidth: "300px",
+                  minWidth: "400px",
                 },
               }}
             >
