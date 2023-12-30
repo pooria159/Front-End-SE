@@ -123,13 +123,23 @@ function ChatRoom({ chatData }) {
       );
       const fetchedMessages = historyResponse.data.reverse();
 
-      // Update state with the new messages
+      if(historyResponse.data.length===0){
+        // console.log("message zero");
+        currentpage-=1;
+        if (messageListRef.current) {
+          messageListRef.current.scrollTop = firstScroll;
+        }
+        setShouldScroll(false);
+        // messageListRef.current.scrollTop=firstScroll;
+      }else{
+
       setMessages((prevMessages) => [...fetchedMessages, ...prevMessages]);
 
       // Set the scroll position back to the previous value + 880 pixels
       if (messageListRef.current) {
         messageListRef.current.scrollTop = firstScroll + 300;
       }
+    }
     } catch (error) {
       console.error("Error fetching more messages:", error);
     }
@@ -304,25 +314,7 @@ function ChatRoom({ chatData }) {
               onChange={(e) => setMessage(e.target.value)}
             />
             <div className="flex-shrink-0 ml-2">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="h-6 w-6 text-gray-600"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                  ></path>
-                </svg>
-              </button>
+              
               <button
                 type="button"
                 className="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
