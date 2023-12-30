@@ -5,7 +5,7 @@ const url = config.API_URL;
 
 export const useEditBlog = async (formData) => {
     try{    
-        const response = await api.post("", JSON.stringify(formData));
+        const response = await api.post("/edit-post", JSON.stringify(formData));
         return response;
     }
     catch(error){

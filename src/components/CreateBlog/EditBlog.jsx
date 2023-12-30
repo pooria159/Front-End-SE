@@ -5,7 +5,7 @@ import { Rating } from "flowbite-react";
 import image_backi from "../../assets/baktash.jpg";
 import useCreateBlog from "../../hooks/useCreateBlog";
 import { toast } from "react-toastify";
-// import { useEditBlog } from "../../hooks/useEditBlog";
+import { useEditBlog } from "../../hooks/useEditBlog";
 
 
 const EditBlog = ({ onClose, Data , fetchData, data }) => {
@@ -25,62 +25,55 @@ const EditBlog = ({ onClose, Data , fetchData, data }) => {
     );
   };
 
-// insert formdata into
 
-// const [formData, setFormData] = useState({
-// });
+const [formData, setFormData] = useState({
+  PostId: data.PostId,
+  PostTitle: data.PostTitle,
+  HostRating: data.HostRating,
+  PostBody: data.PostBody,
+});
 
 
 
-// const isFormValid = (formData) => {
-//   if (
-//     !formData.Title ||
-//     !formData.PostBody
-//   ) {
-//     toast.error("Please fill in all required fields.", {
-//       position: toast.POSITION.TOP_LEFT,
-//     });
-//     return false;
-//   }
-// };
 
-// const handleEdit = async (e) => {
-//   e.preventDefault();
-//   const updatedFormData = { ...formData };
-//   if (
-//     !formData.Title ||
-//     !formData.PostBody
-//   ){
-//     toast.error("Please fill in all required fields.", {
-//       position: toast.POSITION.TOP_LEFT,
-//     });
-//     return false;
-//   }
-//   try {
-//     const response = await useEditBlog(updatedFormData);
-//     if (response.status >= 200 && response.status < 300) {
-//       toast.success("Blog is edited successfully !", {
-//         autoClose: 1000,
-//         position: toast.POSITION.TOP_LEFT,
-//       });
-//       setTimeout(() => {}, 1500);
-//     } else {
-//       toast.error(response.data["message"], {
-//         position: toast.POSITION.TOP_LEFT,
-//       });
-//     }
+const handleEdit = async (e) => {
+  e.preventDefault();
+  const updatedFormData = { ...formData };
+  if (
+    !formData.PostTitle ||
+    !formData.PostBody||
+    !formData.HostRating
+  ){
+    toast.error("Please fill in all required fields.", {
+      position: toast.POSITION.TOP_LEFT,
+    });
+    return false;
+  }
+  try {
+    const response = await useEditBlog(updatedFormData);
+    if (response.status >= 200 && response.status < 300) {
+      toast.success("Blog is edited successfully !", {
+        autoClose: 1000,
+        position: toast.POSITION.TOP_LEFT,
+      });
+      setTimeout(() => {}, 1500);
+    } else {
+      toast.error(response.data["message"], {
+        position: toast.POSITION.TOP_LEFT,
+      });
+    }
     
-//   } catch (error) {
-//     toast.error(error.response.data.message, {
-//       position: toast.POSITION.TOP_LEFT,
-//     });
-//     throw error;
-//   }
-//   onClose();
-//   await fetchData();
+  } catch (error) {
+    toast.error(error.response.data.message, {
+      position: toast.POSITION.TOP_LEFT,
+    });
+    throw error;
+  }
+  onClose();
+  await fetchData();
 
-//   return;
-// };
+  return;
+};
 
   useEffect(() => {
     console.log(Data);
