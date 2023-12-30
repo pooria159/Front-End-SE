@@ -81,11 +81,10 @@ const Loading = () => {
 
 
 const NotFound = () => {
-  const gifUrl = 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTRzOXEwcjR6dTQxYjdjcThlaHZtc2Y0YzlncGN5MnJqOW1hcHhscSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8L0Pky6C83SzkzU55a/giphy.gif'; // replace with your gif URL
 
   return (
     <div className='mb-24 w-full h-full text-2xl flex flex-col justify-center items-center'>
-      <img src={gifUrl} alt="No data found" />
+      <img src="/giphy.gif" alt="No data found" />
     </div>
   );
 };
@@ -113,6 +112,7 @@ export default function AnncPanel() {
   const [totalPage, setTotalPage] = useState(1);
 
   const fetchData = async () => {
+    
     setIsLoading(true);
     const data = await useAnncCard(controlObject);
     if(!data.data.Cards)
@@ -186,7 +186,8 @@ export default function AnncPanel() {
 
     setControlObject(prevState => ({
       ...prevState,
-      sort: option.value
+      sort: option.value,
+      currentPage: 1
     }));
 
   }
@@ -196,12 +197,14 @@ export default function AnncPanel() {
     if(option)
       setControlObject(prevState => ({
         ...prevState,
-        country: option.value
+        country: option.value,
+        currentPage: 1
       }));
     else
       setControlObject(prevState => ({
         ...prevState,
-        country: ""
+        country: "",
+        currentPage: 1
       }));
 
   }
@@ -212,12 +215,14 @@ export default function AnncPanel() {
     if(option)
       setControlObject(prevState => ({
         ...prevState,
-        state: option.value
+        state: option.value,
+        currentPage: 1
       }));
     else
       setControlObject(prevState => ({
         ...prevState,
-        state: ""
+        state: "",
+        currentPage: 1
       }));
 
   }
@@ -226,12 +231,14 @@ export default function AnncPanel() {
     if(option)
       setControlObject(prevState => ({
         ...prevState,
-        city: option.value
+        city: option.value,
+        currentPage: 1
       }));
     else
       setControlObject(prevState => ({
         ...prevState,
-        city: ""
+        city: "",
+        currentPage: 1
       }));
 
   }

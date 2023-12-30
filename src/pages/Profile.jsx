@@ -5,6 +5,8 @@ import { useProfile } from '../hooks/useProfile';
 import MyblogSec from "../components/CreateBlog/MyBlogSec";
 import ANCModal from '../components/Profile/ANCModal';
 
+// MUI
+import { Avatar } from '@mui/material';
 
 
 // Sections:
@@ -181,7 +183,12 @@ const ProfilePage = () => {
             <h2 className="text-xl font-bold mb-4">{formData.FirstName} {formData.LastName}</h2>
             <input ref={fileInputRef} id="imageUpload" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
             <label onClick={openExplorer} className="cursor-pointer flex flex-col justify-center items-center relative">
-                <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} onError={handleError} alt="Profile" />
+                {/* <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} onError={handleError} alt="Profile" /> */}
+                <Avatar  
+                  alt="Profile Pic" 
+                  src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} 
+                  sx={{width: '18vw', height: '18vw', borderRadius: '100%', marginBottom: '10%'}}
+                />
             </label>
             
             <div className='flex flex-col justify-center items-center w-full space-x-1 mb-1'>

@@ -18,7 +18,11 @@ const ANCModal = ({ isVisible, onClose }) => {
       onClick={handelClose}
     >
       <div className="w-[35rem]  h-auto flex flex-col">
-        <div className="bg-gray-300 p-5 rounded-xl relative">
+        <div 
+        // className="bg-gradient-to-r from-white/60 to-indigo-600 p-5 rounded relative"
+        className="bg-gray-100 p-5 rounded relative"
+
+        >
           <button
             className="text-black text-xl absolute top-0 right-0 m-2 hover:bg-gray-50 p-0.5 rounded"
             onClick={() => onClose()}
