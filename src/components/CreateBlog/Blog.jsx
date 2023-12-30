@@ -141,12 +141,12 @@ const Blog = ({ onClose, Data }) => {
                     >
                       <MdAddPhotoAlternate className="text-2xl" />
                     </svg>
-                    <div className="mt-1 flex text-sm leading-6 text-gray-600">
+                    <div className="mt-1 flex text-sm leading-6 text-gray-600 justify-center items-center">
                       <label
                         for="file-upload"
-                        className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none  hover:text-indigo-500"
+                        className=" cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none  hover:text-indigo-500"
                       >
-                        <span>Upload a file</span>
+                        <span className="justify-center items-center">Upload a file</span>
                         <input
                           id="file-upload"
                           name="file-upload"
@@ -156,14 +156,14 @@ const Blog = ({ onClose, Data }) => {
                           className="sr-only"
                         />
                       </label>
-                      <p className="pl-1">or drag and drop</p>
+                      <p className="pl-1 justify-center items-center">or drag and drop</p>
                     </div>
                     <p className="text-xs leading-5 text-gray-600">
                       PNG, JPG, GIF up to 10MB
                     </p>
                     {image && (
                       <div>
-                        <img className="w-96 h-96 rounded-xl" src={previewImage} alt="Preview" />
+                        <img className="w-80 h-80 rounded-xl" src={previewImage} alt="Preview" />
                       </div>
                     )}
                   </div>

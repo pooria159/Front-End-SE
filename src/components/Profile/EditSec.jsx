@@ -330,7 +330,7 @@ const EditSec = ({ formData, updateFormData }) => {
 
     const formDataforimage = new FormData();
     for (let i = 0; i < hostHouseImages.length; i++) {
-      formDataforimage.append('image-' + (i + 1), hostHouseImages[i]);
+      formDataforimage.append(`image${i+1}`, hostHouseImages[i]);
     }
     
 
@@ -345,7 +345,8 @@ const EditSec = ({ formData, updateFormData }) => {
     }
 
     try {
-      const response = await useUploadimg(formDataforimage);
+      const response = await useUploadimg(formDataforimage , true , hostHouseImages.length);
+      console.log("22222222222222222222222"+response);
       const newFromData = await fetch();
       updateFormData(newFromData.data);
     } catch (error) {
