@@ -56,7 +56,7 @@ const languages = {
     Tamil: 'தமிழ்',
     Turkish: 'Türk'
 };
-const CreateCardForm = () => {
+const CreateCardForm = ({onClose}) => {
   const style = {
     control: (base, state) => ({
       ...base,
@@ -193,6 +193,7 @@ const CreateCardForm = () => {
           position: toast.POSITION.TOP_LEFT,
         });
       }
+      onClose();
     } catch (error) {
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_LEFT,

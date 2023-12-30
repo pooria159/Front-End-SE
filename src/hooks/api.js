@@ -1,6 +1,9 @@
 /* eslint-disable no-useless-catch */
 import axios from 'axios';
-const url = import.meta.env.VITE_API_URL;
+import config from './config';
+import { toast } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
+const url = config.API_URL;
 
 const api = axios.create({
   baseURL: url,
@@ -33,14 +36,14 @@ api.interceptors.response.use(
           const refreshToken = localStorage.getItem('refreshToken');
           const response = await axios.post(`${url}/refresh`,{"RefreshToken" : refreshToken});
           const token = response.data;
-          console.log(token)
+          console.log("expiredddddddddddddddddddddddddddd")
           localStorage.setItem('token', token.AccessToken);
   
           // Retry the original request with the new token
           originalRequest.headers.Authorization = `Jwt ${token}`;
-          return axios(originalRequest);
+          return api(originalRequest);
         } catch (error) {
-          // Handle refresh token error or redirect to login
+          toast.error("You must login again!!!");
           throw error;
         }
       }

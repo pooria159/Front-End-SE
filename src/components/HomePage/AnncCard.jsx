@@ -9,6 +9,9 @@ import useCreateOffer from '../../hooks/useCreateOffer';
 
 import bakimg from "../../assets/baktash.jpg";
 
+// MUI
+import { Avatar } from '@mui/material';
+
 const Chips = ({text}) => {
   return(
     <div class="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-blue-700 bg-blue-100 border border-blue-300 ">
@@ -46,7 +49,28 @@ const Card = ({data}) => {
       <div className="md:flex h-full">
         <div className="xl:block 2xl:block  md:flex-shrink-0 overflow-hidden">
           <Link to={`/public/${data.UserUsername}`} >
-            <img className="h-full w-full md:w-48 transform transition duration-500 hover:scale-110" src={data.Image} onError={handleError} alt="An image"/>
+            
+            {/* <img className="h-full w-full md:w-48 transform transition duration-500 hover:scale-110" src={data.Image} onError={handleError} alt="An image"/> */}
+            <div className='w-full h-full'>
+              <Avatar
+                src={data.Image}
+                onError={handleError}
+                alt="An image"
+                sx={{
+                  width: '15rem', 
+                  height: '26rem', 
+                  md: { width: '12rem' },
+                  borderRadius: 0,
+                  transform: 'scale(1)',
+                  transition: 'transform 500ms',
+                  '&:hover': {
+                    transform: 'scale(1.1)',
+                  },
+                }}
+              />
+            </div>
+            
+
           </Link>
         </div>
         

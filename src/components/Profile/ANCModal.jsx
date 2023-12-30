@@ -30,7 +30,7 @@ const ANCModal = ({ isVisible, onClose }) => {
             <MdClose />
           </button>
           <div className=" p-5 rounded-lg">
-            <CreateCardForm />
+            <CreateCardForm onClose = {onClose}/>
           </div>
         </div>
       </div>

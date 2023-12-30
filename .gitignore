@@ -26,3 +26,7 @@ dist-ssr
 
 # ignore coverage test files in coverage directory
 /coverage
+
+# ignore SSL certificates
+trekdestiny_certificate.pem
+trekdestiny_key.key

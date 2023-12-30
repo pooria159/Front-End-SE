@@ -1,24 +1,31 @@
 import React from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { toast } from 'react-toastify';
+import {
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
+import { toast } from "react-toastify";
 
 import { useProfile } from "../hooks/useProfile";
 import { useNavigate } from "react-router-dom";
 import Handlelogout from "./Handlelogout";
-
+import config from "../hooks/config";
 
 import { useEffect, useState } from "react";
 import profImg from "../assets/profile.jpg";
 import logo from "../assets/logo/logo.png";
 import { red } from "@mui/material/colors";
 import getDecodedToken from "../hooks/useDecodedToken";
-const wsurl = import.meta.env.VITE_WEBSOCKET_NOTIFICATION_URL;
-import { useGetNotification } from "../hooks/useGetNotifications";
 import useAnncCard from "../hooks/useAncCard";
+import NotificationComponent from "./Notification";
 
 import defaultProfilePic from "../assets/defaultUserPic.png";
+
+// MUI
+import { Avatar } from '@mui/material';
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -37,66 +44,45 @@ export default function Navbar() {
       navigate("/login");
     }
   };
-  const [hasNotification, setHasNotification] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]);
 
   const [formData, setFormData] = useState(null);
   const [previewImg, setPreviewImg] = useState(null);
 
-  const toggleNotifDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  useState(() => {
-    const id = getDecodedToken();
-  
-    if (id) {
-      const token = localStorage.getItem('token');
-      console.log(token);
-  
-      const socket = new WebSocket(wsurl + "/" + id.UserID);
-      socket.onopen = (event) => {
-        console.warn("WebSocket connection opened:", event);
-      };
-  
-      socket.onclose = (event) => {
-        console.error("WebSocket connection closed:", event);
-      };
-  
-      socket.onerror = (event) => {
-        console.error("WebSocket error:", event);
-      };
+  const handleDeleteNotification = async (notificationId) => {
+    try {
+      console.log("notif id is ",notificationId);
+      const response = await useDeleteNotification(notificationId);
+      // Handle success, e.g., remove the deleted notification from the state
+      console.log("Notification deleted:", response);
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter(
+          (notification) => notification.id !== notificationId
+        )
+      );
+    } catch (error) {
+      // Handle error
+      console.error("Error deleting notification:", error);
+      // toast.error('Error deleting notification');
     }
-  });
-
-  const setNotificationList = async() =>{
-    console.log("get notif is called");
-    if(hasNotification){
-      const data = await useGetNotification();
-      setNotifications(data.data);
-    }
-    console.log("get notif is called");
-    setHasNotification(false);
   };
 
   useEffect(() => {
     const fetch = async () => {
-      try{
+      try {
         const response = await useProfile();
         setFormData(response.data);
-        setPreviewImg(response.data.image)
-      }catch(error){
+        setPreviewImg(response.data.image);
+      } catch (error) {
         throw error;
       }
-    }
+    };
     fetch();
   }, []);
 
   const handleError = (e) => {
     e.target.onerror = null;
     e.target.src = defaultProfilePic;
-  }
+  };
 
   return (
     <Disclosure as="nav" className="z-50 sticky w-full bg-pallate-primary">
@@ -141,47 +127,27 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Menu as="div" className="relative">
-                  <Menu.Button className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none "
-                  onClick={setNotificationList}
-                  >
-                    {hasNotification && (
-                      <div className="absolute -top-1 w-4 h-4 bg-red-500 rounded-full" 
-                      />
-                    )}
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </Menu.Button>
-                  <Menu.Items className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded shadow-lg focus:outline-none">
-                    {notifications.length === 0 ? (
-                      <Menu.Item>
-                        <span className="block px-4 py-2 text-sm text-gray-700">
-                          No new notifications.
-                        </span>
-                      </Menu.Item>
-                    ) : (
-                      notifications.map((notification, index) => (
-                        <Menu.Item key={index}>
-                          <span className="block px-4 py-2 text-sm text-gray-700 border-t">
-                            {notification.message}
-                          </span>
-                        </Menu.Item>
-                      ))
-                    )}
-                  </Menu.Items>
-                </Menu>
-                {/* Profile dropdown */}
+              <NotificationComponent/>
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
-                      <img
+                      {/* <img
                         className="h-8 w-8 rounded-full"
-                        src={previewImg!=null && previewImg!="" ? previewImg : defaultProfilePic} 
-                        onError={handleError} 
+                        src={
+                          previewImg != null && previewImg != ""
+                            ? previewImg
+                            : defaultProfilePic
+                        }
+                        onError={handleError}
                         alt="Profile"
+                      /> */}
+                      <Avatar alt="Profile Pic" src={
+                                                      previewImg != null && previewImg != ""
+                                                        ? previewImg
+                                                        : defaultProfilePic
+                                                    } 
                       />
                     </Menu.Button>
                   </div>
@@ -199,7 +165,10 @@ export default function Navbar() {
                         {({ active }) => (
                           <a
                             href="/profile"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
                           >
                             Your Profile
                           </a>
