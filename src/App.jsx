@@ -36,7 +36,7 @@ const App = () => {
          {['/profile', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Navbar />}
             <Routes>
                <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
-               <Route path="/profile" element= {islogin ? <ProfilePage/> : <Navigate to="/login" />}/>
+               <Route path="/profile/*" element= {islogin ? <ProfilePage/> : <Navigate to="/login" />}/>
                <Route path="/login" element={<LoginPage />} />
                <Route path="/signup" element={<SignupPage />} />
                <Route path="/forget-password" element={<ForgetPasswordPage />} />
