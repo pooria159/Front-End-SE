@@ -41,7 +41,7 @@ export default function CarouselDefault({formData}) {
     <div className="flex justify-center items-center w-full h-full">
       <div className="w-full h-full rounded-2xl">
         <div className="overflow-hidden relative rounded-2xl">
-          {slides.length === 0 ? (
+          {slides && slides.length === 0 ? (
             <div className="flex justify-center items-center w-full h-1/2">
               <img
                 src={nophoto}
@@ -57,7 +57,7 @@ export default function CarouselDefault({formData}) {
                   transform: `translateX(-${current * 100}%)`,
                 }}
               >
-                {slides.map((s) => {
+                {slides && slides.map((s) => {
                   return <img role="img" src={s} />;
                 })}
               </div>
@@ -71,7 +71,7 @@ export default function CarouselDefault({formData}) {
               </div>
 
               <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full ">
-                {slides.map((s, i) => {
+                {slides && slides.map((s, i) => {
                   return (
                     <div
                       onClick={() => {
