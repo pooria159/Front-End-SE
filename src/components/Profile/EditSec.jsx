@@ -573,7 +573,8 @@ const EditSec = ({ formData, updateFormData }) => {
           </div>
           {/* Add similar input fields for the rest of the data */}
         </div>
-        <Uploadimg setHostHouseImages = {setHostHouseImages}/>
+        <Uploadimg setHostHouseImages = {setHostHouseImages} baseImage = {formData.HostHouseImages}/>
+        
         {/* Add a second column of input fields if needed */}
       </div>
       <div className="flex flex-col space-y-8 p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md justify-content items-center">

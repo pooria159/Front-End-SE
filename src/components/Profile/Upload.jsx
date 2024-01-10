@@ -3,18 +3,35 @@ import ReactDOM from "react-dom";
 import { FaTimes } from "react-icons/fa";
 import { toast } from 'react-toastify';
 
+async function urlToFile(url, filename, mimeType) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return new File([blob], filename, {type: mimeType});
+}
 
-const Uploadimg = ({setHostHouseImages}) => {
+
+
+const Uploadimg = ({setHostHouseImages , baseImage}) => {
   const [files, setFile] = useState([]);
-  const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    const convertUrlsToFiles = async () => {
+      let newFiles = [];
+      for(var i=0 ; i < baseImage.length ; i++) {
+        const file = await urlToFile(baseImage[i], `file${i}.jpg`, 'image/jpeg')
+        newFiles.push(file);
+      }
+      setFile(newFiles);
+    };
+  
+    convertUrlsToFiles();
+  }, []);
+  
 
   const handleFile = (e) => {
-    setMessage("");
     let file = e.target.files;
     if (files.length + file.length > 3) {
-        setMessage("You cannot upload more than three photos");
-        console.log(message);
+        toast.error("You cannot upload more than three photos");
         return;
     }
     for (let i = 0; i < file.length; i++) {
@@ -24,15 +41,26 @@ const Uploadimg = ({setHostHouseImages}) => {
             setFile([...files, file[i]]);
             setHostHouseImages([...files, file[i]]);
         } else {
-            setMessage("Only pictures are acceptable");
-            console.log(message);
+            toast.error("Only pictures are acceptable");
         }
     }
   };
 
+  // const removeImage = (i) => {
+  //   const newFiles = files.filter((x) => x.name !== i);
+  //   setFile(newFiles);
+  //   setHostHouseImages(newFiles);
+  // };
+
   const removeImage = (i) => {
     setFile(files.filter((x) => x.name !== i));
     setHostHouseImages(files.filter((x) => x.name !== i));
+  };
+
+  const handleUrl = async (url) => {
+    const file = await urlToFile(url, 'filename.jpg', 'image/jpeg');
+    // Now you can use the 'file' variable as if it was from an input element
+    // You can add your validation and state update logic here
   };
 
 
@@ -41,9 +69,6 @@ const Uploadimg = ({setHostHouseImages}) => {
         <div class="flex justify-center h- w-screen items-center px-3">
           <div class="rounded-lg bg-white w-full">
             <div class="m-4">
-              <span classNam="flex justify-center items-center text-[12px] mb-1 text-red-500">
-                {message}
-              </span>
               <div class="flex items-center justify-center w-full">
                 <label class="flex cursor-pointer flex-col w-full h-32 border-2 rounded-md border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
