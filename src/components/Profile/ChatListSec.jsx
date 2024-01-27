@@ -3,6 +3,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import ChatRoom from "../Chat/ChatRoom";
 import defaultUserPic from "../../assets/defaultUserPic.png";
 import { useGetChatList } from "../../hooks/chatApis/useGetChatList";
+import { Avatar } from '@mui/material';
 
 const Loading = () => {
   return (
@@ -80,10 +81,14 @@ const ChatList = () => {
             className="w-full p-2 border-b-4 border-gray-200 bg-gray-100 rounded-xl shadow-md flex flex-row cursor-pointer"
             onClick={() => handleChatItemClick(user)}
           >
-            <img
+            {/* <img
               className="h-16 w-16 border-4 rounded-full object-cover"
               src={user.image || defaultUserPic}
               alt="Profile"
+            /> */}
+            <Avatar
+              src={user.image || defaultUserPic}
+              sx={{ width: 64, height: 64, borderRadius: '50%' }}
             />
             <div className="user-info ml-6 flex items-center ">
               <span className="text-xl  text-gray-700">{user.username}</span>

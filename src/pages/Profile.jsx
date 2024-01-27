@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import defaultProfilePic from "../assets/defaultUserPic.png";
 import { useProfile } from '../hooks/useProfile';
 import MyblogSec from "../components/CreateBlog/MyBlogSec";
 import ANCModal from '../components/Profile/ANCModal';
+import { useNavigate } from 'react-router-dom';
 
 // MUI
 import { Avatar } from '@mui/material';
@@ -19,6 +21,7 @@ import ChatList from '../components/Profile/ChatListSec';
 import useProfileImage from '../hooks/useProfileImage';
 
 const sections = ['Info', 'Edit', 'Change Pass', 'My Announcements', 'Blog', 'My Chats'];
+const mapper_sections = { 'info' : 'Info', 'edit' : 'Edit', 'changepass' : "Change Pass", 'myannc' : 'My Announcements', 'blog' : 'Blog', 'mychats' : 'My Chats'}
 
 const skeleton = () => {
   return(
@@ -70,19 +73,25 @@ const convertFileToBase64 = (file) => {
 
 
 const ProfilePage = () => {
-
+  const location = useLocation();
 
   const [formData, setFormData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const [isModalOpen, setISModalOpen] = useState(false);
   
+  let path = location.pathname.split('/')[2]
+  if (!path){
+    path = 'info'
+  }
 
-  const [activeSection, setActiveSection] = useState(sections[0]);
+  const [activeSection, setActiveSection] = useState(mapper_sections[path]);
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
 
   const fileInputRef = useRef();
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
       const fetch = async () => {
@@ -185,7 +194,7 @@ const ProfilePage = () => {
             <label onClick={openExplorer} className="cursor-pointer flex flex-col justify-center items-center relative">
                 {/* <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} onError={handleError} alt="Profile" /> */}
                 <Avatar  
-                  alt="Profile Pic" 
+                  alt={formData.FirstName} 
                   src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} 
                   sx={{width: '18vw', height: '18vw', borderRadius: '100%', marginBottom: '10%'}}
                 />
@@ -207,7 +216,22 @@ const ProfilePage = () => {
               <button
                 key={section}
                 className={`flex border-solid border-[1px] border-indigo-500 justify-center items-center block w-full text-left mb-2 p-2 rounded-lg ${section === activeSection ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}
-                onClick={() => setActiveSection(section)}
+                onClick={() => {
+                  setActiveSection(section)
+                  if(section == "Info"){
+                    navigate('/profile/info')
+                  }else if(section == "Edit"){
+                    navigate('/profile/edit')
+                  }else if(section == "Change Pass"){
+                    navigate('/profile/changepass')
+                  }else if(section == "My Announcements"){
+                    navigate('/profile/myannc')
+                  }else if(section == "Blog"){
+                    navigate('/profile/blog')
+                  }else if(section == "My Chats"){
+                    navigate('/profile/mychats')
+                  }
+                }}
               >
                 {section}
               </button>
@@ -231,12 +255,21 @@ const ProfilePage = () => {
 
         <div className="col-span-6 bg-gray-100  p-4 flex flex-col  items-center rounded-2xl">
           <h2 className="text-xl font-bold mb-4">{activeSection}</h2>
-          {activeSection === 'Info' && <InfoSec formData = {formData}/>}
+          {/* {activeSection === 'Info' && <InfoSec formData = {formData}/>}
           {activeSection === 'Edit' && <EditSec formData = {formData} updateFormData={updateFormData}/>}
           {activeSection === 'Change Pass' && <ChangePassSec/> }
           {activeSection === 'My Announcements' && <MyAnncSec/> }
           {activeSection === 'My Chats' && <ChatList/> }
-          {activeSection === 'Blog' && <MyblogSec/> }
+          {activeSection === 'Blog' && <MyblogSec/> } */}
+          <Routes>
+            <Route path="/" element={<InfoSec formData={formData} />} />
+            <Route path="/info" element={<InfoSec formData={formData} />} />
+            <Route path="/edit" element={<EditSec formData={formData} updateFormData={updateFormData} />} />
+            <Route path="/changepass" element={<ChangePassSec/>} />
+            <Route path="/myannc" element={<MyAnncSec/>} />
+            <Route path="/mychats" element={<ChatList/>} />
+            <Route path="/blog" element={<MyblogSec/>} />
+          </Routes>
 
         </div>
 

@@ -4,6 +4,8 @@ import { useGetChatHistory } from "../../hooks/chatApis/useGetChatHistory";
 import { useGetChatMessageCount } from "../../hooks/chatApis/useGetChatMessageCount";
 import { useAcceptOffer } from "../../hooks/chatApis/useAcceptOffer";
 import { useRejectOffer } from "../../hooks/chatApis/useRejectOffer";
+import { Avatar } from '@mui/material';
+import defaultProfilePic from "../../assets/defaultUserPic.png";
 import image1 from "../../assets/baktash.jpg";
 import pic from "../../assets/chat.jpg";
 import config from "../../hooks/config";
@@ -215,16 +217,26 @@ function ChatRoom({ chatData }) {
     }
   };
 
+  const handleError = (e) => {
+    e.target.onerror = null;
+    e.target.src = defaultProfilePic;
+  }
+
   return (
     <div className="w-1/2 h-[80vh] flex flex-col ">
       <div className="flex items-center justify-between py-3 border-b-2 bg-gray-400 rounded-md border-gray-200 w-full ">
         <div className="flex items-center space-x-4">
           <div className="relative ml-4 flex items-center space-x-4">
             <div className="relative">
-              <img
+              {/* <img
                 src={contactImageUrl}
                 alt=""
                 className="w-20 h-20 rounded-full object-cover"
+              /> */}
+              <Avatar
+                src={contactImageUrl}
+                onError={handleError}
+                sx={{ width: 80, height: 80 }}
               />
             </div>
             <div className="flex flex-col leading-tight">
@@ -292,10 +304,15 @@ function ChatRoom({ chatData }) {
                   </div>
                 </div>
                 {msg.username !== myUsername && (
-                  <img
+                  // <img
+                  //   src={contactImageUrl}
+                  //   alt="Profile"
+                  //   className="w-6 h-6 rounded-full order-1"
+                  // />
+                  <Avatar
                     src={contactImageUrl}
-                    alt="Profile"
-                    className="w-6 h-6 rounded-full order-1"
+                    onError={handleError}
+                    sx={{ width: 60, height: 60 }}
                   />
                 )}
               </div>
