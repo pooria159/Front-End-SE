@@ -4,7 +4,7 @@ import { stringify } from "postcss";
 
 const useOffer = async (formData) => {
   try {
-    const response = await api.post("/get-offer", formData);
+    const response = await api.get(`/get-offer?announcement_id=${formData.AnnouncementId}`);
     console.log("the response of the post request: ", response);
     return response;
   } catch (error) {

@@ -23,6 +23,8 @@ const MyAnncSec = () => {
             const response = await useMyCard();
             setCardData(response.data.Cards);
             setIsLoading(false);
+            // console.log('taken data are:');
+            // console.log(response);
         } catch (error) {
             console.error('Error:', error);
         }
