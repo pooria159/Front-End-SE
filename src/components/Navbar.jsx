@@ -143,7 +143,7 @@ export default function Navbar() {
                         onError={handleError}
                         alt="Profile"
                       /> */}
-                      <Avatar alt="Profile Pic" src={
+                      <Avatar alt={localStorage.getItem("username")} src={
                                                       previewImg != null && previewImg != ""
                                                         ? previewImg
                                                         : defaultProfilePic

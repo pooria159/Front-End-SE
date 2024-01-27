@@ -8,6 +8,8 @@ function Handlelogout(){
         localStorage.removeItem('islogin');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('image');
         toast.success("Logged out successfully!");
         return true;
     }

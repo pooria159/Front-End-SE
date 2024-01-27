@@ -55,7 +55,7 @@ const Card = ({data}) => {
               <Avatar
                 src={data.Image}
                 onError={handleError}
-                alt="An image"
+                alt={data.UserUsername}
                 sx={{
                   width: '15rem', 
                   height: '26rem', 
