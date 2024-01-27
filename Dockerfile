@@ -18,9 +18,9 @@ COPY --from=build /app/dist /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-RUN apk update
+#RUN apk update
 
-RUN apk add openssl
+#RUN apk add openssl
 
 COPY nginx/nginx.conf /etc/nginx/conf.d
 
