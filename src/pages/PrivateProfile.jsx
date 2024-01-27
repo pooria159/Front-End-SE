@@ -108,7 +108,12 @@ const PrivateProfile = () => {
           <div className='w-full h-full flex flex-col justify-center items-center'>
             <h2 className="text-xl font-bold mb-4">{formData.FirstName} {formData.LastName}</h2>
             <label onClick={openExplorer} className="cursor-pointer flex flex-col justify-center items-center relative">
-                <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} onError={handleError} alt="Profile" />
+                {/* <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} onError={handleError} alt="Profile" /> */}
+                <Avatar  
+                  alt={formData.FirstName} 
+                  src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} 
+                  sx={{width: '18vw', height: '18vw', borderRadius: '100%', marginBottom: '10%'}}
+                />
             </label>
             
             
