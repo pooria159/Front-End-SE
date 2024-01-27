@@ -33,7 +33,7 @@ const App = () => {
       <div className="flex flex-col min-h-screen">
          <div className="flex-grow">
 
-         {['/profile/info', '/profile/edit','/profile/changepass', '/profile/myannc', '/profile/blog', '/profile/mychats', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Navbar />}
+         {['/profile', '/profile/info', '/profile/edit','/profile/changepass', '/profile/myannc', '/profile/blog', '/profile/mychats', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Navbar />}
             <Routes>
                <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
                <Route path="/profile/*" element= {islogin ? <ProfilePage/> : <Navigate to="/login" />}/>
@@ -53,7 +53,7 @@ const App = () => {
             </Routes>
             
          </div>
-         {['/profile/info', '/profile/edit','/profile/changepass', '/profile/myannc', '/profile/blog', '/profile/mychats', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Footer />}
+         {['/profile', '/profile/info', '/profile/edit','/profile/changepass', '/profile/myannc', '/profile/blog', '/profile/mychats', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Footer />}
       </div>
          <ToastContainer 
                   position="top-left"

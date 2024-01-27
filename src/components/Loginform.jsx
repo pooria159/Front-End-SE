@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useLogin } from '../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
+import { useProfile } from '../hooks/useProfile';
 
 const LoginForm = () => {
 
@@ -33,6 +34,9 @@ const LoginForm = () => {
         localStorage.setItem('token', AccessToken);
         localStorage.setItem('refreshToken', RefreshToken);
         localStorage.setItem('islogin', "True");
+        const profileInfo = await useProfile()
+        localStorage.setItem('username', profileInfo.data.UserName);
+        localStorage.setItem('image', profileInfo.data.image);
         toast.success('Welcome!', {
           autoClose: 2000, // Close the toast after 3 seconds
           position: toast.POSITION.TOP_LEFT,
