@@ -101,6 +101,7 @@ const ChatList = () => {
           <div
             key={user.HostID}
             // className="w-full p-2 border-b-4 border-gray-200 bg-gray-100 rounded-xl shadow-md flex flex-row cursor-pointer"
+            bg-slate-500
             className={`w-full p-2 border-b-4 border-gray-200 ${user.status === 2 ? 'blur-sm' : 'bg-gray-100'} rounded-xl shadow-md flex flex-row cursor-pointer`}
             onClick={() => handleChatItemClick(user)}
             
