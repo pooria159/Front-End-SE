@@ -10,11 +10,12 @@ import image1 from "../../assets/baktash.jpg";
 import pic from "../../assets/chat.jpg";
 import config from "../../hooks/config";
 import { toast } from 'react-toastify';
+import RejectionModal from "./RejectionModal";
 
 
 const wsurl = config.WEBSOCKET_CHAT_URL;
 
-function ChatRoom({ chatData }) {
+function ChatRoom({ chatData ,refresh}) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [ws, setWs] = useState(null);
@@ -32,6 +33,7 @@ function ChatRoom({ chatData }) {
   let firstID, secondID;
   const [shouldScroll, setShouldScroll] = useState(true);
   const[AcceptOrReject,setAcceptOrReject]=useState(false);
+  const [showRejectionModal, setShowRejectionModal] = useState(false);
 
   if (id1 > id2) {
     firstID = id2;
@@ -199,23 +201,31 @@ function ChatRoom({ chatData }) {
     }
   };
 
-  const rejectOffer = async () => {
-    try {
-      const response = await useRejectOffer(chatData.HostID, chatData.announcementID);
-      console.log("Offer rejected:", response);
-      if(response.status==200){
-        toast.success('Rejected Request!', {
-        autoClose: 2000, // Close the toast after 3 seconds
-        position: toast.POSITION.TOP_LEFT,
-      });
-      }
-    } catch (error) {
-      toast.error("Could not reject the request.", {
-        position: toast.POSITION.TOP_LEFT,
-    });
-      console.error("Error rejecting offer:", error);
-    }
+  const rejectOffer = () => {
+    setShowRejectionModal(true);
   };
+  const handleRejectConfirm = async () => {
+    try {
+        const response = await useRejectOffer(chatData.HostID, chatData.announcementID);
+        console.log("Offer rejected:", response);
+        if(response.status === 200){
+            toast.success('Rejected Request!', {
+                autoClose: 2000, // Close the toast after 3 seconds
+                position: toast.POSITION.TOP_LEFT,
+            });
+            // Add any additional logic for after the offer is successfully rejected
+            refresh();
+        }
+        setShowRejectionModal(false); // Hide the modal after handling the rejection
+    } catch (error) {
+        toast.error("Could not reject the request.", {
+            position: toast.POSITION.TOP_LEFT,
+        });
+        console.error("Error rejecting offer:", error);
+        setShowRejectionModal(false); // Hide the modal even if there is an error
+    }
+};
+
 
   const handleError = (e) => {
     e.target.onerror = null;
@@ -227,6 +237,12 @@ function ChatRoom({ chatData }) {
       <div className="flex items-center justify-between py-3 border-b-2 bg-gray-400 rounded-md border-gray-200 w-full ">
         <div className="flex items-center space-x-4">
           <div className="relative ml-4 flex items-center space-x-4">
+          <RejectionModal 
+            isVisible={showRejectionModal}
+            onClose={() => setShowRejectionModal(false)}
+            onRejectConfirm={handleRejectConfirm}
+          />
+
             <div className="relative">
               {/* <img
                 src={contactImageUrl}
