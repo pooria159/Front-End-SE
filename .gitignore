@@ -30,5 +30,3 @@ dist-ssr
 # ignore SSL certificates
 trekdestiny_certificate.pem
 trekdestiny_key.key
-
-/src/hooks/config.js
