@@ -35,7 +35,7 @@ import { toast } from 'react-toastify';
       const cardId = 1;
       const hostId = 2;
 
-      render(<ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} />);
+      render(<BrowserRouter><ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} /></BrowserRouter>);
 
       expect(screen.getByText('No one has requested to be hosted')).toBeInTheDocument();
     });
@@ -48,7 +48,7 @@ import { toast } from 'react-toastify';
           const cardId = 1;
           const hostId = 2;
     
-          render(<ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} />);
+          render(<BrowserRouter><ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} /></BrowserRouter>);
           expect(screen.queryByTestId('Modal')).not.toBeInTheDocument();
         });
 
@@ -59,7 +59,7 @@ import { toast } from 'react-toastify';
       const cardId = 1;
       const hostId = 2;
 
-      render(<ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} />);
+      render(<BrowserRouter><ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} /></BrowserRouter>);
 
       expect(screen.queryByTestId('modal')).not.toBeInTheDocument();
     });
@@ -72,7 +72,7 @@ import { toast } from 'react-toastify';
       const cardId = 1;
       const hostId = 2;
 
-      render(<ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} />);
+      render(<BrowserRouter><ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} /></BrowserRouter>);
 
       expect(screen.queryByTestId('modal')).not.toBeInTheDocument();
     });
@@ -88,7 +88,7 @@ import { toast } from 'react-toastify';
       const cardId = 1;
       const hostId = 2;
 
-      render(<ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} />);
+      render(<BrowserRouter><ModalTimeLine isVisible={isVisible} onClose={onClose} offers={offers} cardId={cardId} hostId={hostId} /></BrowserRouter>);
 
       expect(screen.getByText('No one has requested to be hosted')).toBeInTheDocument();
     });

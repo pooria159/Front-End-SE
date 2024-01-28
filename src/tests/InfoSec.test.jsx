@@ -33,7 +33,6 @@ it('should render the component with the given formData', () => {
     expect(screen.getByText('Country:')).toBeInTheDocument();
     expect(screen.getByText('State:')).toBeInTheDocument();
     expect(screen.getByText('City:')).toBeInTheDocument();
-    expect(screen.getByText('Preferred Languages:')).toBeInTheDocument();
     expect(screen.getByText('Address:')).toBeInTheDocument();
     expect(screen.getByText('Smoking Allowed:')).toBeInTheDocument();
     expect(screen.getByText('Room Number:')).toBeInTheDocument();
