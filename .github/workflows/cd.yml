@@ -13,9 +13,8 @@ jobs:
       with:
         node-version: 18
         cache: 'npm'        
-    - name: Change directory and pull latest code and install Dependencies
+    - name: Install Dependencies
       run: |
-        cd /root/git/TrekDestinyFrontend
         git pull origin main
         npm ci
     - name: Run tests
@@ -36,6 +35,8 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
+            cd /root/git/TrekDestinyFrontend
+            git pull origin main
             cd /root/git
             docker compose down 
             docker compose up --build -d 
