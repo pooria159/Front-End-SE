@@ -11,7 +11,6 @@ export const Usesignup = async (formData) => {
         const response = await axios.post(`${url}/signup`, formData);
         return response
     } catch (error) {
-        console.log("Error");
         throw error;
     }
 }
