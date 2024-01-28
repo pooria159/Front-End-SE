@@ -117,19 +117,8 @@ const InfoSec = ({ formData }) => {
         <div className="p-6 w-5/6 mx-auto bg-white rounded-xl shadow-md flex flex-wrap">
           <div className="w-full sm:w-1/2 flex flex-col">
 
-            <div className="items-center text-gray-500 mb-4">
-              <FontAwesomeIcon icon={faLanguage} className="mr-2" />
-              {/* <div>Preferred Languages: {formData.languages.join(', ')}</div> */}
-              Preferred Languages:
-              <div>
-                  <div className="flex flex-wrap ml-2">
-                    {Languages.map((language, index) => {
-                      return <Chips key={index} text = {language}/>
-                    })}
-                  </div>
-              </div>
-            </div>
-            <div className="items-center text-gray-500 mb-4">
+            
+            <div className="items-center text-gray-500 mb-14">
               <FontAwesomeIcon icon={faAddressCard} className="mr-2" />
               {/* <div>Preferred Languages: {formData.languages.join(', ')}</div> */}
               Address:
@@ -137,7 +126,7 @@ const InfoSec = ({ formData }) => {
                 <p>{formData.Address ? formData.Address : "Haven't set yet!"}</p>
               </div>
             </div>
-            <div className="flex items-center text-gray-500 mb-4">
+            <div className="flex items-center text-gray-500 mb-14">
               <div className='flex flex-col gap-1'>
                 <div className='flex items-center'>
                   <FontAwesomeIcon icon={faSmoking} className="mr-2" />
