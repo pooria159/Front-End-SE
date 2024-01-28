@@ -284,7 +284,7 @@ function ChatRoom({ chatData ,refresh}) {
           </div>
         </div>
       </div>
-      {isHost === "no" && (
+      {isHost === "no" && chatData.status=== 1 && (
       <div className="flex items-center justify-center bg-gray-300 w-full">
         <button className="w-2/5 h-8 m-2 md:h-10 p-1 rounded-md text-sm md:text-lg text-green-500 border-double border-2 border-green-500 hover:text-green-300 hover:border-green-300"
         onClick={acceptOffer}
