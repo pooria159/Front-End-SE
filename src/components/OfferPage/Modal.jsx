@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { MdClose, MdOutlineWarningAmber } from "react-icons/md";
 import { usePostChatList } from "../../hooks/chatApis/usePostChatList";
 import { toast } from "react-toastify";
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 const Modal = ({
   isVisible,
@@ -12,6 +14,7 @@ const Modal = ({
   index,
   removeCard,
   CallBack,
+  onChatStartSuccess
 }) => {
   const hasPrintedRef = useRef(false);
   const [isVisiblecard, setIsVisiblecard] = useState(true);
@@ -46,6 +49,7 @@ const Modal = ({
       });
       setIsVisiblecard(false);
       CallBack(false);
+      onChatStartSuccess();
     } else {
       toast.error("Could not start a new chat.", {
         position: toast.POSITION.TOP_LEFT,

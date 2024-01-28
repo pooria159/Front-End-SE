@@ -32,15 +32,19 @@ const ChatList = () => {
   }, [chatListLoaded]);
 
   const handleChatItemClick = (user) => {
-    const { HostID, announcement_id, image, isHost, username } = user;
+    console.log("selected user");
+    console.log(user);
+    const { HostID, annoucement_id, image, isHost, username } = user;
     setSelectedChatData({
       HostID,
-      announcementID:announcement_id,
+      announcementID:annoucement_id,
       ContactImage:image,
       isHost,
       contactUsername:username,
     });
     setselectedAnyChat(true);
+    console.log("selected data");
+    console.log(selectedChatData);
   };
 
   useEffect(() => {
@@ -52,6 +56,20 @@ const ChatList = () => {
   if (isLoading) {
     return <Loading />;
   }
+
+  const refreshChatList = async () => {
+    console.log("chat list is refreshiiing");
+    setIsLoading(true); // Show loading indicator while fetching new data
+    try {
+      const res = await useGetChatList();
+      setChatList(res.data.users); // Update chat list with new data
+      setChatListLoaded(true); // You might need to manage this state based on your needs
+    } catch (error) {
+      console.error("Failed to refresh chat list:", error);
+      // Handle error appropriately (e.g., show error message)
+    }
+    setIsLoading(false); // Hide loading indicator after fetching data
+  };
 
   if (!chatList) {
     // Render a placeholder or some other UI when chatList is null
@@ -67,7 +85,7 @@ const ChatList = () => {
   return (
     <div className="w-full h-full flex items-start justify-center flex-row">
       {selectedAnyChat ? (
-        <ChatRoom chatData={selectedChatData} />
+        <ChatRoom chatData={selectedChatData} refresh={refreshChatList}/>
       ) : (
         <div className="w-1/2 h-[80vh] bg-gray-100 rounded-xl shadow-md flex items-center justify-center">
           <p className="text-lg text-gray-700">Select a chat to see messages</p>

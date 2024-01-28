@@ -6,6 +6,8 @@ import Modal from "./Modal";
 // import {useOffer} from "../../hooks/useOffer";
 import {useMyCard} from "../../hooks/useMyCard";
 import { Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 // MUI
 import { Avatar } from '@mui/material';
@@ -16,6 +18,8 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
   const [isAccept, setIsAccept] = useState(true);
   // const [offers, setOffers] = useState([]);
   const [cardDataoffer, setCardDataoffer] = useState(0);
+  const navigate = useNavigate();
+
 
 
   const removeCard = (index) => {
@@ -32,6 +36,14 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
   };
 
   if (!isVisible) return null;
+
+  const goToChat = () => {
+    console.log(`Going to chats`);
+    setTimeout(() => {
+      navigate('/profile/mychats'); // Navigate to /login after displaying the toast
+    }, 1000);
+  };
+  
 
 
 
@@ -79,7 +91,7 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                     </div>
                 </Link>
                 <div className="flex flex-col sm:flex-row mr-10">
-                  <button
+                  {/* <button
                     onClick={() => {
                       console.log("item's id:", card);
                       setModalIsOpen(true);
@@ -88,7 +100,23 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                     className="bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-lg"
                   >
                     Start Chat
+                  </button> */}
+                  <button
+                    onClick={() => {
+                      console.log("item's id:", card);
+                      if (card.status === 2) {
+                        goToChat();
+                      } else {
+                        // Logic for starting chat (remains the same)
+                        setModalIsOpen(true);
+                        setIsAccept(true);
+                      }
+                    }}
+                    className="bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-lg"
+                  >
+                    {card.status === 2 ? 'Go to Chats' : 'Start Chat'}
                   </button>
+
           
                   <Modal
                     isVisible={modalIsOpen}
@@ -99,6 +127,7 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                     onClose={() => setModalIsOpen(false)}
                     isAccept={isAccept}
                     CallBack = {setModalIsOpen}
+                    onChatStartSuccess={goToChat} 
                     
                   />
                 </div>
