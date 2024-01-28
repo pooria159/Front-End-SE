@@ -19,17 +19,23 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
   // const [offers, setOffers] = useState([]);
   const [cardDataoffer, setCardDataoffer] = useState(0);
   const navigate = useNavigate();
+  const [selectedOffer, setSelectedOffer] = useState(null);
+
+  const handleOfferSelection = (offer) => {
+    setSelectedOffer(offer);
+    setModalIsOpen(true);
+  };  
 
 
 
-  const removeCard = (index) => {
-    console.log("index: " + index);
-    setCards((prevCards) => {
-      prevCards.filter((prevCard, i) => {
-        i !== index;
-      });
-    });
-  };
+  // const removeCard = (index) => {
+  //   console.log("index: " + index);
+  //   setCards((prevCards) => {
+  //     prevCards.filter((prevCard, i) => {
+  //       i !== index;
+  //     });
+  //   });
+  // };
 
   const handelClose = (e) => {
     if (e.target.id === "wrapper") onClose();
@@ -64,8 +70,8 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
           </button>
           <div className="flex flex-col p-10 space-y-3">
             {offers.length > 0 ? (
-              offers.map((card, index) => (
-              <div className="flex items-center block rounded-lg bg-indigo-200 ">
+              offers.map((card) => (
+              <div key={card.HostId} className="flex items-center block rounded-lg bg-indigo-200 ">
                 <Link to={`/private/${card.HostUsername}`} className="flex-grow hover:cursor-pointer">
                     <div className="flex justify-center items-center p-3  sm:flex rounded-lg hover">
                       {/* <img
@@ -108,6 +114,7 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                         goToChat();
                       } else {
                         // Logic for starting chat (remains the same)
+                        setSelectedOffer(card);
                         setModalIsOpen(true);
                         setIsAccept(true);
                       }
@@ -116,9 +123,7 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                   >
                     {card.status === 2 ? 'Go to Chats' : 'Start Chat'}
                   </button>
-
-          
-                  <Modal
+                  {/* <Modal
                     isVisible={modalIsOpen}
                     hostId={card.HostId}
                     cardId={cardId}
@@ -129,7 +134,8 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                     CallBack = {setModalIsOpen}
                     onChatStartSuccess={goToChat} 
                     
-                  />
+                  /> */}
+
                 </div>
               </div>
                 
@@ -149,6 +155,23 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
               </div>
             )}
           </div>
+          <Modal
+            isVisible={modalIsOpen}
+            offer={selectedOffer}
+            onClose={() => {
+              setModalIsOpen(false);
+              setSelectedOffer(null); // Reset the selected offer when closing the modal
+            }}
+                    // hostId={selectedOffer.HostId}
+                    cardId={cardId}
+                    // index={index}
+                    // removeCard={() => removeCard(index)}
+                    isAccept={isAccept}
+                    CallBack = {setModalIsOpen}
+                    onChatStartSuccess={goToChat} 
+            // ... other props ...
+          />
+
         </div>
       </div>
     </div>

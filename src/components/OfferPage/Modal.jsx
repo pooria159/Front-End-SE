@@ -7,11 +7,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const Modal = ({
   isVisible,
-  hostId,
+  offer, // Receiving the selected offer directly
   cardId,
   onClose,
   isAccept,
-  index,
   removeCard,
   CallBack,
   onChatStartSuccess
@@ -19,11 +18,11 @@ const Modal = ({
   const hasPrintedRef = useRef(false);
   const [isVisiblecard, setIsVisiblecard] = useState(true);
 
-  useEffect(() => {
-    if (!hasPrintedRef.current) {
-      hasPrintedRef.current = true;
-    }
-  }, [index]);
+  // useEffect(() => {
+  //   if (!hasPrintedRef.current) {
+  //     hasPrintedRef.current = true;
+  //   }
+  // }, [index]);
 
   if (!isVisible) return null;
 
@@ -31,17 +30,20 @@ const Modal = ({
     if (e.target.id === "wrapper") onClose();
   };
 
-  const handleRemoveCard = () => {
-    console.log("index in handleRemoveCard", index);
-    if (typeof index === "number") {
-      removeCard(index);
-    }
-  };
+  // const handleRemoveCard = () => {
+  //   console.log("index in handleRemoveCard", index);
+  //   if (typeof index === "number") {
+  //     removeCard(index);
+  //   }
+  // };
 
   const handleYesClick = async() => {
-    console.log(hostId);
+    // console.log(HostId);
+    if(offer){
+    console.log(offer.HostId); // Using HostId from the selected offer
+    console.log(cardId);
+    const response = await usePostChatList(offer.HostId, cardId);
 
-    const response = await usePostChatList(hostId,cardId);
     if (response.data.message == "success") {
       toast.success("New Chat was added to your chats!", {
         autoClose: 2000, // Close the toast after 3 seconds
@@ -55,11 +57,11 @@ const Modal = ({
         position: toast.POSITION.TOP_LEFT,
       });
     }
-
-
+  }
   };
 
   const handleNoClick = () => {
+    console.log(offer);
     CallBack(false);
   };
 
@@ -89,7 +91,7 @@ const Modal = ({
                 <span style={{ marginLeft: "10px" }}>Warning</span>
               </h5>
               <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-                Are you sure you want start chat with this user?
+              Are you sure you want to start a chat with {offer ? offer.HostUsername : 'this user'}?
               </p>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <button
