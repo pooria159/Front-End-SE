@@ -11,6 +11,7 @@ import pic from "../../assets/chat.jpg";
 import config from "../../hooks/config";
 import { toast } from 'react-toastify';
 import RejectionModal from "./RejectionModal";
+import AcceptModal from "./AcceptModal";
 
 
 const wsurl = config.WEBSOCKET_CHAT_URL;
@@ -34,6 +35,8 @@ function ChatRoom({ chatData ,refresh}) {
   const [shouldScroll, setShouldScroll] = useState(true);
   const[AcceptOrReject,setAcceptOrReject]=useState(false);
   const [showRejectionModal, setShowRejectionModal] = useState(false);
+  const [showAcceptModal, setShowAcceptModal] = useState(false);
+
 
   if (id1 > id2) {
     firstID = id2;
@@ -54,6 +57,8 @@ function ChatRoom({ chatData ,refresh}) {
           chatData.announcementID
         );
         messageCount = countResponse.data.count;
+        console.log("status is ");
+        console.log(chatData.status);
         console.log("messages count is ", messageCount);
 
         const historyResponse = await useGetChatHistory(
@@ -182,8 +187,9 @@ function ChatRoom({ chatData ,refresh}) {
     };
   }, [messageListRef]);
 
-  const acceptOffer = async () => {
+  const handleAcceptOffer = async () => {
     try {
+      console.log("accepting ");
       const response = await useAcceptOffer(chatData.HostID, chatData.announcementID);
       console.log("Offer accepted:", response);
       if(response.status==200){
@@ -191,18 +197,24 @@ function ChatRoom({ chatData ,refresh}) {
         autoClose: 2000, // Close the toast after 3 seconds
         position: toast.POSITION.TOP_LEFT,
       });
+      refresh();
+      setShowAcceptModal(false);
       }
-      
+      setShowAcceptModal(false);
     } catch (error) {
       toast.error("Could not accept the request.", {
         position: toast.POSITION.TOP_LEFT,
     });
       console.error("Error accepting offer:", error);
+      setShowAcceptModal(false);
     }
   };
 
   const rejectOffer = () => {
     setShowRejectionModal(true);
+  };
+  const acceptOffer = () => {
+    setShowAcceptModal(true);
   };
   const handleRejectConfirm = async () => {
     try {
@@ -233,7 +245,8 @@ function ChatRoom({ chatData ,refresh}) {
   }
 
   return (
-    <div className="w-1/2 h-[80vh] flex flex-col ">
+    // <div className="w-1/2 h-[80vh] flex flex-col ">
+    <div className={`w-1/2 h-[80vh] flex flex-col ${chatData.status===2 ? 'blur-sm pointer-events-none' : ''}`}>
       <div className="flex items-center justify-between py-3 border-b-2 bg-gray-400 rounded-md border-gray-200 w-full ">
         <div className="flex items-center space-x-4">
           <div className="relative ml-4 flex items-center space-x-4">
@@ -241,6 +254,11 @@ function ChatRoom({ chatData ,refresh}) {
             isVisible={showRejectionModal}
             onClose={() => setShowRejectionModal(false)}
             onRejectConfirm={handleRejectConfirm}
+          />
+          <AcceptModal 
+            isVisible={showAcceptModal}
+            onClose={() => setShowAcceptModal(false)}
+            onAcceptConfirm={handleAcceptOffer}
           />
 
             <div className="relative">
