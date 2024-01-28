@@ -141,7 +141,7 @@ const EditSec = ({ formData, updateFormData }) => {
     formData && formData.Address ? formData.Address : ""
   );
   const [selectedIntrests, setSelectedIntrests] = useState(
-    formData && formData.Intrests ? formData.Intrests : [{"label" : "Game", "value" : "Game"}]
+    formData && formData.Intrests ? formData.Intrests : []
   );
 
   const [selectedSmokingAllowed, setSelectedSmokingAllowed] = useState(
