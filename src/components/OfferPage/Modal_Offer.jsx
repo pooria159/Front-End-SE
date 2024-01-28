@@ -46,7 +46,8 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
   const goToChat = () => {
     console.log(`Going to chats`);
     setTimeout(() => {
-      navigate('/profile/mychats'); // Navigate to /login after displaying the toast
+      navigate('/profile/mychats', {replace : true});
+      navigate(0);
     }, 1000);
   };
   

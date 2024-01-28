@@ -15,7 +15,8 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
             cd /root/git/TrekDestinyFrontend
-            docker compose down 
             git pull origin main
+            cd /root/git
+            docker compose down 
             docker compose up --build -d 
             docker image prune -f
