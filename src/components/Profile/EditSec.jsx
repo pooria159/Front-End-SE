@@ -141,7 +141,7 @@ const EditSec = ({ formData, updateFormData }) => {
     formData && formData.Address ? formData.Address : ""
   );
   const [selectedIntrests, setSelectedIntrests] = useState(
-    formData && formData.Intrests ? formData.Intrests : []
+    formData && formData.Intrests ? formData.Intrests : [{"label" : "Game", "value" : "Game"}]
   );
 
   const [selectedSmokingAllowed, setSelectedSmokingAllowed] = useState(
@@ -320,9 +320,9 @@ const EditSec = ({ formData, updateFormData }) => {
     if (selectedAddress != "" && selectedAddress != formData.Address) {
       changes.Address = selectedAddress;
     }
-    // if (selectedIntrests != []) {
-    //     changes.Intrests = selectedIntrests;
-    // }
+    if (selectedIntrests != []) {
+        changes.Intrests = selectedIntrests;
+    }
 
     // Add similar checks for the rest of the data
 
@@ -490,7 +490,7 @@ const EditSec = ({ formData, updateFormData }) => {
           <div className="flex flex-col text-gray-500 mb-4">
             <div className="flex items-center ml-2">
               <FontAwesomeIcon icon={faHeart} className="mr-2" />
-              Intrests:
+              Intrests (3 items):
             </div>
             <Select
               isMulti
@@ -499,9 +499,13 @@ const EditSec = ({ formData, updateFormData }) => {
               styles={customStyles2}
               options={intrestsOptions}
               value={selectedIntrests}
-              onChange={(selectedOptions) =>
+              onChange={(selectedOptions) =>{
+                if (selectedOptions.length > 3) {
+                  // If more than 3 options are selected, ignore the last selection
+                  selectedOptions.pop();
+                }
                 handleIntrestsChange(selectedOptions)
-              }
+              }}
             />
           </div>
           <div className="flex flex-col text-gray-500 mb-4 mt-1.5">
