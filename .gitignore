@@ -31,4 +31,4 @@ dist-ssr
 trekdestiny_certificate.pem
 trekdestiny_key.key
 
-config.js
+src/hooks/config.js
