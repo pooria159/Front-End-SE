@@ -16,7 +16,7 @@ jobs:
     - name: Install Dependencies
       run: |
         git pull origin main
-        npm install --legacy-peer-deps
+        npm install
         npm ci
     - name: Run tests
       run: npm run test
