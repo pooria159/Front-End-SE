@@ -23,13 +23,14 @@ import useAnncCard from "../hooks/useAncCard";
 import NotificationComponent from "./Notification";
 
 import defaultProfilePic from "../assets/defaultUserPic.png";
+import about from "./AboutUs/About.jsx";
 
 // MUI
 import { Avatar } from '@mui/material';
 
 const navigation = [
   { name: "Home", href: "/", current: false },
-  { name: "About", href: "/", current: false },
+  { name: "About Us", href: "/About", current: false },
 ];
 
 function classNames(...classes) {

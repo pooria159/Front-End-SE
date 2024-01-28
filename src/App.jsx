@@ -17,6 +17,7 @@ import ChatUIPage from './pages/ChatPage'
 import PrivateProfile from './pages/PrivateProfile';
 import ChatRoomPage from './pages/ChatRoom';
 import Errornotfound from './pages/notfound';
+import AboutUspage from './pages/AboutPage';
 import Mio from './components/Profile/Upload';
 
 
@@ -49,6 +50,7 @@ const App = () => {
                <Route path="/private/:username" element={islogin ? <PrivateProfile/> : <Navigate to="/login" />} />
                <Route path='*' element={<Errornotfound/>}/>
                <Route path="/chat" element={<ChatRoomPage/>}/>
+               <Route path="/About" element={<AboutUspage/>}/>
                <Route path="/mio" element={<Mio/>}/>
             </Routes>
             
