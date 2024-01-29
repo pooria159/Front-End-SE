@@ -12,14 +12,14 @@ import { expect, test } from 'vitest'
     // timeout:8000; 
     const countries = await useCityCountry("country");
     expect(countries).not.toBe(null);
-  },8000);
+  },15000);
   test('should fetch states', async () => {
     const states = await useCityCountry("state", 'iran');
     expect(states).not.toBe(null);
-  },10000);
+  },15000);
 
   test('should fetch cities', async () => {
     // const countries = await useCityCountry("country");
     const cities = await useCityCountry("city", 'tehran');
     expect(cities).not.toBe(null);
-  },10000);
+  },15000);

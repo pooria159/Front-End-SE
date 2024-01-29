@@ -57,6 +57,7 @@ const languages = {
     Turkish: 'Türk'
 };
 const CreateCardForm = ({onClose}) => {
+  const navigate = useNavigate()
   const style = {
     control: (base, state) => ({
       ...base,
@@ -81,7 +82,6 @@ const CreateCardForm = ({onClose}) => {
       color: "#26577C",
     }),
   };
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     Description: "",
@@ -194,6 +194,7 @@ const CreateCardForm = ({onClose}) => {
         });
       }
       onClose();
+      navigate(0);
     } catch (error) {
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_LEFT,
