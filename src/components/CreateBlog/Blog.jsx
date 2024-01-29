@@ -5,6 +5,8 @@ import { Rating } from "flowbite-react";
 import image_backi from "../../assets/baktash.jpg";
 import useCreateBlog from "../../hooks/useCreateBlog";
 import { toast } from "react-toastify";
+import use2PBlog from "../../hooks/use2PBlog";
+// import useProfileImage from '../hooks/useProfileImage';
 
 const Blog = ({ onClose, Data }) => {
   const [TitleValue, setTitleValue] = useState("");
@@ -12,6 +14,7 @@ const Blog = ({ onClose, Data }) => {
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [StarValue, setStarValue] = useState(0);
+  const [secPerson, setSecPerson] = useState(null);
 
   const Chips = ({ text }) => {
     return (
@@ -23,9 +26,19 @@ const Blog = ({ onClose, Data }) => {
     );
   };
 
+  const fetch2P = async () => {
+    if (Data){
+      const response = await use2PBlog(Data.CardId);
+      return response.data;
+    }return false;
+  }
+
   useEffect(() => {
-    console.log("ehem");
     console.log(Data);
+  }, []);
+
+  useEffect(() => {
+    fetch2P().then(setSecPerson);
   }, []);
 
   const [stars, setStars] = useState([false, false, false, false, false]);
@@ -85,6 +98,10 @@ const Blog = ({ onClose, Data }) => {
       setPreviewImage(URL.createObjectURL(img));
     }
   };
+  const handleError = (e) => {
+    e.target.onerror = null;
+    e.target.src = defaultProfilePic;
+  }
 
   return (
     <div>
@@ -174,15 +191,16 @@ const Blog = ({ onClose, Data }) => {
                 <div className="mt-1 flex items-center gap-x-3">
                   <div className="items-center block sm:flex">
                     <img
+                    onError={handleError}
                       className="w-12 h-12 mb-3 mr-1 rounded-full sm:mb-0"
-                      src={image_backi}
+                      src={secPerson && secPerson.HostImage}
                     />
                     <div className="flex-grow">
                       <div className="text-base font-normal text-gray-600">
                         <span className="font-medium text-black">
                           <p className="text-gray-600">
                             <div className="flex flex-wrap">
-                              <Chips text="Pooria rahimi" />
+                              <Chips text={secPerson && secPerson.HostUsername} />
                               <Chips text="Host" />
                               <Rating className="ml-14 md:ml-20" size="lg">
                                 <Rating.Star

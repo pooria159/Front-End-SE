@@ -8,9 +8,12 @@ import { useParams } from "react-router-dom";
 
 // Sections:
 import InfoSec from '../components/Profile/InfoSec';
+import PubblogSec from '../components/CreateBlog/PublicBlogSec';
 import EditSec from '../components/Profile/EditSec';
 import ChangePassSec from '../components/Profile/ChangePassSec';
 import MyAnncSec from '../components/Profile/MyAnnouncementsSec';
+
+import { Avatar } from '@mui/material';
 
 const sections = ['Info', 'Blog'];
 
@@ -110,7 +113,7 @@ const PrivateProfile = () => {
             <label onClick={openExplorer} className="cursor-pointer flex flex-col justify-center items-center relative">
                 {/* <img className="h-52 w-52 border-solid border-8 rounded-full mb-4" src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} onError={handleError} alt="Profile" /> */}
                 <Avatar  
-                  alt={formData.FirstName} 
+                  alt={formData.FirstName}
                   src={previewImage!=null && previewImage!="" ? previewImage : defaultProfilePic} 
                   sx={{width: '18vw', height: '18vw', borderRadius: '100%', marginBottom: '10%'}}
                 />
@@ -141,6 +144,7 @@ const PrivateProfile = () => {
         <div className="col-span-6 bg-gray-100  p-4 flex flex-col  items-center rounded-2xl">
           <h2 className="text-xl font-bold mb-4">{activeSection}</h2>
           {activeSection === 'Info' && <InfoSec formData = {formData}/>}
+          {activeSection === 'Blog' && <PubblogSec username = {username}/>}
         </div>
 
       </div>

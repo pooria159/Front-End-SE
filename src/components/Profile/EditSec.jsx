@@ -30,6 +30,7 @@ import { toast } from "react-toastify";
 import { useProfile } from "../../hooks/useProfile";
 import useUploadimg  from "../../hooks/useUploadimg";
 
+
 const Genders = [" ", "Man", "Woman", "Other"];
 const Intrests = ["Coding", "Traveling", "Photography", "Reading"];
 
@@ -85,12 +86,23 @@ const EditSec = ({ formData, updateFormData }) => {
   ];
 
   const intrestsOptions = [
-    { label: "Computer", value: "Computer" },
-    { label: "Nature", value: "Nature" },
-    { label: "Movie", value: "Movie" },
-    { label: "Game", value: "Game" },
-    { label: "Sleep", value: "Sleep" },
+    {"value": "Adventure", "label": "Adventure"},
+    {"value": "Art", "label": "Art"},
+    {"value": "Beach", "label": "Beach"},
+    {"value": "Cruise", "label": "Cruise"},
+    {"value": "Food", "label": "Food"},
+    {"value": "Family", "label": "Family"},
+    {"value": "Hiking", "label": "Hiking"},
+    {"value": "Historical", "label": "Historical"},
+    {"value": "Luxury", "label": "Luxury"},
+    {"value": "Wildlife", "label": "Wildlife"},
+    {"value": "Road", "label": "Road"},
+    {"value": "Shopping", "label": "Shopping"},
+    {"value": "Sport", "label": "Sport"},
+    {"value": "Winter", "label": "Winter"},
+    {"value": "Yoga", "label": "Yoga"}
   ];
+  
 
   const ynOptions = [
     { label: "Yes", value: "true" },
@@ -211,7 +223,7 @@ const EditSec = ({ formData, updateFormData }) => {
       borderColor: "#9095a0",
       paddingLeft: "0.25rem",
       color: "blue",
-      width: "75%",
+      width: "82%",
       height: "2.5rem",
       marginLeft: "0.25rem",
     }),
@@ -481,7 +493,7 @@ const EditSec = ({ formData, updateFormData }) => {
             </div>
             <input
               type="text"
-              className="rounded-xl w-3/4 text-gray-700"
+              className="rounded-xl w-5/6 text-gray-700"
               defaultValue={selectedPhoneNumber}
               onChange={handleChangePhoneNumber}
             />
@@ -493,7 +505,7 @@ const EditSec = ({ formData, updateFormData }) => {
             </div>
             <input
               type="text"
-              className="rounded-xl w-3/4 text-gray-700"
+              className="rounded-xl w-5/6 text-gray-700"
               defaultValue={selectedAddress}
               onChange={handleChangeAddress}
             />
