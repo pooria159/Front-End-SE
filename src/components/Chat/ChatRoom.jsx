@@ -243,6 +243,13 @@ function ChatRoom({ chatData ,refresh}) {
     e.target.onerror = null;
     e.target.src = defaultProfilePic;
   }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && message.trim()) {  // Check if Enter key is pressed and message is not empty
+      console.log("enter detected")  
+      e.preventDefault();  // Prevent the default action to avoid form submission or newline insertion
+        sendMessage();
+    }
+  };
 
   return (
     // <div className="w-1/2 h-[80vh] flex flex-col ">
@@ -363,6 +370,7 @@ function ChatRoom({ chatData ,refresh}) {
               // style={{ maxWidth: "50%" }}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <div className="flex-shrink-0 ml-2">
               
