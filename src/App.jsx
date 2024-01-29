@@ -29,12 +29,14 @@ const App = () => {
    const location = useLocation();
    const islogin = localStorage.getItem('islogin') == 'True';
 
+
  return (
     <>
       <div className="flex flex-col min-h-screen">
          <div className="flex-grow">
 
          {['/profile', '/profile/info', '/profile/edit','/profile/changepass', '/profile/myannc', '/profile/blog', '/profile/mychats', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Navbar />}
+         {!['/profile', '/profile/info', '/profile/edit','/profile/changepass', '/profile/myannc', '/profile/blog', '/profile/mychats', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && location.pathname.startsWith('/private/') && <Navbar />}
             <Routes>
                <Route path="/" element={islogin ? <Home /> : <Navigate to="/login" />} />
                <Route path="/profile/*" element= {islogin ? <ProfilePage/> : <Navigate to="/login" />}/>
@@ -56,6 +58,7 @@ const App = () => {
             
          </div>
          {['/profile', '/profile/info', '/profile/edit','/profile/changepass', '/profile/myannc', '/profile/blog', '/profile/mychats', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && <Footer />}
+         {!['/profile', '/profile/info', '/profile/edit','/profile/changepass', '/profile/myannc', '/profile/blog', '/profile/mychats', '/create-card', '/public/', '/chatUI', '/private/', '/chat', '/'].includes(location.pathname) && location.pathname.startsWith('/private/') && <Footer />}
       </div>
          <ToastContainer 
                   position="top-left"

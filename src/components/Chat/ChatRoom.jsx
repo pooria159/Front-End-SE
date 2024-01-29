@@ -10,11 +10,13 @@ import image1 from "../../assets/baktash.jpg";
 import pic from "../../assets/chat.jpg";
 import config from "../../hooks/config";
 import { toast } from 'react-toastify';
+import RejectionModal from "./RejectionModal";
+import AcceptModal from "./AcceptModal";
 
 
 const wsurl = config.WEBSOCKET_CHAT_URL;
 
-function ChatRoom({ chatData }) {
+function ChatRoom({ chatData ,refresh}) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [ws, setWs] = useState(null);
@@ -32,6 +34,9 @@ function ChatRoom({ chatData }) {
   let firstID, secondID;
   const [shouldScroll, setShouldScroll] = useState(true);
   const[AcceptOrReject,setAcceptOrReject]=useState(false);
+  const [showRejectionModal, setShowRejectionModal] = useState(false);
+  const [showAcceptModal, setShowAcceptModal] = useState(false);
+
 
   if (id1 > id2) {
     firstID = id2;
@@ -52,6 +57,8 @@ function ChatRoom({ chatData }) {
           chatData.announcementID
         );
         messageCount = countResponse.data.count;
+        console.log("status is ");
+        console.log(chatData.status);
         console.log("messages count is ", messageCount);
 
         const historyResponse = await useGetChatHistory(
@@ -180,8 +187,9 @@ function ChatRoom({ chatData }) {
     };
   }, [messageListRef]);
 
-  const acceptOffer = async () => {
+  const handleAcceptOffer = async () => {
     try {
+      console.log("accepting ");
       const response = await useAcceptOffer(chatData.HostID, chatData.announcementID);
       console.log("Offer accepted:", response);
       if(response.status==200){
@@ -189,44 +197,77 @@ function ChatRoom({ chatData }) {
         autoClose: 2000, // Close the toast after 3 seconds
         position: toast.POSITION.TOP_LEFT,
       });
+      refresh();
+      setShowAcceptModal(false);
       }
-      
+      setShowAcceptModal(false);
     } catch (error) {
       toast.error("Could not accept the request.", {
         position: toast.POSITION.TOP_LEFT,
     });
       console.error("Error accepting offer:", error);
+      setShowAcceptModal(false);
     }
   };
 
-  const rejectOffer = async () => {
-    try {
-      const response = await useRejectOffer(chatData.HostID, chatData.announcementID);
-      console.log("Offer rejected:", response);
-      if(response.status==200){
-        toast.success('Rejected Request!', {
-        autoClose: 2000, // Close the toast after 3 seconds
-        position: toast.POSITION.TOP_LEFT,
-      });
-      }
-    } catch (error) {
-      toast.error("Could not reject the request.", {
-        position: toast.POSITION.TOP_LEFT,
-    });
-      console.error("Error rejecting offer:", error);
-    }
+  const rejectOffer = () => {
+    setShowRejectionModal(true);
   };
+  const acceptOffer = () => {
+    setShowAcceptModal(true);
+  };
+  const handleRejectConfirm = async () => {
+    try {
+        const response = await useRejectOffer(chatData.HostID, chatData.announcementID);
+        console.log("Offer rejected:", response);
+        if(response.status === 200){
+            toast.success('Rejected Request!', {
+                autoClose: 2000, // Close the toast after 3 seconds
+                position: toast.POSITION.TOP_LEFT,
+            });
+            // Add any additional logic for after the offer is successfully rejected
+            refresh();
+        }
+        setShowRejectionModal(false); // Hide the modal after handling the rejection
+    } catch (error) {
+        toast.error("Could not reject the request.", {
+            position: toast.POSITION.TOP_LEFT,
+        });
+        console.error("Error rejecting offer:", error);
+        setShowRejectionModal(false); // Hide the modal even if there is an error
+    }
+};
+
 
   const handleError = (e) => {
     e.target.onerror = null;
     e.target.src = defaultProfilePic;
   }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && message.trim()) {  // Check if Enter key is pressed and message is not empty
+      console.log("enter detected")  
+      e.preventDefault();  // Prevent the default action to avoid form submission or newline insertion
+        sendMessage();
+    }
+  };
 
   return (
-    <div className="w-1/2 h-[80vh] flex flex-col ">
+    // <div className="w-1/2 h-[80vh] flex flex-col ">
+    <div className={`w-1/2 h-[80vh] flex flex-col ${chatData.status===2 ? 'blur-sm pointer-events-none' : ''}`}>
       <div className="flex items-center justify-between py-3 border-b-2 bg-gray-400 rounded-md border-gray-200 w-full ">
         <div className="flex items-center space-x-4">
           <div className="relative ml-4 flex items-center space-x-4">
+          <RejectionModal 
+            isVisible={showRejectionModal}
+            onClose={() => setShowRejectionModal(false)}
+            onRejectConfirm={handleRejectConfirm}
+          />
+          <AcceptModal 
+            isVisible={showAcceptModal}
+            onClose={() => setShowAcceptModal(false)}
+            onAcceptConfirm={handleAcceptOffer}
+          />
+
             <div className="relative">
               {/* <img
                 src={contactImageUrl}
@@ -250,7 +291,7 @@ function ChatRoom({ chatData }) {
           </div>
         </div>
       </div>
-      {isHost === "no" && (
+      {isHost === "no" && chatData.status=== 1 && (
       <div className="flex items-center justify-center bg-gray-300 w-full">
         <button className="w-2/5 h-8 m-2 md:h-10 p-1 rounded-md text-sm md:text-lg text-green-500 border-double border-2 border-green-500 hover:text-green-300 hover:border-green-300"
         onClick={acceptOffer}
@@ -329,6 +370,7 @@ function ChatRoom({ chatData }) {
               // style={{ maxWidth: "50%" }}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <div className="flex-shrink-0 ml-2">
               

@@ -17,6 +17,7 @@ import card from "@material-tailwind/react/theme/components/card";
 import ANCEditModal from "./ANCEditModal";
 
 const MyCard = ({ data, fetchData }) => {
+  console.log(data);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -173,7 +174,7 @@ const MyCard = ({ data, fetchData }) => {
                 Offers
               </button>
 
-              <button
+              {data.announcement_status == 3 && <button
                 className="mt-4 bg-gray-500 text-white active:bg-gray-600 font-bold uppercase text-xs px-3 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
                 style={{ transition: "all .15s ease", flex: 1 }}
@@ -182,12 +183,13 @@ const MyCard = ({ data, fetchData }) => {
                 }}
               >
                 Create Blog
-              </button>{" "}
-                    <BlogModal
-                      isVisible={modalIsOpen}
-                      onClose={() => setModalIsOpen(false)}
-                      Data = {data}
-                    />
+              </button>}
+
+              <BlogModal
+                isVisible={modalIsOpen}
+                onClose={() => setModalIsOpen(false)}
+                Data = {data}
+              />
             </div>
           </div>
           

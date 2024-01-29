@@ -64,7 +64,7 @@ const Slider = () => {
           <span>customers</span>
         </li>
       </ul>
-      <button class="btn">Go to Collections <i class="fa-solid fa-arrow-right"></i></button>
+      {/* <button class="btn">Go to Collections <i class="fa-solid fa-arrow-right"></i></button> */}
     </div>
 
   <div class="swiper-container">

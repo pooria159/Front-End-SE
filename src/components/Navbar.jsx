@@ -30,7 +30,9 @@ import { Avatar } from '@mui/material';
 
 const navigation = [
   { name: "Home", href: "/", current: false },
+  { name: "Profile", href: "/profile", current: false },
   { name: "About Us", href: "/About", current: false },
+  ,
 ];
 
 function classNames(...classes) {

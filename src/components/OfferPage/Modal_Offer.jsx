@@ -6,6 +6,8 @@ import Modal from "./Modal";
 // import {useOffer} from "../../hooks/useOffer";
 import {useMyCard} from "../../hooks/useMyCard";
 import { Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 // MUI
 import { Avatar } from '@mui/material';
@@ -16,22 +18,39 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
   const [isAccept, setIsAccept] = useState(true);
   // const [offers, setOffers] = useState([]);
   const [cardDataoffer, setCardDataoffer] = useState(0);
+  const navigate = useNavigate();
+  const [selectedOffer, setSelectedOffer] = useState(null);
+
+  const handleOfferSelection = (offer) => {
+    setSelectedOffer(offer);
+    setModalIsOpen(true);
+  };  
 
 
-  const removeCard = (index) => {
-    console.log("index: " + index);
-    setCards((prevCards) => {
-      prevCards.filter((prevCard, i) => {
-        i !== index;
-      });
-    });
-  };
+
+  // const removeCard = (index) => {
+  //   console.log("index: " + index);
+  //   setCards((prevCards) => {
+  //     prevCards.filter((prevCard, i) => {
+  //       i !== index;
+  //     });
+  //   });
+  // };
 
   const handelClose = (e) => {
     if (e.target.id === "wrapper") onClose();
   };
 
   if (!isVisible) return null;
+
+  const goToChat = () => {
+    console.log(`Going to chats`);
+    setTimeout(() => {
+      navigate('/profile/mychats', {replace : true});
+      navigate(0);
+    }, 1000);
+  };
+  
 
 
 
@@ -52,8 +71,8 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
           </button>
           <div className="flex flex-col p-10 space-y-3">
             {offers.length > 0 ? (
-              offers.map((card, index) => (
-              <div className="flex items-center block rounded-lg bg-indigo-200 ">
+              offers.map((card) => (
+              <div key={card.HostId} className="flex items-center block rounded-lg bg-indigo-200 ">
                 <Link to={`/private/${card.HostUsername}`} className="flex-grow hover:cursor-pointer">
                     <div className="flex justify-center items-center p-3  sm:flex rounded-lg hover">
                       {/* <img
@@ -79,7 +98,7 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                     </div>
                 </Link>
                 <div className="flex flex-col sm:flex-row mr-10">
-                  <button
+                  {/* <button
                     onClick={() => {
                       console.log("item's id:", card);
                       setModalIsOpen(true);
@@ -88,9 +107,24 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                     className="bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-lg"
                   >
                     Start Chat
+                  </button> */}
+                  <button
+                    onClick={() => {
+                      console.log("item's id:", card);
+                      if (card.status === 2) {
+                        goToChat();
+                      } else {
+                        // Logic for starting chat (remains the same)
+                        setSelectedOffer(card);
+                        setModalIsOpen(true);
+                        setIsAccept(true);
+                      }
+                    }}
+                    className="bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-lg"
+                  >
+                    {card.status === 2 ? 'Go to Chats' : 'Start Chat'}
                   </button>
-          
-                  <Modal
+                  {/* <Modal
                     isVisible={modalIsOpen}
                     hostId={card.HostId}
                     cardId={cardId}
@@ -99,8 +133,10 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
                     onClose={() => setModalIsOpen(false)}
                     isAccept={isAccept}
                     CallBack = {setModalIsOpen}
+                    onChatStartSuccess={goToChat} 
                     
-                  />
+                  /> */}
+
                 </div>
               </div>
                 
@@ -120,6 +156,23 @@ const ModalTimeLine = ({ isVisible, onClose, offers, cardId , hostId }) => {
               </div>
             )}
           </div>
+          <Modal
+            isVisible={modalIsOpen}
+            offer={selectedOffer}
+            onClose={() => {
+              setModalIsOpen(false);
+              setSelectedOffer(null); // Reset the selected offer when closing the modal
+            }}
+                    // hostId={selectedOffer.HostId}
+                    cardId={cardId}
+                    // index={index}
+                    // removeCard={() => removeCard(index)}
+                    isAccept={isAccept}
+                    CallBack = {setModalIsOpen}
+                    onChatStartSuccess={goToChat} 
+            // ... other props ...
+          />
+
         </div>
       </div>
     </div>

@@ -160,9 +160,9 @@ const InfoSec = ({ formData }) => {
               Interests:
               <div>
                   <div className="flex flex-wrap ml-2">
-                    {Intrests.map((Intrests, index) => {
-                      return <Chips key={index} text = {Intrests}/>
-                    })}
+                    {formData && formData.interests ? formData.interests.map((Interests, index) => {
+                      return <Chips key={index} text = {Interests}/>
+                    }) : "haven't set yet!"}
                   </div>
               </div>
             </div>

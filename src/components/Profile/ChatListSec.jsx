@@ -32,15 +32,20 @@ const ChatList = () => {
   }, [chatListLoaded]);
 
   const handleChatItemClick = (user) => {
-    const { HostID, announcement_id, image, isHost, username } = user;
+    console.log("selected user");
+    console.log(user);
+    const { HostID, annoucement_id, image, isHost, username,status } = user;
     setSelectedChatData({
       HostID,
-      announcementID:announcement_id,
+      announcementID:annoucement_id,
       ContactImage:image,
       isHost,
       contactUsername:username,
+      status
     });
     setselectedAnyChat(true);
+    console.log("selected data");
+    console.log(selectedChatData);
   };
 
   useEffect(() => {
@@ -53,21 +58,38 @@ const ChatList = () => {
     return <Loading />;
   }
 
+  const refreshChatList = async () => {
+    console.log("chat list is refreshiiing");
+    setIsLoading(true); // Show loading indicator while fetching new data
+    try {
+      const res = await useGetChatList();
+      setChatList(res.data.users); // Update chat list with new data
+      setChatListLoaded(true); // You might need to manage this state based on your needs
+    } catch (error) {
+      console.error("Failed to refresh chat list:", error);
+      // Handle error appropriately (e.g., show error message)
+    }
+    setIsLoading(false); // Hide loading indicator after fetching data
+  };
+
   if (!chatList) {
     // Render a placeholder or some other UI when chatList is null
     return (
-      <div className="w-full h-full flex items-start justify-center flex-row">
-        <div className="w-1/2 h-[80vh] bg-gray-100 rounded-xl shadow-md flex items-center justify-center">
-          <p className="text-lg text-gray-700">You have not started any chats yet...</p>
+      
+        <div>
+          <div className="mt-[100%] text-2xl">You have not started any chats yet...</div>
         </div>
-      </div>
+        
     );
   }
 
   return (
     <div className="w-full h-full flex items-start justify-center flex-row">
       {selectedAnyChat ? (
-        <ChatRoom chatData={selectedChatData} />
+        <ChatRoom
+        chatData={selectedChatData} 
+        refresh={refreshChatList} 
+        />
       ) : (
         <div className="w-1/2 h-[80vh] bg-gray-100 rounded-xl shadow-md flex items-center justify-center">
           <p className="text-lg text-gray-700">Select a chat to see messages</p>
@@ -78,8 +100,11 @@ const ChatList = () => {
         {chatList.map((user) => (
           <div
             key={user.HostID}
-            className="w-full p-2 border-b-4 border-gray-200 bg-gray-100 rounded-xl shadow-md flex flex-row cursor-pointer"
+            // className="w-full p-2 border-b-4 border-gray-200 bg-gray-100 rounded-xl shadow-md flex flex-row cursor-pointer"
+            bg-slate-500
+            className={`w-full p-2 border-b-4 border-gray-200 ${user.status === 2 ? 'blur-sm' : 'bg-gray-100'} rounded-xl shadow-md flex flex-row cursor-pointer`}
             onClick={() => handleChatItemClick(user)}
+            
           >
             {/* <img
               className="h-16 w-16 border-4 rounded-full object-cover"

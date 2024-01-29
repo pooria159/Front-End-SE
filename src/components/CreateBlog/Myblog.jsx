@@ -13,6 +13,12 @@ import {
   faRemove,
 } from "@fortawesome/free-solid-svg-icons";
 import BlogEditModal from "./BlogEditModal.jsx";
+import { useMyBlog } from "../../hooks/useMyBlog.js";
+
+import defaultProfilePic from "../../assets/defaultUserPic.png";
+import { Avatar } from '@mui/material';
+
+// import { useDeleteMyBlog } from "../../hooks/useDeleteMyBlog";
 
 const BlogCard = ({ data, fetchData }) => {
   const [offersData, setOffersData] = useState(null);
@@ -20,35 +26,39 @@ const BlogCard = ({ data, fetchData }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 
-  const Edit_Icon = () => {
-    return (
-      <div
-        className="text-gray-500 w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center hover:bg-gray-200 hover:cursor-pointer"
-        onClick={() => {
-          setISEditBlogModalOpen(true);
-        }}
-      >
-        <FontAwesomeIcon icon={faEdit} />
-      </div>
-    );
-  };
+  // const fetchDelete = async (blogId) => {
+  //   const response = await useDeleteMyBlog(blogId);
+  //   if (response.status >= 200 && response.status < 300) {
+  //     toast.success("The blog has deleted successfully!");
+  //   } else {
+  //     toast.error(response.data["message"]);
+  //   }
+  //   await fetchData();
+  // }
 
 
-  const fetchAllBlog = async (Id) => {
-    let form = { HostId: data.HostId };
-    try {
-      const response = await usepostblog(form);
-      console.log(response.data);
-      return response;
-    } catch (error) {
-      console.log("running into errors: ", error);
-      throw error;
-    }
-  };
 
-  useEffect(() => {
-    fetchAllBlog(data.HostId);
-  }, []);
+  // const fetchAllBlog = async (Id) => {
+  //   try {
+  //     const response = await useMyBlog();
+  //     console.log("Ya Allah :")
+  //     console.log(response.data);
+  //     return response;
+  //   } catch (error) {
+  //     console.log("running into errors: ", error);
+  //     throw error;
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchAllBlog(data.HostId);
+  // }, []);
+
+  const handleError = (e) => {
+    e.target.onerror = null;
+    e.target.src = defaultProfilePic;
+  }
+
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1">
       <div className="w-full h-full lg:max-w-full lg:flex">
@@ -57,18 +67,11 @@ const BlogCard = ({ data, fetchData }) => {
           style={{ backgroundImage: `url(${data.PostImage})` }}
         ></div>
         <div className="border-r xl:w-[1000px] lg:w-[500px] sm:w-96 border-b border-l bg-indigo-50 border-gray-400 lg:border-l-0 lg:border-t  lg:border-gray-400 rounded-b-xl lg:rounded-b-none lg:rounded-r-xl p-4 flex flex-col justify-between leading-normal">
-          <BlogEditModal
-            fetchData={fetchData}
-            data={data}
-            isVisible={isEditBlogModalOpen}
-            onClose={() => {
-              setISEditBlogModalOpen(false);
-            }}
-          />
+
 
           <div className="w-full">
             <div className="text-lg text-gray-600 grow w-full flex justify-end pr-5 pt-2">
-              <Edit_Icon />
+
             </div>
             <p className="text-lg  text-gray-600 flex items-center  ">
               Rate:
@@ -85,11 +88,18 @@ const BlogCard = ({ data, fetchData }) => {
           </div>
           <div className="flex space-x-2 sm:space-x-10">
             <div className="flex items-center">
-              <img
+              {/* <img
                 className="w-10 h-10 rounded-full mr-1"
+                onerror = {handleError}
                 src={data.HostImage}
                 alt="Avatar of Writer"
+              /> */}
+              
+              <Avatar
+                src={data && data.HostImage}
+                sx={{ width: '4rem', height: '4rem', marginRight: 0.5}}
               />
+
               <div className="text-sm">
                 <p className="text-gray-900 leading-none">
                   {data.HostUsername}
@@ -98,10 +108,15 @@ const BlogCard = ({ data, fetchData }) => {
               </div>
             </div>
             <div className="flex items-center">
-              <img
+              {/* <img
                 className="w-10 h-10 rounded-full mr-1"
                 src={data.GuestImage}
+                onerror = {handleError}
                 alt="Avatar of Host"
+              /> */}
+              <Avatar
+                src={data && data.GuestImage}
+                sx={{ width: '4rem', height: '4rem', marginRight: 0.5}}
               />
               <div className="text-sm">
                 <p className="text-gray-900 leading-none">
