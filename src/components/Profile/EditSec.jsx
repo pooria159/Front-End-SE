@@ -140,9 +140,19 @@ const EditSec = ({ formData, updateFormData }) => {
   const [selectedAddress, setselectedAddress] = useState(
     formData && formData.Address ? formData.Address : ""
   );
-  const [selectedIntrests, setSelectedIntrests] = useState(
-    formData && formData.Intrests ? formData.Intrests : []
-  );
+  // const [selectedIntrests, setSelectedIntrests] = useState(
+  //   formData && formData.Intrests ? formData.Intrests : []
+  // );
+  const [selectedInterests, setSelectedInterests] = useState(() => {
+    if (formData && formData.interests) {
+      return formData.interests.map(interest => ({
+        label: interest,
+        value: interest
+      }));
+    } else {
+      return [];
+    }
+  });
 
   const [selectedSmokingAllowed, setSelectedSmokingAllowed] = useState(
     formData && formData.IsSmokingAllowed
@@ -250,7 +260,7 @@ const EditSec = ({ formData, updateFormData }) => {
     setselectedAddress(e.target.value);
   };
   const handleIntrestsChange = (selectedOptions) => {
-    setSelectedIntrests(selectedOptions);
+    setSelectedInterests(selectedOptions);
   };
   const handleIsSmokingChange = (selectedOptions) => {
     setSelectedSmokingAllowed(selectedOptions);
@@ -320,8 +330,9 @@ const EditSec = ({ formData, updateFormData }) => {
     if (selectedAddress != "" && selectedAddress != formData.Address) {
       changes.Address = selectedAddress;
     }
-    if (selectedIntrests != []) {
-        changes.Intrests = selectedIntrests;
+    if (selectedInterests != []) {
+        const interests = selectedInterests.map(option => option.value);
+        changes.Interests = interests;
     }
 
     // Add similar checks for the rest of the data
@@ -498,7 +509,7 @@ const EditSec = ({ formData, updateFormData }) => {
               className="w-full"
               styles={customStyles2}
               options={intrestsOptions}
-              value={selectedIntrests}
+              value={selectedInterests}
               onChange={(selectedOptions) =>{
                 if (selectedOptions.length > 3) {
                   // If more than 3 options are selected, ignore the last selection
