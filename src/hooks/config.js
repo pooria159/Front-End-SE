@@ -5,7 +5,6 @@ const Config = {
     CITY_COUNTRY_EMAIL: 'baktash.ansari1381@gmail.com',
     WEBSOCKET_NOTIFICATION_URL: 'wss://trekdestiny.ir/notification',
     NOTIFICATION_URL: 'https://trekdestiny.ir/notification-history/notif',
-
     GET_CHAT_MESSAGE_COUNT_URL:'https://trekdestiny.ir/chat-history/count',
     WEBSOCKET_CHAT_URL:'wss://trekdestiny.ir/chat-api',
     GET_CHAT_HISTORY_URL :'https://trekdestiny.ir/chat-history/history/',
